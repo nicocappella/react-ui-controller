@@ -1,6 +1,6 @@
 {
-    "name": "react-ui-controller",
-    "version": "1.0.2",
+    "name": "@nicocappella/react-ui-controller",
+    "version": "0.0.2",
     "description": "A react component library based in Material UI",
     "types": "dist/index.d.ts",
     "files": [
@@ -35,5 +35,8 @@
         "typescript": "^4.7.4"
     },
     "main": "dist/cjs/index.js",
-    "module": "dist/esm/index.js"
+    "module": "dist/esm/index.js",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/nicocappella"
+    }
 }
