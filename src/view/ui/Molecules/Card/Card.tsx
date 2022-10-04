@@ -1,6 +1,6 @@
 import { Card as MuiCard, CardActions, CardContent, CardHeader } from '@mui/material';
 
-interface IProps {
+export interface IProps {
     header?: {
         avatar?: React.ReactNode;
         action?: React.ReactNode;

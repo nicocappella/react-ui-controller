@@ -1,6 +1,6 @@
-export { Autocomplete } from './Autocomplete/';
+export { Autocomplete } from './TextFields/Autocomplete';
 export { Button, FAB, IconButton } from './Buttons';
 // export { Checkbox } from './Checkbox';
-export { DatePicker } from './DatePicker';
-export { Select } from './Select';
-export { TextField } from './TextField';
+export { DatePicker } from './Selects/DatePicker';
+export { Select } from './Selects/Select';
+export { TextField } from './TextFields/TextField';

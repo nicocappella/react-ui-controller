@@ -1,8 +1,8 @@
 import { Check, Close, Delete, Edit } from '@mui/icons-material';
 import { Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import React from 'react';
-import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton';
-import { TextField, Types } from '../../../Atoms/Inputs/TextField/TextField';
+import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
+import { TextField, Types } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
 import Pagination from './Pagination';
 import { HeadCell } from './table';

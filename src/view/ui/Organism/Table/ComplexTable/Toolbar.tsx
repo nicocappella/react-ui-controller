@@ -2,8 +2,8 @@ import { ArrowBackIos, ArrowForwardIos, Refresh } from '@mui/icons-material';
 import { alpha, IconButton, Toolbar as MuiToolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-import { Button } from '../../../Atoms/Inputs/Buttons/Button';
-import { DatePicker } from '../../../Atoms/Inputs/DatePicker/DatePicker';
+import { Button } from '../../../Atoms/Inputs/Buttons/Button/Button';
+import { DatePicker } from '../../../Atoms/Inputs/Selects/DatePicker/DatePicker';
 
 interface IProps {
     date?: Date | null;
@@ -46,9 +46,7 @@ const Toolbar = (props: IProps) => {
                             <Refresh />
                         </IconButton>
                     </Box>
-                    <Button variant="contained" color="error" handleClick={props.deleteRows} type="button">
-                        Eliminar varias
-                    </Button>
+                    <Button variant="contained" color="error" handleClick={props.deleteRows} type="button" text="Eliminar varias" />
                 </>
             ) : (
                 <>

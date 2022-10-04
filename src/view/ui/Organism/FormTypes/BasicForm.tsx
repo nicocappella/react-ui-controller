@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from '../../Molecules/Forms/Forms';
 
-interface IProps {
+export interface IProps {
     direction: 'column' | 'row';
     handleSubmit: (e: React.FormEvent) => void;
     children: React.ReactNode;

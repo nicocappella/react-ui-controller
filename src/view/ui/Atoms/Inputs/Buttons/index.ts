@@ -1,3 +1,3 @@
-export { Button } from './Button';
-export { FAB } from './FAB';
-export { IconButton } from './IconButton';
+export { Button } from './Button/Button';
+export { FAB } from './FAB/FAB';
+export { IconButton } from './IconButton/IconButton';
