@@ -37,17 +37,25 @@ export interface IProps {
     children: React.ReactNode[];
     handleDrawerOpen: () => void;
     logo?: string;
-    pageButtons: string[];
+    navButtons?: string[];
+    otherButtons?: { component: string; name: string }[];
     open: boolean;
     showMenu?: boolean;
+    background?: string;
+    boxShadow?: string;
 }
 
 const TopAppBar = (props: IProps) => {
     return (
-        <AppBarSurface position="fixed" open={props.open}>
+        <AppBarSurface position="fixed" open={props.open} sx={{ background: props.background, boxShadow: props.boxShadow }}>
             <Box component="nav" sx={{ maxHeight: 64 }}>
                 <Box component="div">{props.logo && <Image src={props.logo} height="64px" width="100%" />}</Box>
-                <Box>{props.pageButtons && props.pageButtons.map((d, i) => <Button variant="outlined" type="button" text={d} />)}</Box>
+                <Box display="flex" justifyContent="space-evenly">
+                    {props.navButtons && props.navButtons.map((d, i) => <Button variant="text" type="button" text={d} />)}
+                </Box>
+                {/* <Box>
+                    { props.otherButtons && props.otherButtons.map((d, i) => )}
+                </Box> */}
             </Box>
             <Toolbar></Toolbar>
         </AppBarSurface>

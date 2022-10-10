@@ -1,6 +1,5 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-// import LogoFile from '../../../../../public/assets/caption.png'
 
 import { TopAppBar } from './TopAppBar';
 
@@ -14,7 +13,9 @@ const Template: ComponentStory<typeof TopAppBar> = (args) => <TopAppBar {...args
 export const NormalTopAppBar = Template.bind({});
 NormalTopAppBar.args = {
     // logo: LogoFile,
-    pageButtons: ['Home','Who']
+    navButtons: ['Home', 'Who', 'Where', 'How'],
+    background: 'transparent',
+    boxShadow: '0px 0px 0px 0px',
 };
 
 export const SmallTopAppBar = Template.bind({});

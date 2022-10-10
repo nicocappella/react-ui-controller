@@ -9,11 +9,12 @@ export interface IProps {
     };
     children: React.ReactNode;
     actions?: string;
+    background: string;
 }
 
 const Card = (props: IProps) => {
     return (
-        <MuiCard>
+        <MuiCard sx={{ background: props.background }}>
             {props.header && (
                 <CardHeader
                     action={props.header.action}

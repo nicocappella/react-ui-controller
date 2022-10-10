@@ -12,7 +12,11 @@ const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />;
 
 export const NormalCard = Template.bind({});
 
-NormalCard.args = {};
+NormalCard.args = {
+    header: {
+        title: 'Mi tarjeta'
+    },
+};
 
 export const SmallCard = Template.bind({});
 SmallCard.args = {};
