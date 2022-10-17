@@ -7,24 +7,25 @@ export interface IProps {
         title?: React.ReactNode;
         subheader?: string;
     };
-    children: React.ReactNode;
+    description: React.ReactNode | React.ReactNode[];
     actions?: string;
     background: string;
+    direction?: 'row' | 'column'
 }
 
-const Card = (props: IProps) => {
+const Card = ({ header, description, actions, direction = 'row', background}: IProps) => {
     return (
-        <MuiCard sx={{ background: props.background }}>
-            {props.header && (
+        <MuiCard sx={{ background, display: 'flex', flexDirection: direction }}>
+            {header && (
                 <CardHeader
-                    action={props.header.action}
-                    title={props.header.title}
-                    subheader={props.header.subheader}
-                    actions={props.header.action}
+                    action={header.action}
+                    title={header.title}
+                    subheader={header.subheader}
+                    actions={header.action}
                 />
             )}
-            <CardContent>{props.children}</CardContent>
-            {props.actions && <CardActions>{props.actions}</CardActions>}
+            <CardContent>{description}</CardContent>
+            {actions && <CardActions>{actions}</CardActions>}
         </MuiCard>
     );
 };
