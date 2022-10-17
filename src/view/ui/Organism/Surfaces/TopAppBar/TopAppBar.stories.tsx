@@ -13,7 +13,8 @@ const Template: ComponentStory<typeof TopAppBar> = (args) => <TopAppBar {...args
 export const NormalTopAppBar = Template.bind({});
 NormalTopAppBar.args = {
     // logo: LogoFile,
-    navButtons: ['Home', 'Who', 'Where', 'How'],
+    navButtons: [{ name: 'Home', activePath: true}, { name: 'Academy', activePath: false}],
+    otherButtons:[{component:'Button', name:'sign in'}],
     background: 'transparent',
     boxShadow: '0px 0px 0px 0px',
 };
