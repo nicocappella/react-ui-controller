@@ -1942,7 +1942,7 @@
     "is-module" "^1.0.0"
     "resolve" "^1.19.0"
 
-"@rollup/plugin-typescript@^8.5.0":
+"@rollup/plugin-typescript@^8.3.3":
   "integrity" "sha512-wMv1/scv0m/rXx21wD2IsBbJFba8wGF3ErJIr6IKRfRj49S85Lszbxb4DCo8iILpluTjk2GAAu9CoZt4G3ppgQ=="
   "resolved" "https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-8.5.0.tgz"
   "version" "8.5.0"

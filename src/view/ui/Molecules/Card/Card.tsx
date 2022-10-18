@@ -1,4 +1,4 @@
-import { Card as MuiCard, CardActions, CardContent, CardHeader } from '@mui/material';
+import { Button, Card as MuiCard, CardActions, CardContent, CardHeader } from '@mui/material';
 
 export interface IProps {
     header?: {
@@ -10,12 +10,15 @@ export interface IProps {
     description: React.ReactNode | React.ReactNode[];
     actions?: string;
     background: string;
-    direction?: 'row' | 'column'
+    direction?: 'row' | 'column';
+    alignment?: 'left' | 'center' | 'right',
+    width: string,
+    height: string
 }
 
-const Card = ({ header, description, actions, direction = 'row', background}: IProps) => {
+const Card = ({ header, description, actions, direction = 'row', background, alignment = 'center', width, height}: IProps) => {
     return (
-        <MuiCard sx={{ background, display: 'flex', flexDirection: direction }}>
+        <MuiCard sx={{ background, display: 'flex', flexDirection: direction, alignItems: alignment, borderRadius:'20px', width: width, height: height, textAlign: alignment }}>
             {header && (
                 <CardHeader
                     action={header.action}
@@ -25,7 +28,7 @@ const Card = ({ header, description, actions, direction = 'row', background}: IP
                 />
             )}
             <CardContent>{description}</CardContent>
-            {actions && <CardActions>{actions}</CardActions>}
+            {actions && <CardActions><Button>{actions}</Button></CardActions>}
         </MuiCard>
     );
 };
