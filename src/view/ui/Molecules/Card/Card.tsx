@@ -8,7 +8,7 @@ export interface IProps {
         subheader?: string;
     };
     description: React.ReactNode | React.ReactNode[];
-    actions?: string;
+    actions?: React.ReactNode | React.ReactNode[];
     background: string;
     direction?: 'row' | 'column';
     alignment?: 'left' | 'center' | 'right',
