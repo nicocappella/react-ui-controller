@@ -48,7 +48,7 @@ export interface IProps {
 const TopAppBar = (props: IProps) => {
     return (
         <AppBarSurface position="fixed" open={props.open} sx={{ background: props.background, boxShadow: props.boxShadow }}>
-            <Box component="nav" display="flex" justifyContent="space-between" sx={{ maxHeight: 64 }}>
+            <Box component="nav" display="flex" justifyContent="space-between" sx={{ maxHeight: 64 }} alignItems="center">
                 <Box component="div">
                     {props.logo && props.logo.isSVG ? (
                         props.logo.component
