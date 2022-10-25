@@ -35,11 +35,11 @@ const AppBarSurface = styled(MuiAppBar, {
 }));
 
 export interface IProps {
-    handleDrawerOpen: () => void;
-    logo?: string;
+    handleDrawerOpen?: () => void;
+    logo?: { component: React.ReactNode | string; isSVG: boolean };
     navButtons?: { component: React.ReactNode }[];
     otherButtons?: { component: React.ReactNode }[];
-    open: boolean;
+    open?: boolean;
     showMenu?: boolean;
     background?: string;
     boxShadow?: string;
@@ -49,7 +49,13 @@ const TopAppBar = (props: IProps) => {
     return (
         <AppBarSurface position="fixed" open={props.open} sx={{ background: props.background, boxShadow: props.boxShadow }}>
             <Box component="nav" display="flex" justifyContent="space-between" sx={{ maxHeight: 64 }}>
-                <Box component="div">{props.logo && <Image src={props.logo} height="64px" width="100%" />}</Box>
+                <Box component="div">
+                    {props.logo && props.logo.isSVG ? (
+                        props.logo.component
+                    ) : (
+                        <Image src={props.logo?.component as string} height="64px" width="100%" />
+                    )}
+                </Box>
                 <Box display="flex" justifyContent="space-evenly">
                     {props.navButtons && props.navButtons.map((d, i) => d.component)}
                 </Box>
