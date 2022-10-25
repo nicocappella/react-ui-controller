@@ -19,13 +19,22 @@ export interface IAvatar {
     direction?: 'row' | 'column';
 }
 
+const getInitialLetters = (name: string) => {
+    if (name) {
+        const splitName = name.split(' ');
+        const initialLetters = splitName.map((d) => d[0]).join('');
+        return initialLetters;
+    }
+    return;
+};
+
 const Avatar = (props: IAvatar) => {
     const size = props.size === 'small' ? 40 : props.size === 'medium' ? 48 : 56;
     const backgroundColor = props.name && !props.img ? 'red' : '';
     const img = props.img ? props.img : undefined;
     const avatar = (
         <MuiAvatar sx={{ width: size, height: size, backgroundColor }} src={img}>
-            {props.name}
+            {props.name && getInitialLetters(props.name)}
         </MuiAvatar>
     );
     return (

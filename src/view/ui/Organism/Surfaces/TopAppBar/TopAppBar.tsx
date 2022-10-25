@@ -43,11 +43,21 @@ export interface IProps {
     showMenu?: boolean;
     background?: string;
     boxShadow?: string;
+    horizontalPadding?: string | number;
 }
 
 const TopAppBar = (props: IProps) => {
     return (
-        <AppBarSurface position="fixed" open={props.open} sx={{ background: props.background, boxShadow: props.boxShadow }}>
+        <AppBarSurface
+            position="fixed"
+            open={props.open}
+            sx={{
+                background: props.background,
+                boxShadow: props.boxShadow,
+                paddingLeft: props.horizontalPadding,
+                paddingRight: props.horizontalPadding,
+            }}
+        >
             <Box component="nav" display="flex" justifyContent="space-between" sx={{ maxHeight: 64 }} alignItems="center">
                 <Box component="div">
                     {props.logo && props.logo.isSVG ? (
@@ -56,10 +66,12 @@ const TopAppBar = (props: IProps) => {
                         <Image src={props.logo?.component as string} height="64px" width="100%" />
                     )}
                 </Box>
-                <Box display="flex" justifyContent="space-evenly">
+                <Box display="flex" justifyContent="space-evenly" alignItems="center">
                     {props.navButtons && props.navButtons.map((d, i) => d.component)}
                 </Box>
-                <Box>{props.otherButtons && props.otherButtons.map((d, i) => d.component)}</Box>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    {props.otherButtons && props.otherButtons.map((d, i) => d.component)}
+                </Box>
             </Box>
             <Toolbar></Toolbar>
         </AppBarSurface>
