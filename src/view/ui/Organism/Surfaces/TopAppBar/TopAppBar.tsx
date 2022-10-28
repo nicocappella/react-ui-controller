@@ -1,10 +1,7 @@
-import { Menu } from '@mui/icons-material';
-import { IconButton, styled, Toolbar, Typography } from '@mui/material';
-import { Button } from '../../../Atoms/Inputs/Buttons/Button';
-import Image from 'next/image';
+import { styled, Toolbar } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { Box } from '@mui/system';
-import SearchIcon from '@mui/icons-material/Search';
+import Image from 'next/image';
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -43,13 +40,14 @@ export interface IProps {
     showMenu?: boolean;
     background?: string;
     boxShadow?: string;
+    position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
     horizontalPadding?: string | number;
 }
 
 const TopAppBar = (props: IProps) => {
     return (
         <AppBarSurface
-            position="fixed"
+            position={props.position ? props.position : "fixed"}
             open={props.open}
             sx={{
                 background: props.background,
