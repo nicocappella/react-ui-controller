@@ -1,0 +1,1 @@
+export { ExtendedFAB } from './ExtendedFAB';
