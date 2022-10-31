@@ -1,5 +1,5 @@
-import { darken, Link } from '@mui/material';
-import React from 'react';
+import { Link } from '@mui/material';
+
 
 export interface ILinkButton {
     text: string;
@@ -10,7 +10,14 @@ export interface ILinkButton {
 
 const LinkButton = (props: ILinkButton) => {
     return (
-        <Link color={props.color} underline={props.underline ? props.underline : 'none'} component="a" variant="subtitle1" href={props.href}>
+        <Link
+            color={props.color}
+            underline={props.underline ? props.underline : 'none'}
+            component="a"
+            variant="subtitle1"
+            href={props.href}
+            sx={{ cursor: 'pointer' }}
+        >
             {props.text}
         </Link>
     );

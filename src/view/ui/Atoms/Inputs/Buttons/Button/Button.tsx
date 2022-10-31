@@ -21,7 +21,7 @@ const Button = ({ variant = 'contained', type = 'button', text = 'Button', size,
             variant={variant}
             type={type}
             size={size}
-            sx={{ width: 'fit-content', borderRadius: '100px', height: '40px', margin: '0 auto', padding: '20px', textTransform: 'capitalize' }}
+            sx={{ borderRadius: '100px', height: '40px', margin: '0 auto', padding: '20px', textTransform: 'capitalize' }}
             startIcon={startIcon}
             endIcon={endIcon}
             color={color}
