@@ -8173,7 +8173,7 @@
   "resolved" "https://registry.npmjs.org/lz-string/-/lz-string-1.4.4.tgz"
   "version" "1.4.4"
 
-"magic-string@^0.26.4", "magic-string@^0.26.7":
+"magic-string@^0.26.4", "magic-string@^0.26.6":
   "integrity" "sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow=="
   "resolved" "https://registry.npmjs.org/magic-string/-/magic-string-0.26.7.tgz"
   "version" "0.26.7"
@@ -10193,12 +10193,12 @@
     "hash-base" "^3.0.0"
     "inherits" "^2.0.1"
 
-"rollup-plugin-dts@^5.0.0":
-  "integrity" "sha512-OO8ayCvuJCKaQSShyVTARxGurVVk4ulzbuvz+0zFd1f93vlnWFU5pBMT7HFeS6uj7MvvZLx4kUAarGATSU1+Ng=="
-  "resolved" "https://registry.npmjs.org/rollup-plugin-dts/-/rollup-plugin-dts-5.0.0.tgz"
-  "version" "5.0.0"
+"rollup-plugin-dts@^4.2.2":
+  "integrity" "sha512-jlcpItqM2efqfIiKzDB/IKOS9E9fDvbkJSGw5GtK/PqPGS9eC3R3JKyw2VvpTktZA+TNgJRMu1NTv244aTUzzQ=="
+  "resolved" "https://registry.npmjs.org/rollup-plugin-dts/-/rollup-plugin-dts-4.2.3.tgz"
+  "version" "4.2.3"
   dependencies:
-    "magic-string" "^0.26.7"
+    "magic-string" "^0.26.6"
   optionalDependencies:
     "@babel/code-frame" "^7.18.6"
 
@@ -10212,10 +10212,10 @@
     "serialize-javascript" "^4.0.0"
     "terser" "^5.0.0"
 
-"rollup@^1.20.0||^2.0.0||^3.0.0", "rollup@^2.0.0", "rollup@^2.14.0||^3.0.0", "rollup@^2.68.0||^3.0.0", "rollup@^2.78.0||^3.0.0", "rollup@^3.0.0", "rollup@^3.2.4":
-  "integrity" "sha512-1cAfF/u8Pf7XNo7eg3u/55+FkjNX5e4yPIVDQyUIO3MVBYMsTg+0C5FkEWzNlrEfRAYbunAIuTJ0jVp+01S3uA=="
-  "resolved" "https://registry.npmjs.org/rollup/-/rollup-3.2.4.tgz"
-  "version" "3.2.4"
+"rollup@^1.20.0||^2.0.0||^3.0.0", "rollup@^2.0.0", "rollup@^2.14.0||^3.0.0", "rollup@^2.55", "rollup@^2.68.0||^3.0.0", "rollup@^2.78.0||^3.0.0", "rollup@^2.79.1":
+  "integrity" "sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw=="
+  "resolved" "https://registry.npmjs.org/rollup/-/rollup-2.79.1.tgz"
+  "version" "2.79.1"
   optionalDependencies:
     "fsevents" "~2.3.2"
 
