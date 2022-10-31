@@ -47,7 +47,7 @@ export interface IProps {
 const TopAppBar = (props: IProps) => {
     return (
         <AppBarSurface
-            position={props.position ? props.position : "fixed"}
+            position={props.position ? props.position : 'fixed'}
             open={props.open}
             sx={{
                 background: props.background,
@@ -64,7 +64,7 @@ const TopAppBar = (props: IProps) => {
                         <Image src={props.logo?.component as string} height="64px" width="100%" />
                     )}
                 </Box>
-                <Box display="flex" justifyContent="space-evenly" alignItems="center">
+                <Box display="flex" justifyContent="space-between" alignItems="center" gap={5}>
                     {props.navButtons && props.navButtons.map((d, i) => d.component)}
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="center">

@@ -9,7 +9,7 @@ export interface ILinkButton {
 
 const LinkButton = (props: ILinkButton) => {
     return (
-        <Link color={props.color} underline={props.underline ? props.underline : 'none'} component="a">
+        <Link color={props.color} underline={props.underline ? props.underline : 'none'} component="a" variant="subtitle1">
             {props.text}
         </Link>
     );
