@@ -16,7 +16,7 @@ export const Primary = Template.bind({});
 
 Primary.args = {
     text: 'Link',
-    color: 'primary',
+    color: '#0000000',
 };
 export const Secondary = Template.bind({});
 Secondary.args = {};

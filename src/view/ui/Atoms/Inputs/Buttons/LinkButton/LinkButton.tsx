@@ -1,5 +1,4 @@
-import { Link } from '@mui/material';
-
+import { darken, Link, useTheme } from '@mui/material';
 
 export interface ILinkButton {
     text: string;
@@ -9,6 +8,7 @@ export interface ILinkButton {
 }
 
 const LinkButton = (props: ILinkButton) => {
+    const theme = useTheme();
     return (
         <Link
             color={props.color}
@@ -16,7 +16,7 @@ const LinkButton = (props: ILinkButton) => {
             component="a"
             variant="subtitle1"
             href={props.href}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: 'pointer', '&:hover': { color: darken(props.color, 1) } }}
         >
             {props.text}
         </Link>

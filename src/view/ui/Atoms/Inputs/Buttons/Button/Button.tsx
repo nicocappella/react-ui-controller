@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button as MuiButton } from '@mui/material';
-import { ButtonProps } from '@mui/material';
 
 export interface IButton {
     text: string;
