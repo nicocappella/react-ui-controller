@@ -14,9 +14,10 @@ export interface IProps {
     alignment?: 'left' | 'center' | 'right';
     width: string;
     height: string;
+    padding: string;
 }
 
-const Card = ({ header, description, actions, direction = 'row', background, alignment = 'center', width, height }: IProps) => {
+const Card = ({ header, description, actions, direction = 'row', background, alignment = 'center', width, height, padding }: IProps) => {
     return (
         <MuiCard
             sx={{
@@ -25,9 +26,10 @@ const Card = ({ header, description, actions, direction = 'row', background, ali
                 flexDirection: direction,
                 alignItems: alignment,
                 borderRadius: '20px',
-                width: width,
-                height: height,
+                width,
+                height,
                 textAlign: alignment,
+                padding,
             }}
         >
             {header && <CardHeader action={header.action} title={header.title} subheader={header.subheader} actions={header.action} />}

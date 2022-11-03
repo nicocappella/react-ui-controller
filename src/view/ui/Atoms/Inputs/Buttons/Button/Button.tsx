@@ -12,15 +12,28 @@ export interface IButton {
     color?: 'error' | 'info' | 'inherit' | 'primary' | 'secondary' | 'success' | 'warning';
     handleClick?: () => void;
     href?: string;
+    padding: string;
 }
 
-const Button = ({ variant = 'contained', type = 'button', text = 'Button', size, width, startIcon, endIcon, color, handleClick, href }: IButton) => {
+const Button = ({
+    variant = 'contained',
+    type = 'button',
+    text = 'Button',
+    size,
+    width,
+    startIcon,
+    endIcon,
+    color,
+    handleClick,
+    href,
+    padding,
+}: IButton) => {
     return (
         <MuiButton
             variant={variant}
             type={type}
             size={size}
-            sx={{ borderRadius: '100px', height: '40px', padding: '20px', textTransform: 'capitalize', width: 'fit-content' }}
+            sx={{ borderRadius: '100px', height: '40px', padding, textTransform: 'capitalize', width: 'fit-content' }}
             startIcon={startIcon}
             endIcon={endIcon}
             color={color}

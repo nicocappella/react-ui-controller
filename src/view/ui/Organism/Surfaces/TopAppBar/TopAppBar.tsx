@@ -48,7 +48,7 @@ const TopAppBar = (props: IProps) => {
     return (
         <AppBarSurface
             position={props.position ? props.position : 'fixed'}
-            open={props.open}
+            open={props.open ? props.open : false}
             sx={{
                 background: props.background,
                 boxShadow: props.boxShadow,
