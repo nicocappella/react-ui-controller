@@ -5,7 +5,7 @@ import { Color } from '../../../../types';
 export interface IExtendedFAB {
     startIcon?: React.ReactNode;
     text: string;
-    color: Color;
+    color: 'inherit' | 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | undefined;
     borderRadius?: number;
 }
 

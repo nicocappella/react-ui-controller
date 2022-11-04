@@ -5,7 +5,7 @@ export interface ILinkButton {
     text: string;
     color: string;
     underline?: 'always' | 'hover' | 'none';
-    href: string;
+    href?: string;
 }
 
 const LinkButton = (props: ILinkButton) => {
