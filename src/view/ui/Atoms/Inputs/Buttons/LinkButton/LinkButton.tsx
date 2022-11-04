@@ -3,23 +3,23 @@ import { darken, Link, useTheme } from '@mui/material';
 
 export interface ILinkButton {
     text: string;
-    color: string;
+    color?: 'inherit' | 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | undefined;
     underline?: 'always' | 'hover' | 'none';
     href?: string;
 }
 
-const LinkButton = (props: ILinkButton) => {
+const LinkButton = ({ text, color = 'primary', underline, href }: ILinkButton) => {
     const theme = useTheme();
     return (
         <Link
-            color={props.color}
-            underline={props.underline ? props.underline : 'none'}
+            color={color}
+            underline={underline ? underline : 'none'}
             component="a"
             variant="subtitle1"
-            href={props.href}
-            sx={{ cursor: 'pointer', '&:hover': { color: darken(props.color, 1) } }}
+            href={href}
+            // sx={{ cursor: 'pointer', '&:hover': { color: darken(color, 1) } }}
         >
-            {props.text}
+            {text}
         </Link>
     );
 };
