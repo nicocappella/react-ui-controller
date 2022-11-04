@@ -12,7 +12,8 @@ export interface IButton {
     color?: 'error' | 'info' | 'inherit' | 'primary' | 'secondary' | 'success' | 'warning';
     handleClick?: () => void;
     href?: string;
-    padding: string;
+    padding?: string;
+    borderRadius?: string;
 }
 
 const Button = ({
@@ -26,14 +27,15 @@ const Button = ({
     color,
     handleClick,
     href,
-    padding,
+    padding = '24px',
+    borderRadius = '100px',
 }: IButton) => {
     return (
         <MuiButton
             variant={variant}
             type={type}
             size={size}
-            sx={{ borderRadius: '100px', height: '40px', padding, textTransform: 'capitalize', width: 'fit-content' }}
+            sx={{ borderRadius, height: '40px', padding, textTransform: 'capitalize', width: 'fit-content' }}
             startIcon={startIcon}
             endIcon={endIcon}
             color={color}

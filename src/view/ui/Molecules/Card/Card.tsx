@@ -12,9 +12,9 @@ export interface IProps {
     background: string;
     direction?: 'row' | 'column';
     alignment?: 'left' | 'center' | 'right';
-    width: string;
-    height: string;
-    padding: string;
+    width?: string;
+    height?: string;
+    padding?: string;
 }
 
 const Card = ({ header, description, actions, direction = 'row', background, alignment = 'center', width, height, padding }: IProps) => {
