@@ -59,10 +59,10 @@ const TopAppBar = (props: IProps) => {
             <Box component="nav" display="flex" justifyContent="space-between" sx={{ maxHeight: 64 }} alignItems="center">
                 <Box component="div">{props.logo?.component}</Box>
                 <Box display="flex" justifyContent="space-between" alignItems="center" gap={5}>
-                    {props.navButtons && props.navButtons.map((d, i) => d.component)}
+                    {props.navButtons && props.navButtons.map((d, i) => <div key={`navButton-${i}`}>{d.component}</div>)}
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
-                    {props.otherButtons && props.otherButtons.map((d, i) => d.component)}
+                    {props.otherButtons && props.otherButtons.map((d, i) => <div key={`otherButtons-${i}`}>{d.component}</div>)}
                 </Box>
             </Box>
             <Toolbar></Toolbar>

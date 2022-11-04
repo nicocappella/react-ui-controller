@@ -9,7 +9,7 @@ export interface IProps {
 
 export const NavigationRail = ({ navButtons }: IProps) => {
     return (
-        <Box display="flex" flexDirection="column" position="fixed" width="80px" bgcolor="#f0eddd" gap='2%'>
+        <Box display="flex" flexDirection="column" position="fixed" width="80px" bgcolor="#f0eddd" gap="2%">
             {navButtons.map((d, i) => (
                 <Box
                     display="flex"
@@ -19,7 +19,7 @@ export const NavigationRail = ({ navButtons }: IProps) => {
                     sx={{ '&:hover button': { backgroundColor: '#ddd' }, '&:hover a': { color: darken('#999', 1) } }}
                 >
                     <IconButton>{d.icon}</IconButton>
-                    <LinkButton text={d.text} color="#999" href="home" />
+                    <LinkButton text={d.text} color="primary" href="home" />
                 </Box>
             ))}
         </Box>
