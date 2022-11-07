@@ -6,7 +6,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 export interface IProps {
-    cards: { title: string; text: string; img: React.ReactNode }[];
+    cards: React.ReactNode[];
     timeout?: number;
     height?: string | number;
     arrow: React.ReactNode;
@@ -72,10 +72,7 @@ export const Carrousel = ({ cards, timeout, height = '400px', arrow }: IProps) =
                         flexDirection="column"
                         height={height}
                     >
-                        <Typography variant="h5" fontWeight="bold">
-                            {d.title && d.title.toUpperCase()}
-                        </Typography>
-                        <Typography variant="subtitle1">{d.text}</Typography>
+                        {d}
                     </Box>
                 ))}
             </Box>
