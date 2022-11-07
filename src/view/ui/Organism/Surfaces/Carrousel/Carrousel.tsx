@@ -1,9 +1,5 @@
-import { PropaneSharp } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 export interface IProps {
     cards: React.ReactNode[];
@@ -20,6 +16,7 @@ export const Carrousel = ({ cards, timeout, height = '400px', arrow }: IProps) =
             setCurrent(current === cards.length - 1 ? 0 : current + 1);
             setDirection('left');
         }
+        clearTimeout(timeoutCarrousel);
     }, timeout);
 
     const nextSlide = () => {
