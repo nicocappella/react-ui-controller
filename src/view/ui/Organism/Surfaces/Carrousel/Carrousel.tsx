@@ -7,24 +7,33 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 export interface IProps {
     cards: { title: string; text: string; img: React.ReactNode }[];
+    timeout?: number;
+    height?: string | number;
+    arrow: React.ReactNode;
 }
 
-export const Carrousel = (props: IProps) => {
+export const Carrousel = ({ cards, timeout, height = '400px', arrow }: IProps) => {
     const [current, setCurrent] = useState(0);
     const [direction, setDirection] = useState<'left' | 'right'>('right');
 
     const nextSlide = () => {
-        setCurrent(current === props.cards.length - 1 ? 0 : current + 1);
+        setCurrent(current === cards.length - 1 ? 0 : current + 1);
         setDirection('left');
     };
 
     const prevSlide = () => {
-        setCurrent(current === 0 ? props.cards.length - 1 : current - 1);
+        setCurrent(current === 0 ? cards.length - 1 : current - 1);
     };
 
     useEffect(() => {}, [current]);
+    setTimeout(() => {
+        if (timeout) {
+            setCurrent(current === cards.length - 1 ? 0 : current + 1);
+            setDirection('left');
+        }
+    }, timeout);
     return (
-        <Box>
+        <Box sx={{ overflowX: 'hidden', position: 'relative' }} height={height}>
             <Box>
                 <Box
                     sx={{
@@ -36,7 +45,7 @@ export const Carrousel = (props: IProps) => {
                     }}
                     onClick={prevSlide}
                 >
-                    <ArrowBackIosIcon />
+                    {arrow}
                 </Box>
                 <Box
                     sx={{
@@ -45,15 +54,24 @@ export const Carrousel = (props: IProps) => {
                         zIndex: 10,
                         top: '50%',
                         cursor: 'pointer',
+                        transform: 'rotate(180deg)',
                     }}
                     onClick={nextSlide}
                 >
-                    <ArrowForwardIosIcon />
+                    {arrow}
                 </Box>
             </Box>
-            <Box display="flex" sx={{ transform: `translate(${-current * 100}%)` }}>
-                {props.cards.map((d, i) => (
-                    <Box key={i} sx={{ minWidth: '100vw' }}>
+            <Box display="flex" sx={{ transform: `translate(${-current * 100}%)`, transition: 'ease 500ms all' }}>
+                {cards.map((d, i) => (
+                    <Box
+                        key={i}
+                        sx={{ minWidth: '100%' }}
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        flexDirection="column"
+                        height={height}
+                    >
                         <Typography variant="h5" fontWeight="bold">
                             {d.title && d.title.toUpperCase()}
                         </Typography>

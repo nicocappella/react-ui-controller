@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Carrousel } from './Carrousel';
-import { Home } from '@mui/icons-material';
+import { ArrowBack, Home } from '@mui/icons-material';
 // import { Button, LinkButton } from '../../../Atoms';
 
 export default {
@@ -13,7 +13,12 @@ const Template: ComponentStory<typeof Carrousel> = (args) => <Carrousel {...args
 
 export const NormalCarrousel = Template.bind({});
 NormalCarrousel.args = {
-    cards: [{ img: '', text: 'Hola soy el 1', title: 'Hola soy el 1' }, { img: '', text: 'Hola soy el 2', title: 'Hola soy el 2' }],
+    cards: [
+        { img: '', text: 'Hola soy el 1', title: 'Hola soy el 1' },
+        { img: '', text: 'Hola soy el 2', title: 'Hola soy el 2' },
+    ],
+    timeout: 4000,
+    arrow: <ArrowBack />,
 };
 
 export const SmallCarrousel = Template.bind({});
