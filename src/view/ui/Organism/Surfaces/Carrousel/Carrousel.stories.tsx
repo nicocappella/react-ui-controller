@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof Carrousel> = (args) => <Carrousel {...args
 
 export const NormalCarrousel = Template.bind({});
 NormalCarrousel.args = {
-    cards: [<Box>Number1</Box>, <Box>Number2</Box>],
+    cards: [<Box>Number1</Box>, <Box>Number2</Box>, <Box>Number3</Box>, <Box>Number4</Box>,],
     timeout: 4000,
     arrow: <ArrowBack />,
 };

@@ -15,23 +15,26 @@ export interface IProps {
 export const Carrousel = ({ cards, timeout, height = '400px', arrow }: IProps) => {
     const [current, setCurrent] = useState(0);
     const [direction, setDirection] = useState<'left' | 'right'>('right');
-
-    const nextSlide = () => {
-        setCurrent(current === cards.length - 1 ? 0 : current + 1);
-        setDirection('left');
-    };
-
-    const prevSlide = () => {
-        setCurrent(current === 0 ? cards.length - 1 : current - 1);
-    };
-
-    useEffect(() => {}, [current]);
-    setTimeout(() => {
+    const timeoutCarrousel = setTimeout(() => {
         if (timeout) {
             setCurrent(current === cards.length - 1 ? 0 : current + 1);
             setDirection('left');
         }
     }, timeout);
+
+    const nextSlide = () => {
+        setCurrent(current === cards.length - 1 ? 0 : current + 1);
+        setDirection('left');
+        clearTimeout(timeoutCarrousel);
+    };
+
+    const prevSlide = () => {
+        setCurrent(current === 0 ? cards.length - 1 : current - 1);
+        clearTimeout(timeoutCarrousel);
+    };
+
+    useEffect(() => {}, [current]);
+
     return (
         <Box sx={{ overflowX: 'hidden', position: 'relative' }} height={height}>
             <Box>
