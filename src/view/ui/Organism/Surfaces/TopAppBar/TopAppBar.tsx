@@ -1,35 +1,5 @@
-import { styled, Toolbar } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { AppBar, Toolbar } from '@mui/material';
 import { Box } from '@mui/system';
-import Image from 'next/image';
-
-interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-}
-
-const drawerWidth = 240;
-
-const AppBarSurface = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-    zIndex: theme.zIndex?.drawer + 1,
-    padding: '0 16px',
-    maxHeight: 64,
-    display: 'flex',
-    justifyContent: 'space-between',
-    transition: theme.transitions?.create(['width', 'margin'], {
-        easing: theme.transitions?.easing.sharp,
-        duration: theme.transitions?.duration.leavingScreen,
-    }),
-    ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions?.create(['width', 'margin'], {
-            easing: theme.transitions?.easing.sharp,
-            duration: theme.transitions?.duration.enteringScreen,
-        }),
-    }),
-}));
 
 export interface IProps {
     handleDrawerOpen?: () => void;
@@ -46,9 +16,8 @@ export interface IProps {
 
 const TopAppBar = (props: IProps) => {
     return (
-        <AppBarSurface
+        <AppBar
             position={props.position ? props.position : 'fixed'}
-            open={props.open ? props.open : false}
             sx={{
                 background: props.background,
                 boxShadow: props.boxShadow,
@@ -66,7 +35,7 @@ const TopAppBar = (props: IProps) => {
                 </Box>
             </Box>
             <Toolbar></Toolbar>
-        </AppBarSurface>
+        </AppBar>
     );
 };
 

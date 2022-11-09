@@ -4,15 +4,15 @@ export interface IProps {
     header?: {
         avatar?: React.ReactNode;
         action?: React.ReactNode;
-        title?: React.ReactNode;
-        subheader?: string;
+        title?: React.ReactNode | string;
+        subheader?: React.ReactNode | string;
         padding?: string;
         background?: string;
     };
     description: { components: React.ReactNode | React.ReactNode[]; padding: string };
     actions?: React.ReactNode | React.ReactNode[];
     background: string;
-    direction?: 'row' | 'column';
+    direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-evenly';
     alignment?: 'left' | 'center' | 'right';
     width?: string;
