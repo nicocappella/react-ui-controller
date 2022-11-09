@@ -1,12 +1,10 @@
-import { AppBar, Toolbar } from '@mui/material';
+import { Toolbar, AppBar } from '@mui/material';
 import { Box } from '@mui/system';
 
 export interface IProps {
-    handleDrawerOpen?: () => void;
     logo?: { component: React.ReactNode };
     navButtons?: { component: React.ReactNode }[];
     otherButtons?: { component: React.ReactNode }[];
-    open?: boolean;
     showMenu?: boolean;
     background?: string;
     boxShadow?: string;
