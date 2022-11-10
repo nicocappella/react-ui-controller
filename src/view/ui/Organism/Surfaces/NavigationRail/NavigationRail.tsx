@@ -1,27 +1,72 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { LinkButton, IconButton } from '../../../Atoms';
-import { darken } from '@mui/system';
 
 export interface IProps {
-    navButtons: { text: string; icon: React.ReactNode }[];
+    navButtons: { component: React.ReactNode; layer?: { components?: React.ReactNode[] } }[];
+    actions?: React.ReactNode[];
+    background?: string;
 }
 
-export const NavigationRail = ({ navButtons }: IProps) => {
+export const NavigationRail = ({ navButtons, actions, background = 'white' }: IProps) => {
+    const [openPanel, setOpenPanel] = React.useState<boolean[]>([false]);
+
+    React.useEffect(() => {
+        const layers = navButtons.map((d) => false);
+        setOpenPanel(layers);
+    }, []);
+
+    const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, i: number): void => {
+        const layers = navButtons.map((d, j) => {
+            if (i === j) {
+                return true;
+            } else return false;
+        });
+        setOpenPanel(layers);
+    };
+    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>, i: number): void => {
+        const layers = navButtons.map((d) => false);
+        setOpenPanel(layers);
+    };
+    console.log(openPanel);
     return (
-        <Box display="flex" flexDirection="column" position="fixed" width="80px" bgcolor="#f0eddd" gap="2%">
-            {navButtons.map((d, i) => (
-                <Box
-                    display="flex"
-                    flexDirection="column"
-                    key={i}
-                    alignItems="center"
-                    sx={{ '&:hover button': { backgroundColor: '#ddd' }, '&:hover a': { color: darken('#999', 1) } }}
-                >
-                    <IconButton>{d.icon}</IconButton>
-                    <LinkButton text={d.text} color="primary" href="home" />
+        <Box position="relative">
+            <Box
+                display="flex"
+                flexDirection="column"
+                position="fixed"
+                width="80px"
+                justifyContent="space-between"
+                bgcolor={background}
+                gap="2%"
+                height="100vh"
+                onMouseLeave={(event: React.MouseEvent<HTMLDivElement>, i: number) => handleMouseLeave(event, i)}
+                component="div"
+            >
+                <Box display="flex" flexDirection="column">
+                    {navButtons.map((d, i: number) => (
+                        <Box
+                            key={i}
+                            onMouseEnter={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => handleMouseEnter(event, i)}
+                            component="div"
+                        >
+                            {d.component}
+                        </Box>
+                    ))}
                 </Box>
-            ))}
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    {actions && actions.map((d, i) => <Box key={i}>{actions}</Box>)}
+                </Box>
+                <Box height="100vh" width="160px" position="absolute" ml="80px" bgcolor={openPanel.includes(true) ? background : 'transparent'}>
+                    {navButtons.map(
+                        (d, i) =>
+                            d.layer && (
+                                <Box flexDirection="column" position="absolute" alignItems="center" display={openPanel![i] ? 'flex' : 'none'}>
+                                    {d.layer.components!.map((e, j) => e)}
+                                </Box>
+                            ),
+                    )}
+                </Box>
+            </Box>
         </Box>
     );
 };

@@ -1,8 +1,10 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { NavigationRail } from './NavigationRail';
-import { Home } from '@mui/icons-material';
-// import { Button, LinkButton } from '../../../Atoms';
+import { ExploreOutlined, Home, Login } from '@mui/icons-material';
+import { Button, LinkButton } from '../../../Atoms';
+import { Box } from '@mui/system';
+import { IconButton } from '@mui/material';
 
 export default {
     title: 'React-Ui-Controller/Organism/Surfaces/Navigation Rail',
@@ -14,9 +16,49 @@ const Template: ComponentStory<typeof NavigationRail> = (args) => <NavigationRai
 export const NormalNavigationRail = Template.bind({});
 NormalNavigationRail.args = {
     navButtons: [
-        { text: 'Home', icon: <Home /> },
-        { text: 'Home', icon: <Home /> },
+        {
+            component: (
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    sx={{ '&:hover button': { backgroundColor: '#ddd' }, '&:hover a': { color: '#ccc' } }}
+                >
+                    <IconButton>
+                        <Home />
+                    </IconButton>
+                    <LinkButton text="Home" />
+                </Box>
+            ),
+            layer: {
+                components: [<Box>Hola</Box>, <Box>Hola</Box>, <Box>Hola</Box>],
+            },
+        },
+        {
+            component: (
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    sx={{ '&:hover button': { backgroundColor: '#ddd' }, '&:hover a': { color: '#ccc' } }}
+                >
+                    <IconButton>
+                        <ExploreOutlined />
+                    </IconButton>
+                    <LinkButton text="Get started" />
+                </Box>
+            ),
+            layer: {
+                components: [<Button text="Hola" variant="text"/>, <Button text="Hola" variant="text" />],
+            },
+        },
     ],
+    actions: [
+        <IconButton>
+            <Login />
+        </IconButton>,
+    ],
+    background: '#F3F6FC',
 };
 
 export const SmallNavigationRail = Template.bind({});
