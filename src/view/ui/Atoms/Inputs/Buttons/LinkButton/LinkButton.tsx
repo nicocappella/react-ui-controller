@@ -27,13 +27,7 @@ export interface ILinkButton {
 const LinkButton = ({ text, color = 'primary', underline, href, variant = 'body2' }: ILinkButton) => {
     const theme = useTheme();
     return (
-        <Link
-            color={color}
-            underline={underline ? underline : 'none'}
-            component="a"
-            variant={variant}
-            href={href}
-        >
+        <Link color={color} underline={underline ? underline : 'none'} component="a" variant={variant} href={href} sx={{ cursor: 'pointer' }}>
             {text}
         </Link>
     );
