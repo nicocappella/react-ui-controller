@@ -57,7 +57,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white' }: IP
                 <Box display="flex" flexDirection="column" alignItems="center">
                     {actions && actions.map((d, i) => <Box key={i}>{actions}</Box>)}
                 </Box>
-                <Box height="100vh" width="200px" position="absolute" ml="80px" bgcolor={openPanel.includes(true) ? background : 'transparent'}>
+                <Box height="100vh" width="200px" position="absolute" ml="100px" bgcolor={openPanel.includes(true) ? background : 'transparent'}>
                     {navButtons.map(
                         (d, i) =>
                             d.layer && (
