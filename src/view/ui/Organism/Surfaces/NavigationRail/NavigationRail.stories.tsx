@@ -30,9 +30,7 @@ NormalNavigationRail.args = {
                     <LinkButton text="Home" />
                 </Box>
             ),
-            layer: {
-                components: [<Box>Hola</Box>, <Box>Hola</Box>, <Box>Hola</Box>],
-            },
+          
         },
         {
             component: (

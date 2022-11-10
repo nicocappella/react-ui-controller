@@ -17,7 +17,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white' }: IP
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, i: number): void => {
         const layers = navButtons.map((d, j) => {
-            if (i === j) {
+            if (i === j && d.layer !== undefined) {
                 return true;
             } else return false;
         });
@@ -43,7 +43,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white' }: IP
                 component="div"
                 zIndex={1000}
             >
-                <Box display="flex" flexDirection="column">
+                <Box display="flex" flexDirection="column" pt="20px">
                     {navButtons.map((d, i: number) => (
                         <Box
                             key={i}
@@ -54,7 +54,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white' }: IP
                         </Box>
                     ))}
                 </Box>
-                <Box display="flex" flexDirection="column" alignItems="center">
+                <Box display="flex" flexDirection="column" alignItems="center" pb="20px">
                     {actions && actions.map((d, i) => <Box key={i}>{actions}</Box>)}
                 </Box>
                 <Box height="100vh" width="200px" position="absolute" ml="100px" bgcolor={openPanel.includes(true) ? background : 'transparent'}>
