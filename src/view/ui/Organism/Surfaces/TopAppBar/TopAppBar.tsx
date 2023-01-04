@@ -3,9 +3,8 @@ import { Box } from '@mui/system';
 
 export interface IProps {
     logo?: { component: React.ReactNode };
+    alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
     navButtons?: { component: React.ReactNode }[];
-    alignNavButtons?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
-    alignOtherButtons?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
     otherButtons?: { component: React.ReactNode }[];
     showMenu?: boolean;
     background?: string;
@@ -17,35 +16,36 @@ export interface IProps {
 
 const TopAppBar = ({
     logo,
+    alignNavBar = 'space-between',
     navButtons,
-    alignNavButtons = 'center',
     otherButtons,
-    alignOtherButtons = 'center',
     showMenu,
     background = 'transparent',
     boxShadow,
     position = 'fixed',
-    horizontalPadding,
+    horizontalPadding = 100,
     height = 64,
 }: IProps) => {
     return (
-        <AppBar
-            position={position}
-            sx={{
-                background: background,
-                boxShadow: boxShadow,
-                paddingLeft: horizontalPadding,
-                paddingRight: horizontalPadding,
-            }}
-        >
-            <Box component="nav" display="flex" justifyContent="space-between" sx={{ height }} alignItems="center">
-                <Box component="div">{logo?.component}</Box>
-                <Box display="flex" justifyContent={alignNavButtons} alignItems="center" gap={5}>
-                    {navButtons && navButtons.map((d, i) => <Box key={`navButton-${i}`}>{d.component}</Box>)}
-                </Box>
-                <Box display="flex" justifyContent={alignOtherButtons} alignItems="center">
-                    {otherButtons && otherButtons.map((d, i) => <Box key={`otherButtons-${i}`}>{d.component}</Box>)}
-                </Box>
+        <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none' }}>
+            <Box
+                component="nav"
+                display="flex"
+                justifyContent={alignNavBar}
+                sx={{ height, background: background, boxShadow: boxShadow, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
+                alignItems="center"
+            >
+                {logo && <Box component="div">{logo?.component}</Box>}
+                {navButtons && (
+                    <Box display="flex"  alignItems="center" gap={5}>
+                        {navButtons && navButtons.map((d, i) => <Box key={`navButton-${i}`}>{d.component}</Box>)}
+                    </Box>
+                )}
+                {otherButtons && (
+                    <Box display="flex" alignItems="center">
+                        {otherButtons && otherButtons.map((d, i) => <Box key={`otherButtons-${i}`}>{d.component}</Box>)}
+                    </Box>
+                )}
             </Box>
             <Toolbar></Toolbar>
         </AppBar>

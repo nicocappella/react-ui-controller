@@ -20,8 +20,19 @@ NormalTopAppBar.args = {
     horizontalPadding: '200px',
 };
 
-export const SmallTopAppBar = Template.bind({});
-SmallTopAppBar.args = {};
+export const MikeleTopBar = Template.bind({});
+MikeleTopBar.args = {
+    background: 'rgba(255,255,255, .2)',
+    navButtons: [
+        { component: <Button text="Arte" variant="text" type="button" /> },
+        { component: <Button text="Diseño" variant="text" type="button" /> },
+        { component: <Button text="Arquitectura" variant="text" type="button" /> },
+        { component: <Button text="Contacto" variant="text" type="button" /> },
+    ],
+    position: 'fixed',
+    height: 64,
+    horizontalPadding: '200px',
+};
 
 export const LargeTopAppBar = Template.bind({});
 LargeTopAppBar.args = {};
