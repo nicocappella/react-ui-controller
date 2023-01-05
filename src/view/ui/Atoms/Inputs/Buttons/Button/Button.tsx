@@ -14,6 +14,7 @@ export interface IButton {
     href?: string;
     padding?: string;
     borderRadius?: string;
+    uploadButton?: string;
 }
 
 const Button = ({
@@ -29,6 +30,7 @@ const Button = ({
     href,
     padding = '24px',
     borderRadius = '100px',
+    uploadButton,
 }: IButton) => {
     return (
         <MuiButton
@@ -43,6 +45,7 @@ const Button = ({
             href={href && href}
         >
             {text}
+            {uploadButton && <input hidden accept={uploadButton} multiple type="file" />}
         </MuiButton>
     );
 };
