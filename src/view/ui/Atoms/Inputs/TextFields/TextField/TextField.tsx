@@ -2,22 +2,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
 import React from 'react';
 
-export enum Types {
-    Button = 'button',
-    Checkbox = 'checkbox',
-    Color = 'color',
-    Date = 'date',
-    Datetime = 'datetime-local',
-    Email = 'email',
-    File = 'file',
-    Hidden = 'hidden',
-    Image = 'image',
-    Month = 'month',
-    Number = 'number',
-    Password = 'password',
-    Text = 'text',
-}
-
 export interface ITextField {
     autoComplete?: string;
     endIcon?: string | React.ReactNode;
@@ -33,7 +17,20 @@ export interface ITextField {
     rows?: number;
     size?: 'small' | 'medium';
     startIcon?: string | React.ReactNode;
-    type: Types;
+    type:
+        | 'button'
+        | 'checkbox'
+        | 'color'
+        | 'date'
+        | 'datetime-local'
+        | 'email'
+        | 'file'
+        | 'hidden'
+        | 'image'
+        | 'month'
+        | 'number'
+        | 'password'
+        | 'text';
     value: string | number;
     variant?: 'filled' | 'outlined' | 'standard';
     width?: string | number;
@@ -54,7 +51,7 @@ const TextField = ({
     rows,
     size = 'medium',
     startIcon,
-    type = Types.Text,
+    type = 'text',
     value,
     variant = 'filled',
     width = 200,
@@ -68,7 +65,7 @@ const TextField = ({
     return (
         <Box component="div" display="flex" flexDirection="column">
             <MuiTextField
-                type={type !== Types.Password ? type : showPassword ? 'text' : 'password'}
+                type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
                 required={required}
                 variant={variant ? variant : 'outlined'}
                 label={label}
@@ -85,7 +82,7 @@ const TextField = ({
                 InputProps={{
                     startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
                     endAdornment:
-                        type === Types.Password ? (
+                        type === 'password' ? (
                             <InputAdornment position="end">
                                 <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickShowPassword}>
                                     {showPassword ? <VisibilityOff /> : <Visibility />}
