@@ -14,7 +14,7 @@ export interface IButton {
     href?: string;
     padding?: string;
     borderRadius?: string;
-    uploadButton?: string;
+    uploadButton?: { multiple: boolean; type: string; id: string };
 }
 
 const Button = ({
@@ -33,20 +33,27 @@ const Button = ({
     uploadButton,
 }: IButton) => {
     return (
-        <MuiButton
-            variant={variant}
-            type={type}
-            size={size}
-            sx={{ borderRadius, height: '40px', padding, textTransform: 'capitalize', width: 'fit-content' }}
-            startIcon={startIcon}
-            endIcon={endIcon}
-            color={color}
-            onClick={handleClick}
-            href={href && href}
-        >
-            {text}
-            {uploadButton && <input hidden accept={uploadButton} multiple type="file" />}
-        </MuiButton>
+        <>
+            {uploadButton && (
+                <input accept={uploadButton.type} multiple={uploadButton.multiple} type="file" style={{ display: 'none' }} id={uploadButton.id} />
+            )}
+            <label htmlFor={uploadButton!.id ? uploadButton!.id : ''}>
+                <MuiButton
+                    variant={variant}
+                    type={type}
+                    size={size}
+                    sx={{ borderRadius, height: '40px', padding, textTransform: 'capitalize', width: 'fit-content' }}
+                    startIcon={startIcon}
+                    component={uploadButton ? 'span' : 'button'}
+                    endIcon={endIcon}
+                    color={color}
+                    onClick={handleClick}
+                    href={href && href}
+                >
+                    {text}
+                </MuiButton>
+            </label>
+        </>
     );
 };
 
