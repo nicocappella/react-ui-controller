@@ -37,7 +37,7 @@ const Button = ({
             {uploadButton && (
                 <input accept={uploadButton.type} multiple={uploadButton.multiple} type="file" style={{ display: 'none' }} id={uploadButton.id} />
             )}
-            <label htmlFor={uploadButton!.id ? uploadButton!.id : ''}>
+            <label htmlFor={uploadButton ? uploadButton!.id : undefined}>
                 <MuiButton
                     variant={variant}
                     type={type}
