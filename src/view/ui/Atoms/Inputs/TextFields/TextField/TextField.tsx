@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
+import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
 import React from 'react';
 
 export interface ITextField {
@@ -17,6 +17,7 @@ export interface ITextField {
     rows?: number;
     size?: 'small' | 'medium';
     startIcon?: string | React.ReactNode;
+    color: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     type:
         | 'button'
         | 'checkbox'
@@ -43,6 +44,7 @@ const TextField = ({
     handleChange,
     handleEndIconClick,
     label = 'TextField',
+    color = 'primary',
     isNumber,
     multiline,
     name,
@@ -66,6 +68,7 @@ const TextField = ({
         <Box component="div" display="flex" flexDirection="column">
             <MuiTextField
                 type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
+                color={color}
                 required={required}
                 variant={variant ? variant : 'outlined'}
                 label={label}
