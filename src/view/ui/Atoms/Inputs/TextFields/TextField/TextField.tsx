@@ -17,7 +17,7 @@ export interface ITextField {
     rows?: number;
     size?: 'small' | 'medium';
     startIcon?: string | React.ReactNode;
-    color: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     type:
         | 'button'
         | 'checkbox'
@@ -75,6 +75,8 @@ const TextField = ({
                 fullWidth={fullWidth}
                 size={size}
                 name={name}
+                multiline={multiline ? multiline : undefined}
+                rows={multiline && rows ? rows : undefined}
                 value={value}
                 sx={{
                     textAlign: 'center',
