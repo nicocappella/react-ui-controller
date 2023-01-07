@@ -8,7 +8,7 @@ export interface ITabs {
     tabsComponents?: React.ElementType | any;
     secondTabs?: { label: string; value: string }[];
     centered: boolean;
-    panel: { components: React.ReactNode | React.ReactNode[]; value: string }[];
+    panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
 }
 
 const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs = [] }: ITabs) => {
@@ -21,7 +21,7 @@ const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs
         <Box>
             <MuiTabs value={tabValue} onChange={handleChange} centered={centered ? true : undefined}>
                 {tabs.map((d, i) => (
-                    <Tab label={d.label} key={i} value={d.value} LinkComponent={tabsComponents} href={d.value ? d.value : ''} />
+                    <Tab label={d.label} key={i} value={d.value} LinkComponent={tabsComponents} href={d.href ? d.href : ''} />
                 ))}
             </MuiTabs>
             {/* {secondTabs && (
