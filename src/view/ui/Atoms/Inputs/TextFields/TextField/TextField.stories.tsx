@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { TextField } from './TextField'
+import { TextField } from './TextField';
 
 export default {
     title: 'React-Ui-Controller/Atoms/Inputs/TextFields/TextField',
@@ -12,7 +12,13 @@ const Template: ComponentStory<typeof TextField> = (args) => <TextField {...args
 
 export const NormalTextField = Template.bind({});
 
-NormalTextField.args = {};
+NormalTextField.args = {
+    variant: 'outlined',
+    value: 'text',
+    label: '',
+    width: '60px',
+    // borderRadius: '100px',
+};
 
 export const SmallTextField = Template.bind({});
 SmallTextField.args = {};

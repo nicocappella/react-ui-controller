@@ -3,7 +3,10 @@ import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldPr
 import React from 'react';
 
 export interface ITextField {
+    align: 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
     autoComplete?: string;
+    borderRadius: string;
+    color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,7 +20,6 @@ export interface ITextField {
     rows?: number;
     size?: 'small' | 'medium';
     startIcon?: string | React.ReactNode;
-    color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     type:
         | 'button'
         | 'checkbox'
@@ -38,13 +40,15 @@ export interface ITextField {
 }
 
 const TextField = ({
+    align = 'left',
     autoComplete,
+    borderRadius,
+    color = 'primary',
     endIcon,
     fullWidth = false,
     handleChange,
     handleEndIconClick,
     label = 'TextField',
-    color = 'primary',
     isNumber,
     multiline,
     name,
@@ -67,23 +71,35 @@ const TextField = ({
     return (
         <Box component="div" display="flex" flexDirection="column">
             <MuiTextField
-                type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
+                autoComplete={autoComplete}
                 color={color}
-                required={required}
-                variant={variant ? variant : 'outlined'}
-                label={label}
                 fullWidth={fullWidth}
-                size={size}
+                label={label}
                 name={name}
+                onChange={handleChange}
+                onKeyPress={(e) => {
+                    if (isNumber) {
+                        let charCode = e.key;
+                        const regExpNumber = /^[0-9]*$/;
+                        if (!regExpNumber.test(charCode)) {
+                            e.preventDefault();
+                        }
+                    }
+                }}
                 multiline={multiline ? multiline : undefined}
+                required={required}
                 rows={multiline && rows ? rows : undefined}
-                value={value}
+                size={size}
                 sx={{
                     textAlign: 'center',
                     width: width,
-                    input: { textAlign: isNumber ? 'right' : 'left', padding: padding && padding },
+                    input: { textAlign: align ? align : isNumber ? 'right' : 'left', padding: padding && padding },
+                    ['& fieldset']: {
+                        borderRadius: borderRadius,
+                    },
                 }}
-                autoComplete={autoComplete}
+                type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
+                variant={variant ? variant : 'outlined'}
                 InputProps={{
                     startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
                     endAdornment:
@@ -103,16 +119,7 @@ const TextField = ({
                             )
                         ),
                 }}
-                onChange={handleChange}
-                onKeyPress={(e) => {
-                    if (isNumber) {
-                        let charCode = e.key;
-                        const regExpNumber = /^[0-9]*$/;
-                        if (!regExpNumber.test(charCode)) {
-                            e.preventDefault();
-                        }
-                    }
-                }}
+                value={value}
             />
             {required && (
                 <Typography variant="caption" color="GrayText">
