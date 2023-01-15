@@ -5,6 +5,7 @@ import { Button, IconButton, LinkButton } from '../../../Atoms';
 import { Box } from '@mui/system';
 
 export interface INavigationDrawer {
+    background: string;
     borderRadius: number;
     close: React.ReactNode;
     drawerList: { icon: React.ReactNode; name: string; selected?: boolean; route: string }[];
@@ -19,7 +20,7 @@ export interface INavigationDrawer {
     menu?: React.ReactNode;
     navButtons: {
         text: string;
-        icon: React.ReactNode;
+        icon?: React.ReactNode;
         route?: {
             href: string;
             wrapper: React.ReactNode;
@@ -32,6 +33,7 @@ export interface INavigationDrawer {
 
 export const NavigationDrawer = ({
     borderRadius = 0,
+    background = '#fff',
     close = <Close />,
     drawerList,
     handleDrawerClose,
@@ -50,7 +52,9 @@ export const NavigationDrawer = ({
                 open={open}
                 onOpen={() => setOpen(true)}
                 onClose={() => setOpen(false)}
-                PaperProps={{ sx: { borderRadius: `0px ${borderRadius}px ${borderRadius}px 0px`, padding: '24px 12px' } }}
+                PaperProps={{
+                    sx: { borderRadius: `0px ${borderRadius}px ${borderRadius}px 0px`, padding: '24px 12px', backgroundColor: background },
+                }}
             >
                 <Box width={360}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingLeft: '8px' }}>
