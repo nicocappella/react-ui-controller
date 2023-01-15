@@ -5,12 +5,13 @@ import { Button, IconButton, LinkButton } from '../../../Atoms';
 import { Box } from '@mui/system';
 
 export interface INavigationDrawer {
-    background: string;
-    borderRadius: number;
+    background?: string;
+    borderRadius?: number;
+    color?: string;
     close: React.ReactNode;
-    drawerList: { icon: React.ReactNode; name: string; selected?: boolean; route: string }[];
-    drawerButtons: React.ReactNode | React.ReactNode[];
-    logo: React.ReactNode;
+    drawerList?: { icon: React.ReactNode; name: string; selected?: boolean; route: string }[];
+    drawerButtons?: React.ReactNode | React.ReactNode[];
+    logo?: React.ReactNode;
     handleDrawerClose: () => void;
     /**
      *  Menu Icon
@@ -34,6 +35,7 @@ export interface INavigationDrawer {
 export const NavigationDrawer = ({
     borderRadius = 0,
     background = '#fff',
+    color = '#000',
     close = <Close />,
     drawerList,
     handleDrawerClose,
@@ -46,7 +48,9 @@ export const NavigationDrawer = ({
     const [open, setOpen] = React.useState(false);
     return (
         <>
-            <IconButton handleClick={() => setOpen(true)}>{menu}</IconButton>
+            <Box p="24px 12px">
+                <IconButton handleClick={() => setOpen(true)}>{menu}</IconButton>
+            </Box>
             <SwipeableDrawer
                 anchor="left"
                 open={open}
@@ -68,16 +72,16 @@ export const NavigationDrawer = ({
                             <LinkButton component={route.wrapper} href={route.href}>
                                 <ListItem key={i} disablePadding>
                                     <ListItemButton>
-                                        {icon && <ListItemIcon color="primary">{icon}</ListItemIcon>}
-                                        <ListItemText primary={text} color="primary" />
+                                        {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
+                                        <ListItemText primary={text} sx={{ color }} />
                                     </ListItemButton>
                                 </ListItem>
                             </LinkButton>
                         ) : (
                             <ListItem key={i} disablePadding>
                                 <ListItemButton>
-                                    {icon && <ListItemIcon color="primary">{icon}</ListItemIcon>}
-                                    <ListItemText primary={text} color="primary" />
+                                    {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
+                                    <ListItemText primary={text} sx={{ color }} />
                                 </ListItemButton>
                             </ListItem>
                         ),

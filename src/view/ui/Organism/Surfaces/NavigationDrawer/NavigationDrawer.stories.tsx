@@ -15,4 +15,6 @@ const Template: ComponentStory<typeof NavigationDrawer> = (args) => <NavigationD
 export const NormalNavigationDrawer = Template.bind({});
 NormalNavigationDrawer.args = {
     navButtons: [{ icon: <Home />, text: 'Home' }],
+    color: 'red',
+    background: '#fff',
 };
