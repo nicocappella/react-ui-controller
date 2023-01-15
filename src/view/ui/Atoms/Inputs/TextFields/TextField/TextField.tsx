@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
+import { Box, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
 import React from 'react';
 
 export interface ITextField {
