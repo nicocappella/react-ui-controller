@@ -8,11 +8,9 @@ export interface INavigationDrawer {
     background?: string;
     borderRadius?: number;
     color?: string;
-    close: React.ReactNode;
-    drawerList?: { icon: React.ReactNode; name: string; selected?: boolean; route: string }[];
+    close?: React.ReactNode;
     drawerButtons?: React.ReactNode | React.ReactNode[];
     logo?: React.ReactNode;
-    handleDrawerClose: () => void;
     /**
      *  Menu Icon
      *
@@ -29,8 +27,7 @@ export interface INavigationDrawer {
         divider?: boolean;
     }[];
     open: boolean;
-    handleMouseEnter: (event: React.MouseEvent) => void;
-    handleMouseLeave: (eventer: React.MouseEvent) => void;
+    size?: number;
 }
 
 export const NavigationDrawer = ({
@@ -38,13 +35,10 @@ export const NavigationDrawer = ({
     background = '#fff',
     color = '#000',
     close = <Close sx={{ color: color }} />,
-    drawerList,
-    handleDrawerClose,
-    handleMouseEnter,
-    handleMouseLeave,
     logo,
     menu = <Menu />,
     navButtons,
+    size = 24,
 }: INavigationDrawer) => {
     const [open, setOpen] = React.useState(false);
     return (
@@ -74,8 +68,8 @@ export const NavigationDrawer = ({
                                 <LinkButton component={route.wrapper} href={route.href}>
                                     <ListItem key={i} disablePadding>
                                         <ListItemButton>
-                                            {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
-                                            <ListItemText primary={text} sx={{ color }} />
+                                            {icon && <ListItemIcon sx={{ color, fontSize: size }}>{icon}</ListItemIcon>}
+                                            <ListItemText primary={text} sx={{ color, fontSize: size }} />
                                         </ListItemButton>
                                     </ListItem>
                                 </LinkButton>
