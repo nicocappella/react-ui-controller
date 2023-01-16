@@ -45,13 +45,13 @@ export const NavigationRail = ({ navButtons, actions, background = 'white' }: IP
             >
                 <Box display="flex" flexDirection="column" pt="20px">
                     {navButtons.map((d, i: number) => (
-                        <Box
+                        <Boxd
                             key={i}
                             onMouseEnter={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => handleMouseEnter(event, i)}
                             component="div"
                         >
                             {d.component}
-                        </Box>
+                        </Boxd>
                     ))}
                 </Box>
                 <Box display="flex" flexDirection="column" alignItems="center" pb="20px">

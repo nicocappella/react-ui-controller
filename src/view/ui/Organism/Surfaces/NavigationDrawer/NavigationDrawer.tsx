@@ -17,7 +17,7 @@ export interface INavigationDrawer {
      *  Insert a React node of an icon
      * */
     menu?: React.ReactNode;
-    navButtons: {
+    navButtons?: {
         text: string;
         icon?: React.ReactNode;
         route?: {
@@ -26,7 +26,6 @@ export interface INavigationDrawer {
         };
         divider?: boolean;
     }[];
-    open: boolean;
     size?: number;
 }
 
