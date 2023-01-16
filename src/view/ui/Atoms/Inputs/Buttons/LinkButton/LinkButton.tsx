@@ -4,7 +4,7 @@ import { darken, Link, useTheme } from '@mui/material';
 export interface ILinkButton {
     text?: string;
     children?: React.ReactNode;
-    component?: React.ReactNode;
+    component?: React.ElementType<any>;
     color?: 'inherit' | 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | undefined;
     underline?: 'always' | 'hover' | 'none';
     href?: string;

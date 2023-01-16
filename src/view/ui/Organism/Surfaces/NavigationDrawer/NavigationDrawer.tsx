@@ -1,8 +1,8 @@
-import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
 import { Close, Menu } from '@mui/icons-material';
-import React from 'react';
-import { Button, IconButton, LinkButton } from '../../../Atoms';
+import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
 import { Box } from '@mui/system';
+import React from 'react';
+import { IconButton, LinkButton } from '../../../Atoms';
 
 export interface INavigationDrawer {
     background?: string;
@@ -24,8 +24,9 @@ export interface INavigationDrawer {
         icon?: React.ReactNode;
         route?: {
             href: string;
-            wrapper: React.ReactNode;
+            wrapper: React.ElementType<any>;
         };
+        divider?: boolean;
     }[];
     open: boolean;
     handleMouseEnter: (event: React.MouseEvent) => void;
@@ -36,7 +37,7 @@ export const NavigationDrawer = ({
     borderRadius = 0,
     background = '#fff',
     color = '#000',
-    close = <Close />,
+    close = <Close sx={{ color: color }} />,
     drawerList,
     handleDrawerClose,
     handleMouseEnter,
@@ -67,23 +68,29 @@ export const NavigationDrawer = ({
                     </Box>
                 </Box>
                 <List>
-                    {navButtons.map(({ text, icon, route }, i) =>
+                    {navButtons.map(({ text, icon, route, divider }, i) =>
                         route ? (
-                            <LinkButton component={route.wrapper} href={route.href}>
+                            <>
+                                <LinkButton component={route.wrapper} href={route.href}>
+                                    <ListItem key={i} disablePadding>
+                                        <ListItemButton>
+                                            {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
+                                            <ListItemText primary={text} sx={{ color }} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </LinkButton>
+                                {divider && <Divider />}
+                            </>
+                        ) : (
+                            <>
                                 <ListItem key={i} disablePadding>
                                     <ListItemButton>
                                         {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
                                         <ListItemText primary={text} sx={{ color }} />
                                     </ListItemButton>
                                 </ListItem>
-                            </LinkButton>
-                        ) : (
-                            <ListItem key={i} disablePadding>
-                                <ListItemButton>
-                                    {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
-                                    <ListItemText primary={text} sx={{ color }} />
-                                </ListItemButton>
-                            </ListItem>
+                                {divider && <Divider />}
+                            </>
                         ),
                     )}
                 </List>
