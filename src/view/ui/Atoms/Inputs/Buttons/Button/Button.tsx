@@ -22,7 +22,7 @@ const Button = ({
     type = 'button',
     text = 'Button',
     size,
-    width,
+    width = 'fit-content',
     startIcon,
     endIcon,
     color,
@@ -42,7 +42,7 @@ const Button = ({
                     variant={variant}
                     type={type}
                     size={size}
-                    sx={{ borderRadius, height: '40px', padding, textTransform: 'capitalize', width: 'fit-content' }}
+                    sx={{ borderRadius, height: '40px', padding, textTransform: 'capitalize', width }}
                     startIcon={startIcon}
                     component={uploadButton ? 'span' : 'button'}
                     endIcon={endIcon}

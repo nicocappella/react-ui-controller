@@ -23,8 +23,8 @@ const TopAppBar = ({
     background = 'transparent',
     boxShadow,
     position = 'fixed',
-    horizontalPadding = 100,
-    height = 64,
+    horizontalPadding = '64px',
+    height = '64px',
 }: IProps) => {
     return (
         <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none' }}>
@@ -37,7 +37,7 @@ const TopAppBar = ({
             >
                 {logo && <Box component="div">{logo?.component}</Box>}
                 {navButtons && (
-                    <Box display="flex"  alignItems="center" gap={5}>
+                    <Box display="flex" alignItems="center" gap={5}>
                         {navButtons && navButtons.map((d, i) => <Box key={`navButton-${i}`}>{d.component}</Box>)}
                     </Box>
                 )}
