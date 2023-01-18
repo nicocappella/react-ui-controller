@@ -3,9 +3,9 @@ import { Box, IconButton, InputAdornment, TextField as MuiTextField, Typography 
 import React from 'react';
 
 export interface ITextField {
-    align: 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
+    align?: 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
     autoComplete?: string;
-    borderRadius: string;
+    borderRadius?: string;
     color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
