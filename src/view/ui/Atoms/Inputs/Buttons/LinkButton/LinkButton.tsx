@@ -3,8 +3,8 @@ import { darken, Link, useTheme } from '@mui/material';
 
 export interface ILinkButton {
     text?: string;
-    icon?: React.ReactNode;
-    startIcon: boolean;
+    icon?: React.ElementType;
+    startIcon?: boolean;
     component?: React.ElementType<any>;
     color?: 'inherit' | 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | undefined;
     underline?: 'always' | 'hover' | 'none';
@@ -38,6 +38,7 @@ const LinkButton = ({
     startIcon = true,
     ...props
 }: ILinkButton) => {
+    const Icon = icon || 'svg';
     return (
         <Link
             color={color}
@@ -50,7 +51,7 @@ const LinkButton = ({
             sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
             {...props}
         >
-            {icon && icon}
+            {Icon && <Icon />}
             {text}
         </Link>
     );
