@@ -3,7 +3,8 @@ import { darken, Link, useTheme } from '@mui/material';
 
 export interface ILinkButton {
     text?: string;
-    children?: React.ReactNode;
+    icon?: React.ReactNode;
+    startIcon: boolean;
     component?: React.ElementType<any>;
     color?: 'inherit' | 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | undefined;
     underline?: 'always' | 'hover' | 'none';
@@ -26,12 +27,31 @@ export interface ILinkButton {
         | undefined;
 }
 
-const LinkButton = ({ text, component = 'a', color = 'primary', underline, href, variant = 'body2', children }: ILinkButton) => {
-    const theme = useTheme();
+const LinkButton = ({
+    text,
+    component = 'a',
+    color = 'primary',
+    underline,
+    href,
+    variant = 'body2',
+    icon,
+    startIcon = true,
+    ...props
+}: ILinkButton) => {
     return (
-        <Link color={color} underline={underline ? underline : 'none'} component={component} variant={variant} href={href} sx={{ cursor: 'pointer' }}>
+        <Link
+            color={color}
+            underline={underline ? underline : 'none'}
+            component={component}
+            variant={variant}
+            href={href}
+            display="flex"
+            alignItems="center"
+            sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
+            {...props}
+        >
+            {icon && icon}
             {text}
-            {children && children}
         </Link>
     );
 };

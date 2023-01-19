@@ -1,6 +1,6 @@
 {
     "name": "react-ui-controller",
-    "version": "0.0.70",
+    "version": "0.0.71",
     "description": "A react component library based in Material UI",
     "types": "dist/index.d.ts",
     "files": [
@@ -24,6 +24,7 @@
         "@mui/x-data-grid": "^5.17.17",
         "@mui/x-date-pickers": "^5.0.12",
         "date-fns": "^2.29.3",
+        "framer-motion": "^8.5.0",
         "next": "^13.1.1",
         "styled-components": "^5.3.6"
     },
