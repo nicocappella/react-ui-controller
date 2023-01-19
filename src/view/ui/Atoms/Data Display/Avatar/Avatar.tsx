@@ -28,25 +28,25 @@ const getInitialLetters = (name: string) => {
     return;
 };
 
-const Avatar = (props: IAvatar) => {
-    const size = props.size === 'small' ? 40 : props.size === 'medium' ? 48 : 56;
-    const backgroundColor = props.name && !props.img ? 'red' : '';
-    const img = props.img ? props.img : undefined;
+const Avatar = ({ img, name, size, button, handleClick, badge, profileName, supportingText, direction, ...props }: IAvatar) => {
+    const sizeAvatar = size === 'small' ? 40 : size === 'medium' ? 48 : 56;
+    const backgroundColor = name && !img ? 'red' : '';
+    const imgAvatar = img ? img : undefined;
     const avatar = (
-        <MuiAvatar sx={{ width: size, height: size, backgroundColor }} src={img}>
-            {props.name && getInitialLetters(props.name)}
+        <MuiAvatar sx={{ width: sizeAvatar, height: sizeAvatar, backgroundColor }} src={imgAvatar}>
+            {name && getInitialLetters(name)}
         </MuiAvatar>
     );
     return (
         <Stack
-            direction={props.direction ? props.direction : 'row'}
+            direction={direction ? direction : 'row'}
             alignItems="center"
             spacing={1}
-            sx={{ cursor: props.button ? 'pointer' : '' }}
-            onClick={props.handleClick}
+            sx={{ cursor: button ? 'pointer' : '' }}
+            onClick={handleClick}
         >
             <Box>
-                {props.badge ? (
+                {badge ? (
                     <Badge
                         sx={{
                             '& .MuiBadge-badge': {
@@ -86,10 +86,10 @@ const Avatar = (props: IAvatar) => {
                     avatar
                 )}
             </Box>
-            {props.profileName && (
+            {profileName && (
                 <Box component="div">
-                    {props.profileName && <Typography>{props.profileName}</Typography>}
-                    {props.supportingText && <Typography>{props.supportingText}</Typography>}
+                    {profileName && <Typography>{profileName}</Typography>}
+                    {supportingText && <Typography>{supportingText}</Typography>}
                 </Box>
             )}
         </Stack>

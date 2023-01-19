@@ -9,9 +9,9 @@ export interface IExtendedFAB {
     borderRadius?: number;
 }
 
-const ExtendedFAB = ({ text = 'Extended FAB', startIcon, color = 'primary', borderRadius = 16 }: IExtendedFAB) => {
+const ExtendedFAB = ({ text = 'Extended FAB', startIcon, color = 'primary', borderRadius = 16, ...props }: IExtendedFAB) => {
     return (
-        <Fab variant="extended" sx={{ borderRadius: borderRadius + ' px', textTransform: 'capitalize' }} color={color}>
+        <Fab variant="extended" sx={{ borderRadius: borderRadius + ' px', textTransform: 'capitalize' }} color={color} {...props}>
             {startIcon}
             {text}
         </Fab>

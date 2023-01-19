@@ -11,7 +11,7 @@ export interface ITabs {
     panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
 }
 
-const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs = [] }: ITabs) => {
+const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs = [], ...props }: ITabs) => {
     const [tabValue, setTabValue] = React.useState(value);
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
@@ -19,7 +19,7 @@ const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs
     const tabPanel = panel && panel.find((d) => d.value === tabValue);
     return (
         <Box>
-            <MuiTabs value={tabValue} onChange={handleChange} centered={centered ? true : undefined}>
+            <MuiTabs value={tabValue} onChange={handleChange} centered={centered ? true : undefined} {...props}>
                 {tabs.map((d, i) => (
                     <Tab label={d.label} key={i} value={d.value} LinkComponent={tabsComponents} href={d.href ? d.href : ''} />
                 ))}

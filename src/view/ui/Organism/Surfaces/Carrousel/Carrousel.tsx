@@ -1,14 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-export interface IProps {
+export interface ICarrousel {
     cards: React.ReactNode[];
     timeout?: number;
     height?: string | number;
     arrow: React.ReactNode;
 }
 
-export const Carrousel = ({ cards, timeout, height = '400px', arrow }: IProps) => {
+export const Carrousel = ({ cards, timeout, height = '400px', arrow, ...props }: ICarrousel) => {
     const [current, setCurrent] = useState(0);
     const [direction, setDirection] = useState<'left' | 'right'>('right');
 
@@ -37,7 +37,7 @@ export const Carrousel = ({ cards, timeout, height = '400px', arrow }: IProps) =
     console.log(current);
 
     return (
-        <Box sx={{ overflowX: 'hidden', position: 'relative' }} height={height}>
+        <Box sx={{ overflowX: 'hidden', position: 'relative' }} height={height} {...props}>
             <Box>
                 <Box
                     sx={{

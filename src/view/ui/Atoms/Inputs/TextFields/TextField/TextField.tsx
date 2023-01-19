@@ -61,6 +61,7 @@ const TextField = ({
     value,
     variant = 'filled',
     width = 200,
+    ...props
 }: ITextField) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -120,6 +121,7 @@ const TextField = ({
                         ),
                 }}
                 value={value}
+                {...props}
             />
             {required && (
                 <Typography variant="caption" color="GrayText">

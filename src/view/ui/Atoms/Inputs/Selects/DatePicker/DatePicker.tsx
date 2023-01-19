@@ -9,12 +9,12 @@ export interface IDatePicker {
     handleChange: (value: Date | null) => void;
 }
 
-const DatePicker = (props: IDatePicker) => {
+const DatePicker = ({ value, handleChange, ...props }: IDatePicker) => {
     return (
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale} {...props}>
             <MuiDatePicker
-                value={props.value}
-                onChange={(value: Date | null) => props.handleChange(value)}
+                value={value}
+                onChange={(value: Date | null) => handleChange(value)}
                 renderInput={(params) => <TextField variant="standard" sx={{ width: 140 }} {...params} />}
             />
         </LocalizationProvider>

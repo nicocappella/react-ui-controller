@@ -10,24 +10,25 @@ interface IForm {
     autoComplete: 'on' | 'off';
 }
 
-const Form = (props: IForm) => {
+const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm) => {
     return (
         <Box
             component="form"
             sx={{
                 display: 'flex',
-                flexDirection: props.direction,
-                height: props.height,
-                width: props.width,
-                backgroundColor: props.background,
+                flexDirection: direction,
+                height: height,
+                width: width,
+                backgroundColor: background,
                 justifyContent: 'space-between',
                 borderRadius: '5px',
                 padding: '15px',
             }}
-            onSubmit={props.handleSubmit}
-            autoComplete={props.autoComplete}
+            onSubmit={handleSubmit}
+            autoComplete={autoComplete}
+            {...props}
         >
-            {props.children}
+            {children}
         </Box>
     );
 };

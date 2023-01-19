@@ -11,7 +11,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface IProps {
+interface IDialog {
     open: boolean;
     handleClose: () => void;
     ariaDescription: string;
@@ -20,18 +20,12 @@ interface IProps {
     actions: React.ReactNode[];
 }
 
-const Dialog = (props: IProps) => {
+const Dialog = ({ open, handleClose, ariaDescription, title, content, actions, ...props }: IDialog) => {
     return (
-        <MuiDialog
-            open={props.open}
-            keepMounted
-            TransitionComponent={Transition}
-            onClose={props.handleClose}
-            aria-describedby={props.ariaDescription}
-        >
-            <DialogTitle>{props.title}</DialogTitle>
-            {props.content && <DialogContent>{props.content}</DialogContent>}
-            <DialogActions sx={{ justifyContent: 'end' }}>{props.actions}</DialogActions>
+        <MuiDialog open={open} keepMounted TransitionComponent={Transition} onClose={handleClose} aria-describedby={ariaDescription} {...props}>
+            <DialogTitle>{title}</DialogTitle>
+            {content && <DialogContent>{content}</DialogContent>}
+            <DialogActions sx={{ justifyContent: 'end' }}>{actions}</DialogActions>
         </MuiDialog>
     );
 };

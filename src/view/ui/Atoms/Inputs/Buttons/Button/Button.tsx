@@ -31,6 +31,7 @@ const Button = ({
     padding = '24px',
     borderRadius = '100px',
     uploadButton,
+    ...props
 }: IButton) => {
     return (
         <>
@@ -49,6 +50,7 @@ const Button = ({
                     color={color}
                     onClick={handleClick}
                     href={href && href}
+                    {...props}
                 >
                     {text}
                 </MuiButton>

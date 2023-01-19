@@ -13,27 +13,26 @@ export interface IAutocomplete {
     required?: boolean;
 }
 
-const Autocomplete = (props: IAutocomplete) => {
+const Autocomplete = ({ options, label, width, name, defaultValue, value, handleChange, freeSolo, required, ...props }: IAutocomplete) => {
     return (
         <>
             <MuiAutocomplete
                 blurOnSelect
                 disablePortal
                 id="combo-box-demo"
-                options={props.options}
+                options={options}
                 freeSolo
-                key={props.name}
+                key={name}
                 selectOnFocus
                 // clearOnBlur={false}
                 handleHomeEndKeys
-                sx={{ width: props.width }}
-                placeholder={props.name}
-                // defaultValue={props.defaultValue}
-                onChange={(event, value) => props.handleChange!(event, value)}
-                value={props.value}
-                renderInput={(params) => (
-                    <TextField {...params} required={props.required} label={props.label} name={props.name} onChange={props.handleChange} />
-                )}
+                sx={{ width: width }}
+                placeholder={name}
+                // defaultValue={defaultValue}
+                onChange={(event, value) => handleChange!(event, value)}
+                value={value}
+                renderInput={(params) => <TextField {...params} required={required} label={label} name={name} onChange={handleChange} />}
+                {...props}
             />
         </>
     );

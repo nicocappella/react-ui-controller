@@ -5,8 +5,8 @@ type ICheckbox = {
     label: string;
     color?: Color;
 };
-const Checkbox = (props: ICheckbox) => {
-    return <FormControlLabel control={<MuiCheckbox color={props.color ? props.color : 'primary'} />} label={props.label} />;
+const Checkbox = ({ label, color, ...props }: ICheckbox) => {
+    return <FormControlLabel control={<MuiCheckbox color={color ? color : 'primary'} {...props} />} label={label} />;
 };
 
 export { Checkbox };

@@ -1,6 +1,6 @@
 import { Card as MuiCard, CardActions, CardContent, CardHeader, CardProps } from '@mui/material';
 
-export interface IProps {
+export interface ICard {
     header?: {
         avatar?: React.ReactNode;
         action?: React.ReactNode;
@@ -23,22 +23,22 @@ export interface IProps {
     borderRadius?: string;
 }
 
-const Card = (props: IProps) => {
-    const {
-        header,
-        description,
-        actions,
-        direction = 'row',
-        background,
-        alignment = 'center',
-        width,
-        height,
-        padding = '16px',
-        elevated = false,
-        boxShadow = '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
-        justifyContent = 'left',
-        borderRadius = '20px',
-    } = props;
+const Card = ({
+    header,
+    description,
+    actions,
+    direction = 'row',
+    background,
+    alignment = 'center',
+    width,
+    height,
+    padding = '16px',
+    elevated = false,
+    boxShadow = '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+    justifyContent = 'flex-start',
+    borderRadius = '20px',
+    ...props
+}: ICard) => {
     return (
         <MuiCard
             sx={{
@@ -54,6 +54,7 @@ const Card = (props: IProps) => {
                 justifyContent,
                 borderRadius,
             }}
+            {...props}
         >
             {header && (
                 <CardHeader

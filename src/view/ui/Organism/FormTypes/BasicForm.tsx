@@ -11,17 +11,18 @@ export interface IProps {
     autoComplete?: 'on' | 'off';
 }
 
-const BasicForm = (props: IProps) => {
+const BasicForm = ({ direction, handleSubmit, children, background, height, width, autoComplete, ...props}: IProps) => {
     return (
         <Form
-            direction={props.direction}
-            handleSubmit={props.handleSubmit}
-            background={props.background ? props.background : 'transparent'}
-            width={props.width}
-            height={props.height}
-            autoComplete={props.autoComplete ? props.autoComplete : 'off'}
+            direction={direction}
+            handleSubmit={handleSubmit}
+            background={background ? background : 'transparent'}
+            width={width}
+            height={height}
+            autoComplete={autoComplete ? autoComplete : 'off'}
+            {...props}
         >
-            {props.children}
+            {children}
         </Form>
     );
 };

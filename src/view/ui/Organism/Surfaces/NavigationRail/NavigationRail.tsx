@@ -7,7 +7,7 @@ export interface IProps {
     background?: string;
 }
 
-export const NavigationRail = ({ navButtons, actions, background = 'white' }: IProps) => {
+export const NavigationRail = ({ navButtons, actions, background = 'white', ...props }: IProps) => {
     const [openPanel, setOpenPanel] = React.useState<boolean[]>([false]);
 
     React.useEffect(() => {
@@ -27,7 +27,6 @@ export const NavigationRail = ({ navButtons, actions, background = 'white' }: IP
         const layers = navButtons.map((d) => false);
         setOpenPanel(layers);
     };
-    console.log(openPanel);
     return (
         <Box position="relative">
             <Box
@@ -42,16 +41,17 @@ export const NavigationRail = ({ navButtons, actions, background = 'white' }: IP
                 onMouseLeave={(event: React.MouseEvent<HTMLDivElement>, i: number) => handleMouseLeave(event, i)}
                 component="div"
                 zIndex={1000}
+                {...props}
             >
                 <Box display="flex" flexDirection="column" pt="20px">
                     {navButtons.map((d, i: number) => (
-                        <Boxd
+                        <Box
                             key={i}
                             onMouseEnter={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => handleMouseEnter(event, i)}
                             component="div"
                         >
                             {d.component}
-                        </Boxd>
+                        </Box>
                     ))}
                 </Box>
                 <Box display="flex" flexDirection="column" alignItems="center" pb="20px">

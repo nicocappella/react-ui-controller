@@ -36,8 +36,9 @@ export const NavigationDrawer = ({
     close = <Close sx={{ color: color }} />,
     logo,
     menu = <Menu />,
-    navButtons,
+    navButtons = [],
     size = 24,
+    ...props
 }: INavigationDrawer) => {
     const [open, setOpen] = React.useState(false);
     return (
@@ -53,6 +54,7 @@ export const NavigationDrawer = ({
                 PaperProps={{
                     sx: { borderRadius: `0px ${borderRadius}px ${borderRadius}px 0px`, padding: '24px 12px', backgroundColor: background },
                 }}
+                {...props}
             >
                 <Box width={360}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingLeft: '8px' }}>

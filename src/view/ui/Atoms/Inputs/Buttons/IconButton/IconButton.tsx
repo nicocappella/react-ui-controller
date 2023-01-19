@@ -11,9 +11,9 @@ interface IProps {
     title?: string;
 }
 
-const IconButton = ({ children, color = 'default', edge = false, handleClick, size = 'medium', title }: IProps) => {
+const IconButton = ({ children, color = 'default', edge = false, handleClick, size = 'medium', title, ...props }: IProps) => {
     const iconButton = (
-        <MuiIconButton onClick={handleClick} size={size} edge={edge} color={color}>
+        <MuiIconButton onClick={handleClick} size={size} edge={edge} color={color} {...props}>
             {children}
         </MuiIconButton>
     );

@@ -1,7 +1,7 @@
 import { Toolbar, AppBar } from '@mui/material';
 import { Box } from '@mui/system';
 
-export interface IProps {
+export interface ITopAppBar {
     logo?: { component: React.ReactNode };
     alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
     navButtons?: { component: React.ReactNode }[];
@@ -25,9 +25,10 @@ const TopAppBar = ({
     position = 'fixed',
     horizontalPadding = '64px',
     height = '64px',
-}: IProps) => {
+    ...props
+}: ITopAppBar) => {
     return (
-        <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none' }}>
+        <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none' }} {...props}>
             <Box
                 component="nav"
                 display="flex"
