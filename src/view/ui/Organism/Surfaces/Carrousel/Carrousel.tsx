@@ -37,7 +37,7 @@ export const Carrousel = ({ cards, timeout, height = '400px', arrow, ...props }:
     console.log(current);
 
     return (
-        <Box sx={{ overflowX: 'hidden', position: 'relative' }} height={height} {...props}>
+        <Box {...props} sx={{ overflowX: 'hidden', position: 'relative' }} height={height}>
             <Box>
                 <Box
                     sx={{

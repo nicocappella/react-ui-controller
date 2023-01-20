@@ -17,6 +17,7 @@ const Autocomplete = ({ options, label, width, name, defaultValue, value, handle
     return (
         <>
             <MuiAutocomplete
+                {...props}
                 blurOnSelect
                 disablePortal
                 id="combo-box-demo"
@@ -32,7 +33,6 @@ const Autocomplete = ({ options, label, width, name, defaultValue, value, handle
                 onChange={(event, value) => handleChange!(event, value)}
                 value={value}
                 renderInput={(params) => <TextField {...params} required={required} label={label} name={name} onChange={handleChange} />}
-                {...props}
             />
         </>
     );

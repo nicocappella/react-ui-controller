@@ -9,7 +9,7 @@ export interface IFAB {
 }
 
 const FAB = ({ size, icon, color = 'primary', borderRadius = 16, ...props }: IFAB & FabProps) => {
-    return <Fab sx={{ borderRadius: borderRadius + ' px' }} color={color} {...props}></Fab>;
+    return <Fab {...props} sx={{ borderRadius: borderRadius + ' px' }} color={color}></Fab>;
 };
 
 export { FAB };

@@ -41,6 +41,7 @@ const Card = ({
 }: ICard & CardProps) => {
     return (
         <MuiCard
+            {...props}
             sx={{
                 background,
                 display: 'flex',
@@ -54,7 +55,6 @@ const Card = ({
                 justifyContent,
                 borderRadius,
             }}
-            {...props}
         >
             {header && (
                 <CardHeader

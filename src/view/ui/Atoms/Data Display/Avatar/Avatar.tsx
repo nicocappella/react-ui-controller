@@ -39,12 +39,12 @@ const Avatar = ({ img, name, size, button, handleClick, badge, profileName, supp
     );
     return (
         <Stack
+            {...props}
             direction={direction ? direction : 'row'}
             alignItems="center"
             spacing={1}
             sx={{ cursor: button ? 'pointer' : '' }}
             onClick={handleClick}
-            {...props}
         >
             <Box>
                 {badge ? (

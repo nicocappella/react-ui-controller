@@ -19,7 +19,7 @@ const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs
     const tabPanel = panel && panel.find((d) => d.value === tabValue);
     return (
         <Box>
-            <MuiTabs value={tabValue} onChange={handleChange} centered={centered ? true : undefined} {...props}>
+            <MuiTabs {...props} value={tabValue} onChange={handleChange} centered={centered ? true : undefined}>
                 {tabs.map((d, i) => (
                     <Tab label={d.label} key={i} value={d.value} LinkComponent={tabsComponents} href={d.href ? d.href : ''} />
                 ))}

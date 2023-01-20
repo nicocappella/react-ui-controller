@@ -22,7 +22,7 @@ interface IDialog {
 
 const Dialog = ({ open, handleClose, ariaDescription, title, content, actions, ...props }: IDialog & DialogProps) => {
     return (
-        <MuiDialog open={open} keepMounted TransitionComponent={Transition} onClose={handleClose} aria-describedby={ariaDescription} {...props}>
+        <MuiDialog {...props} open={open} keepMounted TransitionComponent={Transition} onClose={handleClose} aria-describedby={ariaDescription}>
             <DialogTitle>{title}</DialogTitle>
             {content && <DialogContent>{content}</DialogContent>}
             <DialogActions sx={{ justifyContent: 'end' }}>{actions}</DialogActions>

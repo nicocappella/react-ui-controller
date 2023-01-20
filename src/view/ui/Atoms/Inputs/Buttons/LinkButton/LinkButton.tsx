@@ -41,6 +41,7 @@ const LinkButton = ({
     const Icon = icon;
     return (
         <Link
+            {...props}
             color={color}
             underline={underline ? underline : 'none'}
             component={component}
@@ -49,7 +50,6 @@ const LinkButton = ({
             display="flex"
             alignItems="center"
             sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
-            {...props}
         >
             {Icon ? <Icon /> : undefined}
             {text}

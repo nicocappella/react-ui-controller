@@ -30,6 +30,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white', ...p
     return (
         <Box position="relative">
             <Box
+                {...props}
                 display="flex"
                 flexDirection="column"
                 position="fixed"
@@ -41,7 +42,6 @@ export const NavigationRail = ({ navButtons, actions, background = 'white', ...p
                 onMouseLeave={(event: React.MouseEvent<HTMLDivElement>, i: number) => handleMouseLeave(event, i)}
                 component="div"
                 zIndex={1000}
-                {...props}
             >
                 <Box display="flex" flexDirection="column" pt="20px">
                     {navButtons.map((d, i: number) => (

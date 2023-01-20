@@ -40,6 +40,7 @@ const Button = ({
             )}
             <label htmlFor={uploadButton ? uploadButton!.id : undefined}>
                 <MuiButton
+                    {...props}
                     variant={variant}
                     type={type}
                     size={size}
@@ -50,7 +51,6 @@ const Button = ({
                     color={color}
                     onClick={handleClick}
                     href={href && href}
-                    {...props}
                 >
                     {text}
                 </MuiButton>

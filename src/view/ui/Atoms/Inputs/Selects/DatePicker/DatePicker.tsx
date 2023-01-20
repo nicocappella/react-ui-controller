@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker as MuiDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { DatePicker as MuiDatePicker, DatePickerProps, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TextField } from '@mui/material';
 import esLocale from 'date-fns/locale/es';
@@ -11,8 +11,9 @@ export interface IDatePicker {
 
 const DatePicker = ({ value, handleChange, ...props }: IDatePicker) => {
     return (
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale} {...props}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale}>
             <MuiDatePicker
+                {...props}
                 value={value}
                 onChange={(value: Date | null) => handleChange(value)}
                 renderInput={(params) => <TextField variant="standard" sx={{ width: 140 }} {...params} />}

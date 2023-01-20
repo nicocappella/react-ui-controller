@@ -13,6 +13,7 @@ interface IForm {
 const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm & BoxProps) => {
     return (
         <Box
+            {...props}
             component="form"
             sx={{
                 display: 'flex',
@@ -26,7 +27,6 @@ const Form = ({ direction, handleSubmit, height, width, children, background, au
             }}
             onSubmit={handleSubmit}
             autoComplete={autoComplete}
-            {...props}
         >
             {children}
         </Box>

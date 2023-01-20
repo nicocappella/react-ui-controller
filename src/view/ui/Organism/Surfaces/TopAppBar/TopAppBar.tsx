@@ -28,7 +28,7 @@ const TopAppBar = ({
     ...props
 }: ITopAppBar) => {
     return (
-        <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none' }} {...props}>
+        <AppBar {...props} position={position} sx={{ background: 'transparent', boxShadow: 'none' }} >
             <Box
                 component="nav"
                 display="flex"

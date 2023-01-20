@@ -1,8 +1,8 @@
 import React from 'react';
-import { InputLabel, MenuItem, Select as MuiSelect, FormControl, ListItemIcon, ListItemText, SelectChangeEvent } from '@mui/material';
+import { InputLabel, MenuItem, Select as MuiSelect, FormControl, ListItemIcon, ListItemText, SelectChangeEvent, SelectProps } from '@mui/material';
 import { Box } from '@mui/system';
 
-export interface IProps {
+export interface ISelect {
     itemWithIcon?: boolean;
     items?: string[];
     itemsObject?: { icon: string; text: string }[];
@@ -10,32 +10,33 @@ export interface IProps {
     name: string;
     value: string;
     size?: 'medium' | 'small';
-    handleChange: (e: SelectChangeEvent<string>) => void;
+    handleChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
 }
 
-const Select = (props: IProps) => {
+const Select = ({ itemWithIcon, items, itemsObject, label, name, value, size, handleChange, ...props }: ISelect & SelectProps) => {
     return (
         <FormControl>
-            <InputLabel>{props.label}</InputLabel>
+            <InputLabel>{label}</InputLabel>
             <MuiSelect
-                labelId={props.label}
-                value={props.value}
-                id={props.label}
-                onChange={props.handleChange}
-                name={props.name}
-                size={props.size}
+                {...props}
+                labelId={label}
+                value={value}
+                id={label}
+                onChange={handleChange}
+                name={name}
+                size={size}
                 required
-                label={props.label}
+                label={label}
                 renderValue={(value: any) => <Box component="div">{value}</Box>}
             >
-                {props.itemWithIcon
-                    ? props.itemsObject!.map((d, i) => (
+                {itemWithIcon
+                    ? itemsObject!.map((d, i) => (
                           <MenuItem key={i} value={d.text}>
                               <ListItemIcon>{d.icon}</ListItemIcon>
                               <ListItemText>{d.text}</ListItemText>
                           </MenuItem>
                       ))
-                    : props.items?.map((d, i) => (
+                    : items?.map((d, i) => (
                           <MenuItem key={i} value={d}>
                               {d}
                           </MenuItem>

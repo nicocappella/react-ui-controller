@@ -15,13 +15,13 @@ export interface IProps {
 const BasicForm = ({ direction, handleSubmit, children, background, height, width, autoComplete, ...props }: IProps & BoxProps) => {
     return (
         <Form
+            {...props}
             direction={direction}
             handleSubmit={handleSubmit}
             background={background ? background : 'transparent'}
             width={width}
             height={height}
             autoComplete={autoComplete ? autoComplete : 'off'}
-            {...props}
         >
             {children}
         </Form>
