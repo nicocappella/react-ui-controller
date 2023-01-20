@@ -1,4 +1,4 @@
-import { Slide, Dialog as MuiDialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Slide, Dialog as MuiDialog, DialogTitle, DialogContent, DialogActions, DialogProps } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
 
@@ -20,7 +20,7 @@ interface IDialog {
     actions: React.ReactNode[];
 }
 
-const Dialog = ({ open, handleClose, ariaDescription, title, content, actions, ...props }: IDialog) => {
+const Dialog = ({ open, handleClose, ariaDescription, title, content, actions, ...props }: IDialog & DialogProps) => {
     return (
         <MuiDialog open={open} keepMounted TransitionComponent={Transition} onClose={handleClose} aria-describedby={ariaDescription} {...props}>
             <DialogTitle>{title}</DialogTitle>

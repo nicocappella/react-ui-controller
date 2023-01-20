@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
 interface IForm {
     direction: 'column' | 'row';
@@ -10,7 +10,7 @@ interface IForm {
     autoComplete: 'on' | 'off';
 }
 
-const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm) => {
+const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm & BoxProps) => {
     return (
         <Box
             component="form"

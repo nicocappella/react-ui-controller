@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tab, Tabs as MuiTabs } from '@mui/material';
+import { Tab, Tabs as MuiTabs, TabsProps } from '@mui/material';
 import { Box } from '@mui/system';
 
 export interface ITabs {
@@ -11,7 +11,7 @@ export interface ITabs {
     panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
 }
 
-const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs = [], ...props }: ITabs) => {
+const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs = [], ...props }: ITabs & TabsProps) => {
     const [tabValue, setTabValue] = React.useState(value);
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);

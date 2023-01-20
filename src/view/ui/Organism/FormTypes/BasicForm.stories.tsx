@@ -12,7 +12,9 @@ const Template: ComponentStory<typeof BasicForm> = (args) => <BasicForm {...args
 
 export const NormalForm = Template.bind({});
 
-NormalForm.args = {};
+NormalForm.args = {
+    
+};
 
 export const SmallCard = Template.bind({});
 SmallCard.args = {};

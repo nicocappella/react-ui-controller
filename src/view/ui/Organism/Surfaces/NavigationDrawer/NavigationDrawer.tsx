@@ -1,5 +1,5 @@
 import { Close, Menu } from '@mui/icons-material';
-import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
+import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, SwipeableDrawerProps } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { IconButton, LinkButton } from '../../../Atoms';
@@ -39,7 +39,7 @@ export const NavigationDrawer = ({
     navButtons = [],
     size = 24,
     ...props
-}: INavigationDrawer) => {
+}: INavigationDrawer & SwipeableDrawerProps) => {
     const [open, setOpen] = React.useState(false);
     return (
         <>
@@ -47,6 +47,7 @@ export const NavigationDrawer = ({
                 <IconButton handleClick={() => setOpen(true)}>{menu}</IconButton>
             </Box>
             <SwipeableDrawer
+                {...props}
                 anchor="left"
                 open={open}
                 onOpen={() => setOpen(true)}
@@ -54,7 +55,6 @@ export const NavigationDrawer = ({
                 PaperProps={{
                     sx: { borderRadius: `0px ${borderRadius}px ${borderRadius}px 0px`, padding: '24px 12px', backgroundColor: background },
                 }}
-                {...props}
             >
                 <Box width={360}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingLeft: '8px' }}>

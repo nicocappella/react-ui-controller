@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, IconButton as MuiIconButton } from '@mui/material';
+import { Tooltip, IconButton as MuiIconButton, IconButtonProps } from '@mui/material';
 
 interface IProps {
     children: React.ReactNode;
@@ -11,7 +11,7 @@ interface IProps {
     title?: string;
 }
 
-const IconButton = ({ children, color = 'default', edge = false, handleClick, size = 'medium', title, ...props }: IProps) => {
+const IconButton = ({ children, color = 'default', edge = false, handleClick, size = 'medium', title, ...props }: IProps & IconButtonProps) => {
     const iconButton = (
         <MuiIconButton onClick={handleClick} size={size} edge={edge} color={color} {...props}>
             {children}

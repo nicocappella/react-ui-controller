@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export interface ICarrousel {
@@ -8,7 +8,7 @@ export interface ICarrousel {
     arrow: React.ReactNode;
 }
 
-export const Carrousel = ({ cards, timeout, height = '400px', arrow, ...props }: ICarrousel) => {
+export const Carrousel = ({ cards, timeout, height = '400px', arrow, ...props }: ICarrousel & BoxProps) => {
     const [current, setCurrent] = useState(0);
     const [direction, setDirection] = useState<'left' | 'right'>('right');
 

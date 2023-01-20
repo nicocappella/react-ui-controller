@@ -1,4 +1,4 @@
-import { Fab } from '@mui/material';
+import { Fab, FabProps } from '@mui/material';
 import React from 'react';
 import { Color } from '../../../../types';
 
@@ -9,7 +9,7 @@ export interface IExtendedFAB {
     borderRadius?: number;
 }
 
-const ExtendedFAB = ({ text = 'Extended FAB', startIcon, color = 'primary', borderRadius = 16, ...props }: IExtendedFAB) => {
+const ExtendedFAB = ({ text = 'Extended FAB', startIcon, color = 'primary', borderRadius = 16, ...props }: IExtendedFAB & FabProps) => {
     return (
         <Fab variant="extended" sx={{ borderRadius: borderRadius + ' px', textTransform: 'capitalize' }} color={color} {...props}>
             {startIcon}

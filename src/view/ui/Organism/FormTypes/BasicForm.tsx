@@ -1,3 +1,4 @@
+import { BoxProps } from '@mui/system';
 import React from 'react';
 import { Form } from '../../Molecules/Forms/Forms';
 
@@ -11,7 +12,7 @@ export interface IProps {
     autoComplete?: 'on' | 'off';
 }
 
-const BasicForm = ({ direction, handleSubmit, children, background, height, width, autoComplete, ...props}: IProps) => {
+const BasicForm = ({ direction, handleSubmit, children, background, height, width, autoComplete, ...props }: IProps & BoxProps) => {
     return (
         <Form
             direction={direction}

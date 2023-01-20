@@ -1,5 +1,5 @@
 import React from 'react';
-import { darken, Link, useTheme } from '@mui/material';
+import { darken, Link, LinkProps, useTheme } from '@mui/material';
 
 export interface ILinkButton {
     text?: string;
@@ -37,8 +37,8 @@ const LinkButton = ({
     icon,
     startIcon = true,
     ...props
-}: ILinkButton) => {
-    const Icon = icon || 'svg';
+}: ILinkButton & LinkProps) => {
+    const Icon = icon;
     return (
         <Link
             color={color}
@@ -51,7 +51,7 @@ const LinkButton = ({
             sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
             {...props}
         >
-            {Icon && <Icon />}
+            {Icon ? <Icon /> : undefined}
             {text}
         </Link>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as MuiButton } from '@mui/material';
+import { Button as MuiButton, ButtonProps } from '@mui/material';
 
 export interface IButton {
     text: string;
@@ -32,7 +32,7 @@ const Button = ({
     borderRadius = '100px',
     uploadButton,
     ...props
-}: IButton) => {
+}: IButton & ButtonProps) => {
     return (
         <>
             {uploadButton && (

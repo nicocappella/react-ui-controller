@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar as MuiAvatar, Badge, Stack, Typography } from '@mui/material';
+import { Avatar as MuiAvatar, Badge, BadgeProps, Stack, StackProps, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
 export interface IAvatar {
@@ -28,7 +28,7 @@ const getInitialLetters = (name: string) => {
     return;
 };
 
-const Avatar = ({ img, name, size, button, handleClick, badge, profileName, supportingText, direction, ...props }: IAvatar) => {
+const Avatar = ({ img, name, size, button, handleClick, badge, profileName, supportingText, direction, ...props }: IAvatar & StackProps) => {
     const sizeAvatar = size === 'small' ? 40 : size === 'medium' ? 48 : 56;
     const backgroundColor = name && !img ? 'red' : '';
     const imgAvatar = img ? img : undefined;
@@ -44,6 +44,7 @@ const Avatar = ({ img, name, size, button, handleClick, badge, profileName, supp
             spacing={1}
             sx={{ cursor: button ? 'pointer' : '' }}
             onClick={handleClick}
+            {...props}
         >
             <Box>
                 {badge ? (

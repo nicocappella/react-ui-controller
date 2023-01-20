@@ -1,4 +1,4 @@
-import { Box } from '@mui/system';
+import { Box, BoxProps } from '@mui/system';
 import React from 'react';
 
 export interface IProps {
@@ -7,7 +7,7 @@ export interface IProps {
     background?: string;
 }
 
-export const NavigationRail = ({ navButtons, actions, background = 'white', ...props }: IProps) => {
+export const NavigationRail = ({ navButtons, actions, background = 'white', ...props }: IProps & BoxProps) => {
     const [openPanel, setOpenPanel] = React.useState<boolean[]>([false]);
 
     React.useEffect(() => {

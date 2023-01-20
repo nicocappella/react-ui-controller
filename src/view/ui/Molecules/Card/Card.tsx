@@ -38,7 +38,7 @@ const Card = ({
     justifyContent = 'flex-start',
     borderRadius = '20px',
     ...props
-}: ICard) => {
+}: ICard & CardProps) => {
     return (
         <MuiCard
             sx={{
