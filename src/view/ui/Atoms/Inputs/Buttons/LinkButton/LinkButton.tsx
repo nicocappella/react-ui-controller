@@ -36,6 +36,7 @@ const LinkButton = ({
     variant = 'body2',
     icon,
     startIcon = true,
+    children,
     ...props
 }: ILinkButton & LinkProps) => {
     const Icon = icon;
@@ -52,7 +53,8 @@ const LinkButton = ({
             sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
         >
             {Icon ? <Icon /> : undefined}
-            {text}
+            {text && text}
+            {children}
         </Link>
     );
 };

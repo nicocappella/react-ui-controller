@@ -43,7 +43,7 @@ export const NavigationDrawer = ({
     const [open, setOpen] = React.useState(false);
     return (
         <>
-            <Box p="24px 12px" sx={{ backgroundColor: 'transparent' }}>
+            <Box p="24px 12px" position="absolute">
                 <IconButton handleClick={() => setOpen(true)}>{menu}</IconButton>
             </Box>
             <SwipeableDrawer
@@ -70,7 +70,7 @@ export const NavigationDrawer = ({
                                     <ListItem key={i} disablePadding>
                                         <ListItemButton>
                                             {icon && <ListItemIcon sx={{ color, fontSize: size }}>{icon}</ListItemIcon>}
-                                            <ListItemText primary={text} sx={{ color, fontSize: size }} />
+                                            <ListItemText primary={text} sx={{ color: color, fontSize: size }} />
                                         </ListItemButton>
                                     </ListItem>
                                 </LinkButton>
