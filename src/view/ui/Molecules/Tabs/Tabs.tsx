@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 
 export interface ITabs {
     value: any;
-    tabs: { label: string; value: string; href?: string }[];
+    tabs: { label: string; value: string | number; href?: string; icon?: React.ReactElement }[];
     tabsComponents?: React.ElementType | any;
     secondTabs?: { label: string; value: string }[];
     centered: boolean;
@@ -19,9 +19,24 @@ const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs
     const tabPanel = panel && panel.find((d) => d.value === tabValue);
     return (
         <Box>
-            <MuiTabs {...props} value={tabValue} onChange={handleChange} centered={centered ? true : undefined}>
+            <MuiTabs
+                {...props}
+                value={tabValue}
+                onChange={handleChange}
+                centered={centered ? true : undefined}
+                TabIndicatorProps={{ sx: { height: '3px' } }}
+                sx={{ height: '64px' }}
+            >
                 {tabs.map((d, i) => (
-                    <Tab label={d.label} key={i} value={d.value} LinkComponent={tabsComponents} href={d.href ? d.href : ''} />
+                    <Tab
+                        label={d.label}
+                        key={i}
+                        value={d.value}
+                        LinkComponent={tabsComponents}
+                        href={d.href ? d.href : ''}
+                        icon={d.icon && d.icon}
+                        sx={{ height: '64px', textTransform: 'capitalize' }}
+                    />
                 ))}
             </MuiTabs>
             {/* {secondTabs && (

@@ -1,17 +1,19 @@
 import { Toolbar, AppBar } from '@mui/material';
 import { Box } from '@mui/system';
+import { Tabs } from '../../../Molecules';
 
 export interface ITopAppBar {
-    logo?: { component: React.ReactNode };
     alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
-    navButtons?: { component: React.ReactNode }[];
-    otherButtons?: { component: React.ReactNode }[];
-    showMenu?: boolean;
     background?: string;
     boxShadow?: string;
-    position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
-    horizontalPadding?: string | number;
     height?: string | number;
+    horizontalPadding?: string | number;
+    tabsValue?: { value: string | number };
+    logo?: { component: React.ReactNode };
+    otherButtons?: { component: React.ReactNode | string }[];
+    navButtons?: { component: React.ReactNode }[];
+    position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
+    showMenu?: boolean;
 }
 
 const TopAppBar = ({
@@ -20,6 +22,7 @@ const TopAppBar = ({
     navButtons,
     otherButtons,
     showMenu,
+    tabsValue,
     background = 'transparent',
     boxShadow,
     position = 'fixed',
@@ -28,7 +31,7 @@ const TopAppBar = ({
     ...props
 }: ITopAppBar) => {
     return (
-        <AppBar {...props} position={position} sx={{ background: 'transparent', boxShadow: 'none' }} >
+        <AppBar {...props} position={position} sx={{ background: 'transparent', boxShadow: 'none' }}>
             <Box
                 component="nav"
                 display="flex"
@@ -37,10 +40,22 @@ const TopAppBar = ({
                 alignItems="center"
             >
                 {logo && <Box component="div">{logo?.component}</Box>}
-                {navButtons && (
-                    <Box display="flex" alignItems="center" gap={5}>
-                        {navButtons && navButtons.map((d, i) => <Box key={`navButton-${i}`}>{d.component}</Box>)}
-                    </Box>
+                {navButtons && tabsValue ? (
+                    <Tabs
+                        centered
+                        tabs={navButtons.map((d, i) => ({
+                            label: d.component as string,
+                            value: i,
+                        }))}
+                        value={tabsValue}
+                    />
+                ) : (
+                    navButtons &&
+                    !tabsValue && (
+                        <Box display="flex" alignItems="center" gap={5}>
+                            {navButtons && navButtons.map((d, i) => <Box key={`navButton-${i}`}>{d.component}</Box>)}
+                        </Box>
+                    )
                 )}
                 {otherButtons && (
                     <Box display="flex" alignItems="center">

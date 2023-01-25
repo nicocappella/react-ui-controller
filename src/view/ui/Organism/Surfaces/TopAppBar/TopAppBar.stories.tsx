@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
+import { Tab } from '@mui/material';
 import { TopAppBar } from './TopAppBar';
 import { Button, LinkButton } from '../../../Atoms';
 
@@ -36,3 +36,12 @@ MikeleTopBar.args = {
 
 export const LargeTopAppBar = Template.bind({});
 LargeTopAppBar.args = {};
+
+export const TopAppBarWithTabs = Template.bind({});
+
+TopAppBarWithTabs.args = {
+    background: 'red',
+    height: 64,
+    tabsValue: { value: 0 },
+    navButtons: [{ component: 'One' }, { component: 'Two' }],
+};
