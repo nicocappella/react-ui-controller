@@ -43,7 +43,7 @@ export const NavigationDrawer = ({
     const [open, setOpen] = React.useState(false);
     return (
         <>
-            <Box p="24px 12px" position="absolute">
+            <Box p="24px 12px" position="absolute" zIndex={100}>
                 <IconButton handleClick={() => setOpen(true)}>{menu}</IconButton>
             </Box>
             <SwipeableDrawer

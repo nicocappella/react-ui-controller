@@ -8,7 +8,7 @@ export interface ITopAppBar {
     boxShadow?: string;
     height?: string | number;
     horizontalPadding?: string | number;
-    tabsValue?: { value: string | number };
+    tabs?: { value: string | number; color: 'primary' | 'secondary' | undefined };
     logo?: { component: React.ReactNode };
     otherButtons?: { component: React.ReactNode | string }[];
     navButtons?: { component: React.ReactNode }[];
@@ -22,7 +22,7 @@ const TopAppBar = ({
     navButtons,
     otherButtons,
     showMenu,
-    tabsValue,
+    tabs,
     background = 'transparent',
     boxShadow,
     position = 'fixed',
@@ -40,18 +40,19 @@ const TopAppBar = ({
                 alignItems="center"
             >
                 {logo && <Box component="div">{logo?.component}</Box>}
-                {navButtons && tabsValue ? (
+                {navButtons && tabs ? (
                     <Tabs
                         centered
                         tabs={navButtons.map((d, i) => ({
                             label: d.component as string,
                             value: i,
                         }))}
-                        value={tabsValue}
+                        value={tabs.value}
+                        color={tabs.color}
                     />
                 ) : (
                     navButtons &&
-                    !tabsValue && (
+                    !tabs && (
                         <Box display="flex" alignItems="center" gap={5}>
                             {navButtons && navButtons.map((d, i) => <Box key={`navButton-${i}`}>{d.component}</Box>)}
                         </Box>
