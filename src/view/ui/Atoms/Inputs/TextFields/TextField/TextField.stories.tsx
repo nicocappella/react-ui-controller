@@ -17,6 +17,11 @@ NormalTextField.args = {
     value: 'text',
     label: '',
     width: '60px',
+    borderColor: {
+        active: 'red',
+        hover: 'blue',
+        focused: 'primary',
+    },
     // borderRadius: '100px',
 };
 

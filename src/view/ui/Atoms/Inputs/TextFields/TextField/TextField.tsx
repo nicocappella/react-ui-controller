@@ -2,11 +2,12 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
 import React from 'react';
 
+type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 export interface ITextField {
     align?: 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
     autoComplete?: string;
     borderRadius?: string;
-    color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -43,7 +44,7 @@ const TextField = ({
     align = 'left',
     autoComplete,
     borderRadius,
-    color = 'primary',
+    borderColor = { focused: 'primary' },
     endIcon,
     fullWidth = false,
     handleChange,
@@ -72,8 +73,9 @@ const TextField = ({
     return (
         <Box component="div" display="flex" flexDirection="column">
             <MuiTextField
+                {...props}
                 autoComplete={autoComplete}
-                color={color}
+                color={borderColor.focused}
                 fullWidth={fullWidth}
                 label={label}
                 name={name}
@@ -94,9 +96,15 @@ const TextField = ({
                 sx={{
                     textAlign: 'center',
                     width: width,
+                    color: borderColor.focused,
                     input: { textAlign: align ? align : isNumber ? 'right' : 'left', padding: padding && padding },
                     ['& fieldset']: {
                         borderRadius: borderRadius,
+                        borderColor: borderColor.active,
+                    },
+                    // No funcion buscar que pasa 
+                    '&:hover': {
+                        borderColor: 'red',
                     },
                 }}
                 type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
@@ -121,7 +129,6 @@ const TextField = ({
                         ),
                 }}
                 value={value}
-                {...props}
             />
             {required && (
                 <Typography variant="caption" color="GrayText">
