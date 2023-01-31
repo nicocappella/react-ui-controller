@@ -8,7 +8,11 @@ export interface ITopAppBar {
     boxShadow?: string;
     height?: string | number;
     horizontalPadding?: string | number;
-    tabs?: { value: string | number; color: 'primary' | 'secondary' | undefined };
+    tabs?: {
+        value: string | number;
+        color: 'primary' | 'secondary' | undefined;
+        components: { components: React.ReactNode | React.ReactNode[]; value: string }[];
+    };
     logo?: { component: React.ReactNode };
     otherButtons?: { component: React.ReactNode | string }[];
     navButtons?: { component: React.ReactNode }[];
@@ -49,6 +53,7 @@ const TopAppBar = ({
                         }))}
                         value={tabs.value}
                         color={tabs.color}
+                        panel={tabs.components}
                     />
                 ) : (
                     navButtons &&
