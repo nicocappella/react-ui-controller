@@ -1,19 +1,48 @@
 import React from 'react';
-import { InputLabel, MenuItem, Select as MuiSelect, FormControl, ListItemIcon, ListItemText, SelectChangeEvent, SelectProps } from '@mui/material';
+import {
+    InputLabel,
+    MenuItem,
+    Select as MuiSelect,
+    FormControl,
+    ListItemIcon,
+    ListItemText,
+    SelectChangeEvent,
+    SelectProps,
+    Typography,
+} from '@mui/material';
 import { Box } from '@mui/system';
 
 export interface ISelect {
     itemWithIcon?: boolean;
     items?: string[];
     itemsObject?: { icon: string; text: string }[];
-    label?: string;
+    color: string;
+    label?:
+        | string
+        | (string & React.ReactElement<any, string | React.JSXElementConstructor<any>>)
+        | (string & React.ReactFragment)
+        | (string & React.ReactPortal)
+        | undefined;
     name: string;
     value: string;
     size?: 'medium' | 'small';
     handleChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
+    width: string | number;
 }
 
-const Select = ({ itemWithIcon, items, itemsObject, label, name, value, size, handleChange, ...props }: ISelect & SelectProps) => {
+const Select = ({
+    color,
+    itemWithIcon,
+    items,
+    itemsObject,
+    label,
+    name,
+    value,
+    size,
+    handleChange,
+    width = '200px',
+    ...props
+}: ISelect & SelectProps) => {
     return (
         <FormControl>
             <InputLabel>{label}</InputLabel>
@@ -27,7 +56,8 @@ const Select = ({ itemWithIcon, items, itemsObject, label, name, value, size, ha
                 size={size}
                 required
                 label={label}
-                renderValue={(value: any) => <Box component="div">{value}</Box>}
+                renderValue={(value: any) => <Typography color={color}>{value}</Typography>}
+                sx={{ width }}
             >
                 {itemWithIcon
                     ? itemsObject!.map((d, i) => (

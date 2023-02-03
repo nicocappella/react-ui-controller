@@ -12,7 +12,12 @@ export interface ITextField {
     fullWidth?: boolean;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleEndIconClick?: (e: React.MouseEvent) => void;
-    label: string;
+    label:
+        | string
+        | (string & React.ReactElement<any, string | React.JSXElementConstructor<any>>)
+        | (string & React.ReactFragment)
+        | (string & React.ReactPortal)
+        | undefined;
     isNumber?: boolean;
     multiline?: boolean;
     name: string;
@@ -102,9 +107,11 @@ const TextField = ({
                         borderRadius: borderRadius,
                         borderColor: borderColor.active,
                     },
-                    // No funcion buscar que pasa 
-                    '&:hover': {
-                        borderColor: 'red',
+                    ['& div:hover > fieldset']: {
+                        borderColor: `${borderColor.hover} !important`,
+                    },
+                    ['& label']: {
+                        color: borderColor.active,
                     },
                 }}
                 type={type !== 'password' ? type : showPassword ? 'text' : 'password'}

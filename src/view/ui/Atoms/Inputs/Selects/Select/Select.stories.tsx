@@ -12,7 +12,11 @@ const Template: ComponentStory<typeof Select> = (args) => <Select {...args} />;
 
 export const NormalSelect = Template.bind({});
 
-NormalSelect.args = {};
+NormalSelect.args = {
+    color: 'primary',
+    items: ['Hola', 'Chau']
+
+};
 
 export const SmallSelect = Template.bind({});
 SmallSelect.args = {};
