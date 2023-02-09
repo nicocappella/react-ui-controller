@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
 import React from 'react';
 
 type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
@@ -77,70 +77,79 @@ const TextField = ({
 
     return (
         <Box component="div" display="flex" flexDirection="column">
-            <MuiTextField
-                {...props}
-                autoComplete={autoComplete}
-                color={borderColor.focused}
-                fullWidth={fullWidth}
-                label={label}
-                name={name}
-                onChange={handleChange}
-                onKeyPress={(e) => {
-                    if (isNumber) {
-                        let charCode = e.key;
-                        const regExpNumber = /^[0-9]*$/;
-                        if (!regExpNumber.test(charCode)) {
-                            e.preventDefault();
-                        }
-                    }
-                }}
-                multiline={multiline ? multiline : undefined}
-                required={required}
-                rows={multiline && rows ? rows : undefined}
-                size={size}
-                sx={{
-                    textAlign: 'center',
-                    width: width,
-                    color: borderColor.focused,
-                    input: { textAlign: align ? align : isNumber ? 'right' : 'left', padding: padding && padding },
-                    ['& fieldset']: {
-                        borderRadius: borderRadius,
-                        borderColor: borderColor.active,
-                    },
-                    ['& div:hover > fieldset']: {
-                        borderColor: `${borderColor.hover} !important`,
-                    },
-                    ['& label']: {
-                        color: borderColor.active,
-                    },
-                }}
-                type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
-                variant={variant ? variant : 'outlined'}
-                InputProps={{
-                    startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
-                    endAdornment:
-                        type === 'password' ? (
-                            <InputAdornment position="end">
-                                <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickShowPassword}>
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        ) : (
-                            endIcon && (
-                                <InputAdornment position="end">
-                                    <IconButton aria-label="" edge="end" onClick={handleEndIconClick}>
-                                        {endIcon}
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        ),
-                }}
-                value={value}
-            />
-            {required && (
-                <Typography variant="caption" color="GrayText">
-                    *Requerido
-                </Typography>
+            {type === 'file' ? (
+                <Button variant="contained" component="label">
+                    {label}
+                    <input hidden accept="image/*" multiple type="file" />
+                </Button>
+            ) : (
+                <>
+                    <MuiTextField
+                        {...props}
+                        autoComplete={autoComplete}
+                        color={borderColor.focused}
+                        fullWidth={fullWidth}
+                        label={label}
+                        name={name}
+                        onChange={handleChange}
+                        onKeyPress={(e) => {
+                            if (isNumber) {
+                                let charCode = e.key;
+                                const regExpNumber = /^[0-9]*$/;
+                                if (!regExpNumber.test(charCode)) {
+                                    e.preventDefault();
+                                }
+                            }
+                        }}
+                        multiline={multiline ? multiline : undefined}
+                        required={required}
+                        rows={multiline && rows ? rows : undefined}
+                        size={size}
+                        sx={{
+                            textAlign: 'center',
+                            width: width,
+                            color: borderColor.focused,
+                            input: { textAlign: align ? align : isNumber ? 'right' : 'left', padding: padding && padding },
+                            ['& fieldset']: {
+                                borderRadius: borderRadius,
+                                borderColor: borderColor.active,
+                            },
+                            ['& div:hover > fieldset']: {
+                                borderColor: `${borderColor.hover} !important`,
+                            },
+                            ['& label']: {
+                                color: borderColor.active,
+                            },
+                        }}
+                        type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
+                        variant={variant ? variant : 'outlined'}
+                        InputProps={{
+                            startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
+                            endAdornment:
+                                type === 'password' ? (
+                                    <InputAdornment position="end">
+                                        <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickShowPassword}>
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ) : (
+                                    endIcon && (
+                                        <InputAdornment position="end">
+                                            <IconButton aria-label="" edge="end" onClick={handleEndIconClick}>
+                                                {endIcon}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                ),
+                        }}
+                        value={value}
+                    />
+                    {required && (
+                        <Typography variant="caption" color="GrayText">
+                            *Requerido
+                        </Typography>
+                    )}
+                </>
             )}
         </Box>
     );

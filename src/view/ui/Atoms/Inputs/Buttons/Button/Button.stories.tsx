@@ -16,14 +16,16 @@ export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
     variant: 'contained',
-    uploadButton: {
-        multiple: true,
-        type: 'images/*',
-    },
 };
-export const Secondary = Template.bind({});
-Secondary.args = {
+export const UploadButton = Template.bind({});
+UploadButton.args = {
     variant: 'outlined',
+    uploadButton: {
+        id: 'file',
+        multiple: true,
+        type: '*',
+    },
+    text: 'Subir Archivo'
 };
 
 export const Large = Template.bind({});

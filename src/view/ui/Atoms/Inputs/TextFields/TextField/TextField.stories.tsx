@@ -25,8 +25,11 @@ NormalTextField.args = {
     // borderRadius: '100px',
 };
 
-export const SmallTextField = Template.bind({});
-SmallTextField.args = {};
+export const FileButton = Template.bind({});
+FileButton.args = {
+    type: 'file',
+    label: 'Subir archivos'
+};
 
 export const LargeTextField = Template.bind({});
 LargeTextField.args = {};

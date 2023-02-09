@@ -11,6 +11,7 @@ export interface IButton {
     endIcon?: React.ReactNode;
     color?: 'error' | 'info' | 'inherit' | 'primary' | 'secondary' | 'success' | 'warning';
     handleClick?: () => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     href?: string;
     padding?: string;
     borderRadius?: string;
@@ -27,6 +28,7 @@ const Button = ({
     endIcon,
     color,
     handleClick,
+    handleChange,
     href,
     padding = '24px',
     borderRadius = '100px',
@@ -36,7 +38,15 @@ const Button = ({
     return (
         <>
             {uploadButton && (
-                <input accept={uploadButton.type} multiple={uploadButton.multiple} type="file" style={{ display: 'none' }} id={uploadButton.id} />
+                <input
+                    accept={uploadButton.type}
+                    multiple={uploadButton.multiple}
+                    type="file"
+                    style={{ display: 'none' }}
+                    id={uploadButton.id}
+                    name={uploadButton.id}
+                    onChange={handleChange}
+                />
             )}
             <label htmlFor={uploadButton ? uploadButton!.id : undefined}>
                 <MuiButton
