@@ -16,7 +16,7 @@ export interface ISelect {
     itemWithIcon?: boolean;
     items?: string[];
     itemsObject?: { icon: string; text: string }[];
-    color: string;
+    color?: string;
     label?:
         | string
         | (string & React.ReactElement<any, string | React.JSXElementConstructor<any>>)
@@ -24,10 +24,10 @@ export interface ISelect {
         | (string & React.ReactPortal)
         | undefined;
     name: string;
-    value: string;
+    value: string | undefined;
     size?: 'medium' | 'small';
     handleChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
-    width: string | number;
+    width?: string | number;
 }
 
 const Select = ({

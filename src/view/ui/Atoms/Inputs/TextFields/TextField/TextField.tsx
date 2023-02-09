@@ -40,7 +40,7 @@ export interface ITextField {
         | 'number'
         | 'password'
         | 'text';
-    value: string | number;
+    value: string | number | undefined;
     variant?: 'filled' | 'outlined' | 'standard';
     width?: string | number;
 }
