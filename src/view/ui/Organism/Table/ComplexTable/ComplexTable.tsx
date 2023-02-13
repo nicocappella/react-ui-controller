@@ -2,14 +2,14 @@ import { Check, Close, Delete, Edit } from '@mui/icons-material';
 import { Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import React from 'react';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
-import { TextField, Types } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
+import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
 import Pagination from './Pagination';
 import { HeadCell } from './table';
 import { TableClass } from './Table';
 import Toolbar from './Toolbar';
 
-interface IBody {
+export interface IComplexTable {
     cancelEdit: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
     confirmEdit: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     date?: Date | null;
@@ -44,64 +44,97 @@ interface IBody {
     toolbar?: boolean;
 }
 
-export const Body = (props: IBody) => {
+export const ComplexTable = ({
+    cancelEdit,
+    confirmEdit,
+    deleteRow,
+    deleteRows,
+    editRow,
+    editableCell,
+    filterButtons,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    handleEditedRow,
+    handleRequestSort,
+    handleRowClick,
+    handleSelectAllClick,
+    headCells,
+    order,
+    orderBy,
+    page,
+    rowPerPageOptions,
+    rows,
+    rowsPerPage,
+    selected,
+    title,
+    date,
+    dense,
+    editable,
+    editableButtons,
+    editableFunctions,
+    editedRow,
+    handleDateChange,
+    mainButton,
+    pagination,
+    toolbar,
+}: IBody) => {
     const tableFunctions = new TableClass();
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string }>({});
-    const isSelected = (name: string) => props.selected && props.selected.indexOf(name) !== -1;
+    const isSelected = (name: string) => selected && selected.indexOf(name) !== -1;
 
     const handleEditedRow = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditedRow((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
     };
     const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
         setEditedRow({});
-        props.cancelEdit(e);
+        cancelEdit(e);
     };
 
     React.useEffect(() => {
-        if (props.handleEditedRow) {
-            props.handleEditedRow(editedRow);
+        if (handleEditedRow) {
+            handleEditedRow(editedRow);
         }
-    }, [editedRow, props]);
+    }, [editedRow] );
     return (
         <>
             <TableContainer sx={{ marginTop: '40px' }}>
-                {props.toolbar && (
+                {toolbar && (
                     <Toolbar
-                        numSelected={props.selected && props.selected.length}
-                        mainButton={props.mainButton}
-                        filterButtons={props.filterButtons}
-                        deleteRows={props.deleteRows}
-                        date={props.date}
-                        handleDateChange={(value: Date | null) => props.handleDateChange?.(value)}
-                        title={props.title}
+                        numSelected={selected && selected.length}
+                        mainButton={mainButton}
+                        filterButtons={filterButtons}
+                        deleteRows={deleteRows}
+                        date={date}
+                        handleDateChange={(value: Date | null) => handleDateChange?.(value)}
+                        title={title}
                     />
                 )}
 
                 <Table
                     sx={{ minWidth: 750, backgroundColor: '#fff', borderRadius: '4px' }}
                     aria-labelledby="tableTitle"
-                    size={props.dense ? 'small' : 'medium'}
-                    onKeyDown={props.cancelEdit}
+                    size={dense ? 'small' : 'medium'}
+                    onKeyDown={cancelEdit}
                 >
                     <Head
-                        numSelected={props.selected && props.selected.length}
-                        order={props.order}
-                        orderBy={props.orderBy}
-                        rowCount={props.rows && props.rows.length}
-                        headCells={props.headCells}
-                        onRequestSort={props.handleRequestSort}
-                        onSelectAllClick={props.handleSelectAllClick}
-                        editable={props.editable}
+                        numSelected={selected && selected.length}
+                        order={order}
+                        orderBy={orderBy}
+                        rowCount={rows && rows.length}
+                        headCells={headCells}
+                        onRequestSort={handleRequestSort}
+                        onSelectAllClick={handleSelectAllClick}
+                        editable={editable}
                     />
-                    {!props.rows && <CircularProgress />}
-                    {props.rows && (
+                    {!rows && <CircularProgress />}
+                    {rows && (
                         <TableBody>
                             {tableFunctions
                                 .stableSort<{ [key: string]: string; id: string }>(
-                                    props.rows,
-                                    tableFunctions.getComparator(props.order, props.orderBy),
+                                    rows,
+                                    tableFunctions.getComparator(order, orderBy),
                                 )
-                                .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     const isItemSelected = isSelected(row.id.toString());
                                     const labelId = `enhaced-table-checkbox-${index}`;
@@ -109,36 +142,36 @@ export const Body = (props: IBody) => {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event: React.MouseEvent) => props.handleRowClick(event, row.id.toString())}
+                                            onClick={(event: React.MouseEvent) => handleRowClick(event, row.id.toString())}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.id}
                                             selected={isItemSelected}
                                             sx={{
-                                                backgroundColor: props.editableCell === row['id'] ? '#d9e7cb' : '#fff',
+                                                backgroundColor: editableCell === row['id'] ? '#d9e7cb' : '#fff',
                                                 '&:hover': {
-                                                    backgroundColor: props.editableCell === row['id'] ? '#d9e7cb !important' : '',
+                                                    backgroundColor: editableCell === row['id'] ? '#d9e7cb !important' : '',
                                                 },
                                             }}
                                         >
-                                            {props.editable && (
+                                            {editable && (
                                                 <TableCell padding="checkbox">
-                                                    <Checkbox color="primary" checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+                                                    <Checkbox color="primary" checked={isItemSelected} input{{ 'aria-labelledby': labelId }} />
                                                 </TableCell>
                                             )}
                                             {Object.keys(row).map((cell, id) => {
                                                 if (cell === 'id') return;
                                                 if (
-                                                    props.editableCell !== row['id'] ||
-                                                    (props.editableCell === row['id'] && !props.headCells[id - 1].editable)
+                                                    editableCell !== row['id'] ||
+                                                    (editableCell === row['id'] && !headCells[id - 1].editable)
                                                 ) {
                                                     return (
                                                         <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
                                                             {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
                                                         </TableCell>
                                                     );
-                                                } else if (props.editableCell === row['id']) {
+                                                } else if (editableCell === row['id']) {
                                                     return (
                                                         <TableCell
                                                             key={id}
@@ -160,7 +193,7 @@ export const Body = (props: IBody) => {
                                                                 size="small"
                                                                 width={150}
                                                                 name={cell}
-                                                                type={Types.Text}
+                                                                type="text"
                                                                 handleChange={handleEditedRow}
                                                                 isNumber={typeof row[cell] === 'number' && true}
                                                             />
@@ -168,29 +201,29 @@ export const Body = (props: IBody) => {
                                                     );
                                                 }
                                             })}
-                                            {props.editable && props.editableCell !== row['id'] ? (
+                                            {editable && editableCell !== row['id'] ? (
                                                 <TableCell align="left" sx={{ display: 'flex', justifyContent: 'space-around' }}>
                                                     <IconButton
-                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => props.editRow(e, row.id.toString())}
+                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id.toString())}
                                                         title="Editar"
                                                     >
                                                         <Edit />
                                                     </IconButton>
 
                                                     <IconButton
-                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => props.deleteRow(e, row.id.toString())}
+                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => deleteRow(e, row.id.toString())}
                                                         title="Eliminar"
                                                     >
                                                         <Delete />
                                                     </IconButton>
 
-                                                    {props.editableButtons &&
-                                                        props.editableButtons.map((d, i) => (
+                                                    {editableButtons &&
+                                                        editableButtons.map((d, i) => (
                                                             <IconButton
                                                                 title=""
                                                                 key={i}
                                                                 handleClick={(e: React.MouseEvent<HTMLElement>) =>
-                                                                    props.editableFunctions && props.editableFunctions[i](e, row.id.toString())
+                                                                    editableFunctions && editableFunctions[i](e, row.id.toString())
                                                                 }
                                                             >
                                                                 {d}
@@ -198,7 +231,7 @@ export const Body = (props: IBody) => {
                                                         ))}
                                                 </TableCell>
                                             ) : (
-                                                props.editable && (
+                                                editable && (
                                                     <TableCell
                                                         align="center"
                                                         sx={{ backgroundColor: '#fff', justifyContent: 'space-around', display: 'flex' }}
@@ -207,7 +240,7 @@ export const Body = (props: IBody) => {
                                                             title="Aceptar"
                                                             handleClick={(e: React.MouseEvent<HTMLElement>) => {
                                                                 setEditedRow({});
-                                                                props.confirmEdit(e, row.id.toString());
+                                                                confirmEdit(e, row.id.toString());
                                                             }}
                                                         >
                                                             <Check color="primary" />
@@ -225,14 +258,14 @@ export const Body = (props: IBody) => {
                     )}
                 </Table>
             </TableContainer>
-            {props.pagination && (
+            {pagination && (
                 <Pagination
-                    handleChangePage={props.handleChangePage}
-                    page={props.page}
-                    rowPerPageOptions={props.rowPerPageOptions}
-                    rows={props.rows}
-                    rowsPerPage={props.rowsPerPage}
-                    handleChangeRowsPerPage={props.handleChangeRowsPerPage}
+                    handleChangePage={handleChangePage}
+                    page={page}
+                    rowPerPageOptions={rowPerPageOptions}
+                    rows={rows}
+                    rowsPerPage={rowsPerPage}
+                    handleChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             )}
         </>

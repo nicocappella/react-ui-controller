@@ -12,7 +12,10 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => <Autocomplete {.
 
 export const NormalAutocomplete = Template.bind({});
 
-NormalAutocomplete.args = {};
+NormalAutocomplete.args = {
+    options: ['Hola', 'Eu'],
+    
+};
 
 export const SmallAutocomplete = Template.bind({});
 SmallAutocomplete.args = {};

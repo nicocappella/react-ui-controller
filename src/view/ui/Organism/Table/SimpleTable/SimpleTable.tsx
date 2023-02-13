@@ -1,11 +1,11 @@
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 
-interface IProps {
+export interface IProps {
     headCells: { id: string; numeric: boolean; disablePadding: boolean; label: string }[];
     rows: { [key: string]: string | number | undefined }[];
 }
 
-const SimpleTable = (props: IProps) => {
+export const SimpleTable = (props: IProps) => {
     return (
         <TableContainer>
             <Table>
@@ -36,5 +36,3 @@ const SimpleTable = (props: IProps) => {
         </TableContainer>
     );
 };
-
-export default SimpleTable;

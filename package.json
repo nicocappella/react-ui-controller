@@ -1,6 +1,6 @@
 {
     "name": "react-ui-controller",
-    "version": "0.0.83",
+    "version": "0.0.84",
     "description": "A react component library based in Material UI",
     "types": "dist/index.d.ts",
     "files": [
@@ -36,6 +36,7 @@
         "@rollup/plugin-commonjs": "^24.0.0",
         "@rollup/plugin-node-resolve": "^15.0.1",
         "@rollup/plugin-typescript": "^10.0.1",
+        "@storybook/addon-a11y": "^6.5.16",
         "@storybook/addon-actions": "^6.5.15",
         "@storybook/addon-essentials": "^6.4.22",
         "@storybook/addon-interactions": "^6.5.15",
