@@ -49,9 +49,9 @@ const Select = ({
             <InputLabel>{label}</InputLabel>
             <MuiSelect
                 {...props}
-                labelId={label}
+                labelId={name}
                 value={value}
-                id={label}
+                id={name}
                 onChange={handleChange}
                 name={name}
                 size={size}
