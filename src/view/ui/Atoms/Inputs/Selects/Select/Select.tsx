@@ -22,6 +22,7 @@ export interface ISelect {
         | (string & React.ReactElement<any, string | React.JSXElementConstructor<any>>)
         | (string & React.ReactFragment)
         | (string & React.ReactPortal)
+        | React.ReactElement
         | undefined;
     name: string;
     value: string | undefined;
