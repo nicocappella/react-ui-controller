@@ -2,7 +2,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Button, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
 import React from 'react';
 
-type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 
 export interface ITextField {
     align?: 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';

@@ -5,7 +5,7 @@ import { products } from '../products';
 import { ComplexTable } from './ComplexTable';
 
 const newProducts = products.map((d) => ({ ...d, images: '' }));
-const headCells = Object.keys(products[0]).map((d) => ({ id: d, numeric: false, disablePadding: false, label: d }));
+const headCells = Object.keys(products[0]).map((d) => ({ id: d, numeric: false, disablePadding: false, label: d, align: 'left' }));
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

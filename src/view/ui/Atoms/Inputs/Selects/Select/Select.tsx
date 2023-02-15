@@ -11,8 +11,10 @@ import {
     Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
+import { PaletteColors } from '../../TextFields/TextField/TextField';
 
 export interface ISelect {
+    borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     itemWithIcon?: boolean;
     items?: string[];
     itemsObject?: { icon: string; text: string }[];
@@ -32,6 +34,7 @@ export interface ISelect {
 }
 
 const Select = ({
+    borderColor,
     color,
     itemWithIcon,
     items,
@@ -58,7 +61,15 @@ const Select = ({
                 required
                 label={label}
                 renderValue={(value: any) => <Typography color={color}>{value}</Typography>}
-                sx={{ width }}
+                sx={{
+                    width,
+                    ['& fieldset']: {
+                        borderColor: borderColor?.active,
+                    },
+                    ['&:hover > fieldset']: {
+                        borderColor: `${borderColor?.hover} !important`,
+                    },
+                }}
             >
                 {itemWithIcon
                     ? itemsObject!.map((d, i) => (

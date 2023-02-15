@@ -21,12 +21,10 @@ export interface IComplexTable {
     editableCell: string | undefined;
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     editRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
-    editedRow?: { [key: string]: string };
     filterButtons: React.ReactNode[];
     handleChangePage: (event: unknown, newPage: number) => void;
     handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleDateChange?: (value: Date | null) => void;
-    handleEditedRow: (obj: object) => void;
     handleRequestSort: (event: React.MouseEvent<unknown>, property: any) => void;
     handleRowClick: (event: React.MouseEvent<unknown>, name: string) => void;
     handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -36,7 +34,7 @@ export interface IComplexTable {
     orderBy: string;
     page: number;
     pagination?: boolean;
-    rows: { id: string }[];
+    rows: { [key: string]: string | number | undefined }[];
     rowsPerPage: number;
     rowPerPageOptions: number[];
     selected: string[];
@@ -47,37 +45,35 @@ export interface IComplexTable {
 export const ComplexTable = ({
     cancelEdit,
     confirmEdit,
+    date,
     deleteRow,
     deleteRows,
+    dense,
+    editable,
+    editableButtons,
+    editableFunctions,
     editRow,
     editableCell,
     filterButtons,
     handleChangePage,
     handleChangeRowsPerPage,
-    handleEditedRow,
     handleRequestSort,
     handleRowClick,
     handleSelectAllClick,
     headCells,
     order,
     orderBy,
+    mainButton,
     page,
+    pagination,
     rowPerPageOptions,
     rows,
     rowsPerPage,
     selected,
     title,
-    date,
-    dense,
-    editable,
-    editableButtons,
-    editableFunctions,
-    editedRow,
     handleDateChange,
-    mainButton,
-    pagination,
     toolbar,
-}: IBody) => {
+}: IComplexTable) => {
     const tableFunctions = new TableClass();
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string }>({});
     const isSelected = (name: string) => selected && selected.indexOf(name) !== -1;
@@ -94,7 +90,7 @@ export const ComplexTable = ({
         if (handleEditedRow) {
             handleEditedRow(editedRow);
         }
-    }, [editedRow] );
+    }, [editedRow]);
     return (
         <>
             <TableContainer sx={{ marginTop: '40px' }}>
@@ -130,10 +126,7 @@ export const ComplexTable = ({
                     {rows && (
                         <TableBody>
                             {tableFunctions
-                                .stableSort<{ [key: string]: string; id: string }>(
-                                    rows,
-                                    tableFunctions.getComparator(order, orderBy),
-                                )
+                                .stableSort<{ [key: string]: string; id: string }>(rows, tableFunctions.getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     const isItemSelected = isSelected(row.id.toString());
@@ -157,15 +150,12 @@ export const ComplexTable = ({
                                         >
                                             {editable && (
                                                 <TableCell padding="checkbox">
-                                                    <Checkbox color="primary" checked={isItemSelected} input{{ 'aria-labelledby': labelId }} />
+                                                    <Checkbox color="primary" checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
                                                 </TableCell>
                                             )}
                                             {Object.keys(row).map((cell, id) => {
                                                 if (cell === 'id') return;
-                                                if (
-                                                    editableCell !== row['id'] ||
-                                                    (editableCell === row['id'] && !headCells[id - 1].editable)
-                                                ) {
+                                                if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
                                                     return (
                                                         <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
                                                             {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
