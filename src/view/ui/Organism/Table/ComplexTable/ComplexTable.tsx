@@ -1,5 +1,5 @@
 import { Check, Close, Delete, Edit } from '@mui/icons-material';
-import { Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { Box, Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import React from 'react';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
@@ -14,7 +14,7 @@ export interface IComplexTable {
     confirmEdit: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     date?: Date | null;
     deleteRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
-    deleteRows: () => void;
+    deleteRows: (rows: string[]) => void;
     dense?: boolean;
     editable?: boolean;
     editableButtons?: React.ReactNode[];
@@ -22,22 +22,13 @@ export interface IComplexTable {
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     editRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     filterButtons: React.ReactNode[];
-    handleChangePage: (event: unknown, newPage: number) => void;
-    handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleDateChange?: (value: Date | null) => void;
-    handleRequestSort: (event: React.MouseEvent<unknown>, property: any) => void;
-    handleRowClick: (event: React.MouseEvent<unknown>, name: string) => void;
     handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     headCells: HeadCell[];
     mainButton?: React.ReactNode[];
-    order: 'asc' | 'desc';
-    orderBy: string;
-    page: number;
     pagination?: boolean;
-    rows: { [key: string]: string | number | undefined }[];
-    rowsPerPage: number;
+    rows: { [key: string]: string | number; id: string }[];
     rowPerPageOptions: number[];
-    selected: string[];
     title: string;
     toolbar?: boolean;
 }
@@ -45,52 +36,114 @@ export interface IComplexTable {
 export const ComplexTable = ({
     cancelEdit,
     confirmEdit,
-    date,
+    date = new Date(),
     deleteRow,
     deleteRows,
     dense,
     editable,
     editableButtons,
+    editableCell,
     editableFunctions,
     editRow,
-    editableCell,
     filterButtons,
-    handleChangePage,
-    handleChangeRowsPerPage,
-    handleRequestSort,
-    handleRowClick,
-    handleSelectAllClick,
-    headCells,
-    order,
-    orderBy,
-    mainButton,
-    page,
-    pagination,
-    rowPerPageOptions,
-    rows,
-    rowsPerPage,
-    selected,
-    title,
     handleDateChange,
+    // handleSelectAllClick,
+    headCells,
+    mainButton,
+    pagination = true,
+    rows,
+    rowPerPageOptions,
+    title = 'Example Table',
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string }>({});
-    const isSelected = (name: string) => selected && selected.indexOf(name) !== -1;
+    const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
+    const [orderBy, setOrderBy] = React.useState('id');
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(25);
+    const [selected, setSelected] = React.useState<string[]>([]);
+
+    const tableRows = tableFunctions
+        .stableSort<{ [key: string]: string | number; id: string }>(rows, tableFunctions.getComparator(order, orderBy))
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+    const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
     const handleEditedRow = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEditedRow((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
+        const { name, value } = event.target;
+        setEditedRow((prevState) => ({ ...prevState, [name]: value }));
     };
     const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
         setEditedRow({});
         cancelEdit(e);
     };
+    const handleDeleteRow = (e: React.MouseEvent<HTMLElement>, id: string) => {
+        e.stopPropagation();
+        deleteRow(e, id);
+        setSelected([]);
+    };
+    const handleDeleteRows = () => {
+        deleteRows(selected);
+        setSelected([]);
+    };
 
-    React.useEffect(() => {
-        if (handleEditedRow) {
-            handleEditedRow(editedRow);
+    const handleRowClick = (event: React.MouseEvent<unknown>, name: string) => {
+        const selectedIndex = selected.indexOf(name);
+        let newSelected: string[] = [];
+        // if (editedRow) return;
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, name);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
         }
-    }, [editedRow]);
+
+        setSelected(newSelected);
+    };
+
+    const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.checked) {
+            setSelected(tableRows.map((d) => d.id.toString()));
+            return;
+        }
+        setSelected([]);
+    };
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setSelected([]);
+        setPage(newPage);
+    };
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setSelected([]);
+        setPage(0);
+    };
+
+    const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
+        setSelected([]);
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+    React.useEffect(() => {
+        editable &&
+            headCells.push({
+                id: 'actions',
+                align: 'center',
+                disablePadding: false,
+                label: 'Acciones',
+                editable: false,
+            });
+        // if (handleEditedRow) {
+        //     handleEditedRow(editedRow);
+        // }
+    }, []);
+
+    React.useEffect(() => {}, [selected]);
     return (
         <>
             <TableContainer sx={{ marginTop: '40px' }}>
@@ -99,7 +152,7 @@ export const ComplexTable = ({
                         numSelected={selected && selected.length}
                         mainButton={mainButton}
                         filterButtons={filterButtons}
-                        deleteRows={deleteRows}
+                        deleteRows={handleDeleteRows}
                         date={date}
                         handleDateChange={(value: Date | null) => handleDateChange?.(value)}
                         title={title}
@@ -112,23 +165,25 @@ export const ComplexTable = ({
                     size={dense ? 'small' : 'medium'}
                     onKeyDown={cancelEdit}
                 >
-                    <Head
-                        numSelected={selected && selected.length}
-                        order={order}
-                        orderBy={orderBy}
-                        rowCount={rows && rows.length}
-                        headCells={headCells}
-                        onRequestSort={handleRequestSort}
-                        onSelectAllClick={handleSelectAllClick}
-                        editable={editable}
-                    />
-                    {!rows && <CircularProgress />}
+                    {!rows && (
+                        <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
+                            <CircularProgress />
+                        </Box>
+                    )}
                     {rows && (
-                        <TableBody>
-                            {tableFunctions
-                                .stableSort<{ [key: string]: string; id: string }>(rows, tableFunctions.getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
+                        <>
+                            <Head
+                                numSelected={selected && selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                rowCount={rows && rows.length}
+                                headCells={headCells}
+                                onRequestSort={handleRequestSort}
+                                onSelectAllClick={handleSelectAllClick}
+                                editable={editable}
+                            />
+                            <TableBody>
+                                {tableRows.map((row, index) => {
                                     const isItemSelected = isSelected(row.id.toString());
                                     const labelId = `enhaced-table-checkbox-${index}`;
 
@@ -142,7 +197,7 @@ export const ComplexTable = ({
                                             key={row.id}
                                             selected={isItemSelected}
                                             sx={{
-                                                backgroundColor: editableCell === row['id'] ? '#d9e7cb' : '#fff',
+                                                backgroundColor: isItemSelected ? '#d9e7cb' : '#fff',
                                                 '&:hover': {
                                                     backgroundColor: editableCell === row['id'] ? '#d9e7cb !important' : '',
                                                 },
@@ -154,7 +209,6 @@ export const ComplexTable = ({
                                                 </TableCell>
                                             )}
                                             {Object.keys(row).map((cell, id) => {
-                                                if (cell === 'id') return;
                                                 if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
                                                     return (
                                                         <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
@@ -168,7 +222,6 @@ export const ComplexTable = ({
                                                             align={typeof row[cell] === 'string' ? 'left' : 'right'}
                                                             onClick={() => console.log(cell)}
                                                         >
-                                                            {/* Crear una variable template del form que iríá incrustado en OperationsTable, y llamarlo con un map a traves de la prop */}
                                                             <TextField
                                                                 padding={0.75}
                                                                 label=""
@@ -192,7 +245,7 @@ export const ComplexTable = ({
                                                 }
                                             })}
                                             {editable && editableCell !== row['id'] ? (
-                                                <TableCell align="left" sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                                                <TableCell align="left" padding="normal">
                                                     <IconButton
                                                         handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id.toString())}
                                                         title="Editar"
@@ -201,7 +254,7 @@ export const ComplexTable = ({
                                                     </IconButton>
 
                                                     <IconButton
-                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => deleteRow(e, row.id.toString())}
+                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => handleDeleteRow(e, row.id.toString())}
                                                         title="Eliminar"
                                                     >
                                                         <Delete />
@@ -244,7 +297,8 @@ export const ComplexTable = ({
                                         </TableRow>
                                     );
                                 })}
-                        </TableBody>
+                            </TableBody>
+                        </>
                     )}
                 </Table>
             </TableContainer>

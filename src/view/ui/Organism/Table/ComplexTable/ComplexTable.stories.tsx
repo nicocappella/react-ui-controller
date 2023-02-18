@@ -5,7 +5,7 @@ import { products } from '../products';
 import { ComplexTable } from './ComplexTable';
 
 const newProducts = products.map((d) => ({ ...d, images: '' }));
-const headCells = Object.keys(products[0]).map((d) => ({ id: d, numeric: false, disablePadding: false, label: d, align: 'left' }));
+const headCells = Object.keys(products[0]).map((d) => ({ id: d, numeric: false, disablePadding: false, label: d, align: 'center', editable: true }));
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -21,6 +21,9 @@ export const Primary = Template.bind({});
 Primary.args = {
     headCells: headCells,
     rows: newProducts,
+    editable: true,
+    title: 'ExampleTable',
+    toolbar: true,
 };
 // export const UploadButton = Template.bind({});
 // UploadButton.args = {

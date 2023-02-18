@@ -17,15 +17,14 @@ interface IProps {
     editable?: boolean;
 }
 
-export const Head = (props: IProps) => {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } = props;
+export const Head = ({ onSelectAllClick, editable, order, orderBy, numSelected, rowCount, onRequestSort, headCells }: IProps) => {
     const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
     return (
         <TableHead>
             <TableRow>
-                {props.editable && (
+                {editable && (
                     <TableCell padding="checkbox">
                         <Checkbox
                             color="primary"
