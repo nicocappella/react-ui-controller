@@ -65,8 +65,8 @@ export const NavigationDrawer = ({
                 <List>
                     {navButtons.map(({ text, icon, route, divider }, i) =>
                         route ? (
-                            <>
-                                <LinkButton key={i} component={route.wrapper} href={route.href}>
+                            <Box key={i}>
+                                <LinkButton component={route.wrapper} href={route.href}>
                                     <ListItem disablePadding>
                                         <ListItemButton>
                                             {icon && <ListItemIcon sx={{ color, fontSize: size }}>{icon}</ListItemIcon>}
@@ -75,17 +75,17 @@ export const NavigationDrawer = ({
                                     </ListItem>
                                 </LinkButton>
                                 {divider && <Divider />}
-                            </>
+                            </Box>
                         ) : (
-                            <>
-                                <ListItem key={i} disablePadding>
+                            <Box key={i}>
+                                <ListItem disablePadding>
                                     <ListItemButton>
                                         {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
                                         <ListItemText primary={text} sx={{ color }} />
                                     </ListItemButton>
                                 </ListItem>
                                 {divider && <Divider />}
-                            </>
+                            </Box>
                         ),
                     )}
                 </List>

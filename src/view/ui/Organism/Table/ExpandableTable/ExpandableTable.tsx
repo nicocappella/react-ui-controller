@@ -10,7 +10,7 @@ interface IProps {
     handleExpandClick: (event: React.MouseEvent, i: number) => void;
 }
 
-const ExpandableTable = (props: IProps) => {
+export const ExpandableTable = (props: IProps) => {
     return (
         props.rows && (
             <TableContainer>
@@ -58,4 +58,3 @@ const ExpandableTable = (props: IProps) => {
     );
 };
 
-export default ExpandableTable;

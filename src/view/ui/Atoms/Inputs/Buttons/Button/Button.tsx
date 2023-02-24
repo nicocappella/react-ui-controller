@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button as MuiButton, ButtonProps } from '@mui/material';
+import { Button as MuiButton, ButtonProps, CircularProgress } from '@mui/material';
+import { Check } from '@mui/icons-material';
 
 export interface IButton {
     text: string;
@@ -16,6 +17,7 @@ export interface IButton {
     padding?: string;
     borderRadius?: string;
     uploadButton?: { multiple: boolean; type: string; id: string };
+    loginButton?: { loading: boolean; success: boolean; error: boolean };
 }
 
 const Button = ({
@@ -33,6 +35,7 @@ const Button = ({
     padding = '24px',
     borderRadius = '100px',
     uploadButton,
+    loginButton,
     ...props
 }: IButton & ButtonProps) => {
     return (
@@ -62,7 +65,17 @@ const Button = ({
                     onClick={handleClick}
                     href={href && href}
                 >
-                    {text}
+                    {!loginButton ? (
+                        text
+                    ) : loginButton.loading ? (
+                        <CircularProgress />
+                    ) : loginButton.success ? (
+                        'Tick'
+                    ) : loginButton.error ? (
+                        'error'
+                    ) : (
+                        text
+                    )}
                 </MuiButton>
             </label>
         </>
