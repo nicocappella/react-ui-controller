@@ -6,7 +6,7 @@ import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField'
 import { Head } from './Head';
 import Pagination from './Pagination';
 import { HeadCell } from './table';
-import { TableClass } from './Table';
+import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
 
 export interface IComplexTable {
