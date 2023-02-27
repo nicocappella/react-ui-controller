@@ -7,14 +7,16 @@ interface IForm {
     width?: string;
     children: React.ReactNode;
     background: string;
-    autoComplete: 'on' | 'off';
+    autoComplete?: string;
 }
 
-const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm & BoxProps) => {
+const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm & BoxProps<'form'>) => {
     return (
         <Box
             {...props}
             component="form"
+            autoComplete={autoComplete}
+            onSubmit={handleSubmit}
             sx={{
                 display: 'flex',
                 flexDirection: direction,
@@ -25,8 +27,6 @@ const Form = ({ direction, handleSubmit, height, width, children, background, au
                 borderRadius: '5px',
                 padding: '15px',
             }}
-            onSubmit={handleSubmit}
-            autoComplete={autoComplete}
         >
             {children}
         </Box>

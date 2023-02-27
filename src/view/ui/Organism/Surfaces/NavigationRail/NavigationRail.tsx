@@ -1,5 +1,5 @@
 import { Box, BoxProps } from '@mui/system';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 export interface IProps {
     navButtons: { component: React.ReactNode; layer?: { components?: React.ReactNode[] } }[];
@@ -23,7 +23,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white', ...p
         });
         setOpenPanel(layers);
     };
-    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>, i: number): void => {
+    const handleMouseLeave = (e: React.MouseEventHandler<HTMLDivElement>, i: number): void => {
         const layers = navButtons.map((d) => false);
         setOpenPanel(layers);
     };
@@ -39,7 +39,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white', ...p
                 bgcolor={background}
                 gap="2%"
                 height="100vh"
-                onMouseLeave={(event: React.MouseEvent<HTMLDivElement>, i: number) => handleMouseLeave(event, i)}
+                onMouseLeave={(event: React.MouseEventHandler<HTMLDivElement>, i: number) => handleMouseLeave(event, i)}
                 component="div"
                 zIndex={1000}
             >

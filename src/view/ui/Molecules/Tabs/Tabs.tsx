@@ -8,7 +8,7 @@ export interface ITabs {
     panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
     tabsComponents?: React.ElementType | any;
     secondTabs?: { label: string; value: string }[];
-    centered: boolean;
+    centered?: boolean;
     value: any;
 }
 

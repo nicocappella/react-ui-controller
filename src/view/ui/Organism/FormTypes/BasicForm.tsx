@@ -12,7 +12,7 @@ export interface IProps {
     autoComplete?: 'on' | 'off';
 }
 
-const BasicForm = ({ direction, handleSubmit, children, background, height, width, autoComplete, ...props }: IProps & BoxProps) => {
+const BasicForm = ({ direction, handleSubmit, children, background, height, width, autoComplete, ...props }: IProps & BoxProps<'form'>) => {
     return (
         <Form
             {...props}
