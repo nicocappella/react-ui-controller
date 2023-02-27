@@ -175,7 +175,7 @@ export const ComplexTable = ({
                             <CircularProgress />
                         </Box>
                     )}
-                    {cleanUpRows && (console.log(d)
+                    {cleanUpRows && (
                         <>
                             <Head
                                 numSelected={selected && selected.length}
@@ -198,7 +198,7 @@ export const ComplexTable = ({
                                             hover
                                             onClick={(event: React.MouseEvent) => handleRowClick(event, row.id.toString())}
                                             role="checkbox"
-                                            aconsole.log(d)ria-checked={isItemSelected}
+                                            aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.id}
                                             selected={isItemSelected}
