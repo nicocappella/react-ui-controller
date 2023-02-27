@@ -27,7 +27,7 @@ export interface IComplexTable {
     headCells: HeadCell[];
     mainButton?: React.ReactNode[];
     pagination?: boolean;
-    rows: { [key: string]: string | number; id: string }[];
+    rows?: { [key: string]: string | number; id: string }[];
     rowPerPageOptions: number[];
     title: string;
     toolbar?: boolean;
@@ -58,16 +58,17 @@ export const ComplexTable = ({
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string }>({});
-    const [cleanUpRows, setCleanUpRows] = React.useState<{ [key: string]: string | number; id: string }[]>(rows);
     const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);
     const [selected, setSelected] = React.useState<string[]>([]);
 
-    const tableRows = tableFunctions
-        .stableSort<{ [key: string]: string | number; id: string }>(cleanUpRows, tableFunctions.getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    const tableRows =
+        rows &&
+        tableFunctions
+            .stableSort<{ [key: string]: string | number; id: string }>(rows, tableFunctions.getComparator(order, orderBy))
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
@@ -108,7 +109,7 @@ export const ComplexTable = ({
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            setSelected(tableRows.map((d) => d.id.toString()));
+            tableRows && setSelected(tableRows.map((d) => d.id.toString()));
             return;
         }
         setSelected([]);
@@ -131,22 +132,20 @@ export const ComplexTable = ({
         setOrderBy(property);
     };
     React.useEffect(() => {
-        editable &&
-            headCells.push({
-                id: 'actions',
-                align: 'center',
-                disablePadding: false,
-                label: 'Acciones',
-                editable: false,
-            });
-
-        if (Object.keys(rows[0]).includes('_id')) {
-            setCleanUpRows(rows.map((d) => ({ ...d, id: d._id.toString() })));
+        if (headCells) {
+            editable &&
+                headCells.push({
+                    id: 'actions',
+                    align: 'center',
+                    disablePadding: false,
+                    label: 'Acciones',
+                    editable: false,
+                });
         }
         // if (handleEditedRow) {
         //     handleEditedRow(editedRow);
         // }
-    }, [cleanUpRows]);
+    }, []);
 
     React.useEffect(() => {}, [selected]);
     return (
@@ -170,140 +169,150 @@ export const ComplexTable = ({
                     size={dense ? 'small' : 'medium'}
                     onKeyDown={cancelEdit}
                 >
-                    {!cleanUpRows && (
+                    {!rows && (
                         <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
                             <CircularProgress />
                         </Box>
                     )}
-                    {cleanUpRows && (
+                    {rows && (
                         <>
                             <Head
                                 numSelected={selected && selected.length}
                                 order={order}
                                 orderBy={orderBy}
-                                rowCount={cleanUpRows && cleanUpRows.length}
+                                rowCount={rows && rows.length}
                                 headCells={headCells}
                                 onRequestSort={handleRequestSort}
                                 onSelectAllClick={handleSelectAllClick}
                                 editable={editable}
                             />
                             <TableBody>
-                                {tableRows.map((row, index) => {
-                                    const includeId = !Object.values(headCells.map((d) => d.id)).includes('id');
-                                    const isItemSelected = isSelected(row.id.toString());
-                                    const labelId = `enhaced-table-checkbox-${index}`;
+                                {tableRows &&
+                                    tableRows.map((row, index) => {
+                                        const includeId = !Object.values(headCells.map((d) => d.id)).includes('id');
+                                        const isItemSelected = isSelected(row.id.toString());
+                                        const labelId = `enhaced-table-checkbox-${index}`;
 
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event: React.MouseEvent) => handleRowClick(event, row.id.toString())}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row.id}
-                                            selected={isItemSelected}
-                                            sx={{
-                                                backgroundColor: isItemSelected ? '#d9e7cb' : '#fff',
-                                                '&:hover': {
-                                                    backgroundColor: editableCell === row['id'] ? '#d9e7cb !important' : '',
-                                                },
-                                            }}
-                                        >
-                                            {editable && (
-                                                <TableCell padding="checkbox">
-                                                    <Checkbox color="primary" checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-                                                </TableCell>
-                                            )}
-                                            {Object.keys(row).map((cell, id) => {
-                                                if (includeId && row['id']) return;
-                                                if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
-                                                    return (
-                                                        <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
-                                                            {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
-                                                        </TableCell>
-                                                    );
-                                                } else if (editableCell === row['id']) {
-                                                    return (
-                                                        <TableCell
-                                                            key={id}
-                                                            align={typeof row[cell] === 'string' ? 'left' : 'right'}
-                                                            onClick={() => console.log(cell)}
-                                                        >
-                                                            <TextField
-                                                                padding={0.75}
-                                                                label=""
-                                                                variant="filled"
-                                                                value={
-                                                                    editedRow[cell.toString()] !== undefined
-                                                                        ? editedRow[cell.toString()]
-                                                                        : typeof row[cell] === 'number'
-                                                                        ? Number(row[cell])
-                                                                        : row[cell]
-                                                                }
-                                                                size="small"
-                                                                width={150}
-                                                                name={cell}
-                                                                type="text"
-                                                                handleChange={handleEditedRow}
-                                                                isNumber={typeof row[cell] === 'number' && true}
-                                                            />
-                                                        </TableCell>
-                                                    );
-                                                }
-                                            })}
-                                            {editable && editableCell !== row['id'] ? (
-                                                <TableCell align="left" padding="normal">
-                                                    <IconButton
-                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id.toString())}
-                                                        title="Editar"
-                                                    >
-                                                        <Edit />
-                                                    </IconButton>
-
-                                                    <IconButton
-                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => handleDeleteRow(e, row.id.toString())}
-                                                        title="Eliminar"
-                                                    >
-                                                        <Delete />
-                                                    </IconButton>
-
-                                                    {editableButtons &&
-                                                        editableButtons.map((d, i) => (
-                                                            <IconButton
-                                                                title=""
-                                                                key={i}
-                                                                handleClick={(e: React.MouseEvent<HTMLElement>) =>
-                                                                    editableFunctions && editableFunctions[i](e, row.id.toString())
-                                                                }
-                                                            >
-                                                                {d}
-                                                            </IconButton>
-                                                        ))}
-                                                </TableCell>
-                                            ) : (
-                                                editable && (
-                                                    <TableCell
-                                                        align="center"
-                                                        sx={{ backgroundColor: '#fff', justifyContent: 'space-around', display: 'flex' }}
-                                                    >
-                                                        <IconButton
-                                                            title="Aceptar"
-                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => {
-                                                                setEditedRow({});
-                                                                confirmEdit(e, row.id.toString());
-                                                            }}
-                                                        >
-                                                            <Check color="primary" />
-                                                        </IconButton>
-                                                        <IconButton title="Cancelar" handleClick={handleCancel}>
-                                                            <Close color="error" />
-                                                        </IconButton>
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={(event: React.MouseEvent) => handleRowClick(event, row.id.toString())}
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={row.id}
+                                                selected={isItemSelected}
+                                                sx={{
+                                                    backgroundColor: isItemSelected ? '#d9e7cb' : '#fff',
+                                                    '&:hover': {
+                                                        backgroundColor: editableCell === row['id'] ? '#d9e7cb !important' : '',
+                                                    },
+                                                }}
+                                            >
+                                                {editable && (
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox
+                                                            color="primary"
+                                                            checked={isItemSelected}
+                                                            inputProps={{ 'aria-labelledby': labelId }}
+                                                        />
                                                     </TableCell>
-                                                )
-                                            )}
-                                        </TableRow>
-                                    );
-                                })}
+                                                )}
+                                                {Object.keys(row).map((cell, id) => {
+                                                    if (includeId && row['id']) return;
+                                                    if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
+                                                        return (
+                                                            <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
+                                                                {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
+                                                            </TableCell>
+                                                        );
+                                                    } else if (editableCell === row['id']) {
+                                                        return (
+                                                            <TableCell
+                                                                key={id}
+                                                                align={typeof row[cell] === 'string' ? 'left' : 'right'}
+                                                                onClick={() => console.log(cell)}
+                                                            >
+                                                                <TextField
+                                                                    padding={0.75}
+                                                                    label=""
+                                                                    variant="filled"
+                                                                    value={
+                                                                        editedRow[cell.toString()] !== undefined
+                                                                            ? editedRow[cell.toString()]
+                                                                            : typeof row[cell] === 'number'
+                                                                            ? Number(row[cell])
+                                                                            : row[cell]
+                                                                    }
+                                                                    size="small"
+                                                                    width={150}
+                                                                    name={cell}
+                                                                    type="text"
+                                                                    handleChange={handleEditedRow}
+                                                                    isNumber={typeof row[cell] === 'number' && true}
+                                                                />
+                                                            </TableCell>
+                                                        );
+                                                    }
+                                                })}
+                                                {editable && editableCell !== row['id'] ? (
+                                                    <TableCell align="left" padding="normal">
+                                                        <IconButton
+                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id.toString())}
+                                                            title="Editar"
+                                                        >
+                                                            <Edit />
+                                                        </IconButton>
+
+                                                        <IconButton
+                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => handleDeleteRow(e, row.id.toString())}
+                                                            title="Eliminar"
+                                                        >
+                                                            <Delete />
+                                                        </IconButton>
+
+                                                        {editableButtons &&
+                                                            editableButtons.map((d, i) => (
+                                                                <IconButton
+                                                                    title=""
+                                                                    key={i}
+                                                                    handleClick={(e: React.MouseEvent<HTMLElement>) =>
+                                                                        editableFunctions && editableFunctions[i](e, row.id.toString())
+                                                                    }
+                                                                >
+                                                                    {d}
+                                                                </IconButton>
+                                                            ))}
+                                                    </TableCell>
+                                                ) : (
+                                                    editable && (
+                                                        <TableCell
+                                                            align="center"
+                                                            sx={{ backgroundColor: '#fff', justifyContent: 'space-around', display: 'flex' }}
+                                                        >
+                                                            <IconButton
+                                                                title="Aceptar"
+                                                                handleClick={(e: React.MouseEvent<HTMLElement>) => {
+                                                                    setEditedRow({});
+                                                                    confirmEdit(e, row.id.toString());
+                                                                }}
+                                                            >
+                                                                <Check color="primary" />
+                                                            </IconButton>
+                                                            <IconButton title="Cancelar" handleClick={handleCancel}>
+                                                                <Close color="error" />
+                                                            </IconButton>
+                                                        </TableCell>
+                                                    )
+                                                )}
+                                            </TableRow>
+                                        );
+                                    })}
+                                {!tableRows && (
+                                    <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
+                                        <CircularProgress />
+                                    </Box>
+                                )}
                             </TableBody>
                         </>
                     )}
@@ -314,7 +323,7 @@ export const ComplexTable = ({
                     handleChangePage={handleChangePage}
                     page={page}
                     rowPerPageOptions={rowPerPageOptions}
-                    rows={rows}
+                    rows={rows ? rows : []}
                     rowsPerPage={rowsPerPage}
                     handleChangeRowsPerPage={handleChangeRowsPerPage}
                 />
