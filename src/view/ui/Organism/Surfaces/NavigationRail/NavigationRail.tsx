@@ -61,7 +61,7 @@ export const NavigationRail = ({ navButtons, actions, background = 'white', ...p
                     {navButtons.map(
                         (d, i) =>
                             d.layer && (
-                                <Box flexDirection="column" position="absolute" alignItems="center" display={openPanel![i] ? 'flex' : 'none'}>
+                                <Box flexDirection="column" position="absolute" alignItems="center" display={openPanel![i] ? 'flex' : 'none'} key={i}>
                                     {d.layer.components!.map((e, j) => e)}
                                 </Box>
                             ),

@@ -58,6 +58,7 @@ export const ComplexTable = ({
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string }>({});
+    const [cleanUpRows, setCleanUpRows] = React.useState<{ [key: string]: string | number; id: string }[]>(rows);
     const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [page, setPage] = React.useState(0);
@@ -65,7 +66,7 @@ export const ComplexTable = ({
     const [selected, setSelected] = React.useState<string[]>([]);
 
     const tableRows = tableFunctions
-        .stableSort<{ [key: string]: string | number; id: string }>(rows, tableFunctions.getComparator(order, orderBy))
+        .stableSort<{ [key: string]: string | number; id: string }>(cleanUpRows, tableFunctions.getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
@@ -138,10 +139,14 @@ export const ComplexTable = ({
                 label: 'Acciones',
                 editable: false,
             });
+
+        if (Object.keys(rows[0]).includes('_id')) {
+            setCleanUpRows(rows.map((d) => ({ ...d, id: d._id.toString() })));
+        }
         // if (handleEditedRow) {
         //     handleEditedRow(editedRow);
         // }
-    }, []);
+    }, [cleanUpRows]);
 
     React.useEffect(() => {}, [selected]);
     return (
@@ -165,18 +170,18 @@ export const ComplexTable = ({
                     size={dense ? 'small' : 'medium'}
                     onKeyDown={cancelEdit}
                 >
-                    {!rows && (
+                    {!cleanUpRows && (
                         <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
                             <CircularProgress />
                         </Box>
                     )}
-                    {rows && (
+                    {cleanUpRows && (console.log(d)
                         <>
                             <Head
                                 numSelected={selected && selected.length}
                                 order={order}
                                 orderBy={orderBy}
-                                rowCount={rows && rows.length}
+                                rowCount={cleanUpRows && cleanUpRows.length}
                                 headCells={headCells}
                                 onRequestSort={handleRequestSort}
                                 onSelectAllClick={handleSelectAllClick}
@@ -184,6 +189,7 @@ export const ComplexTable = ({
                             />
                             <TableBody>
                                 {tableRows.map((row, index) => {
+                                    const includeId = !Object.values(headCells.map((d) => d.id)).includes('id');
                                     const isItemSelected = isSelected(row.id.toString());
                                     const labelId = `enhaced-table-checkbox-${index}`;
 
@@ -192,7 +198,7 @@ export const ComplexTable = ({
                                             hover
                                             onClick={(event: React.MouseEvent) => handleRowClick(event, row.id.toString())}
                                             role="checkbox"
-                                            aria-checked={isItemSelected}
+                                            aconsole.log(d)ria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.id}
                                             selected={isItemSelected}
@@ -209,6 +215,7 @@ export const ComplexTable = ({
                                                 </TableCell>
                                             )}
                                             {Object.keys(row).map((cell, id) => {
+                                                if (includeId && row['id']) return;
                                                 if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
                                                     return (
                                                         <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
