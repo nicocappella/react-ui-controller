@@ -10,9 +10,15 @@ export default {
 
 const Template: ComponentStory<typeof DatePicker> = (args) => <DatePicker {...args} />;
 
-export const NormalDatePicker = Template.bind({});
+export const YearDatePicker = Template.bind({});
 
-NormalDatePicker.args = {};
+YearDatePicker.args = {
+    value: new Date(2000),
+    views: ['year'],
+    minDate: new Date(1960),
+    maxDate: new Date()    
+
+};
 
 export const SmallDatePicker = Template.bind({});
 SmallDatePicker.args = {};

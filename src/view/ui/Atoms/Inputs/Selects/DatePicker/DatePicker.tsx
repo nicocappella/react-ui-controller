@@ -9,7 +9,7 @@ export interface IDatePicker {
     handleChange: (value: Date | null) => void;
 }
 
-const DatePicker = ({ value, handleChange, ...props }: IDatePicker) => {
+const DatePicker = ({ value, handleChange, ...props }: IDatePicker & DatePickerProps<Date, Date>) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale}>
             <MuiDatePicker
