@@ -7,17 +7,18 @@ import { HeadCell } from './table';
 type Order = 'asc' | 'desc';
 
 interface IProps {
+    editable?: boolean;
+    excludeId: boolean;
+    headCells: HeadCell[];
     numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
-    headCells: HeadCell[];
-    editable?: boolean;
 }
 
-export const Head = ({ onSelectAllClick, editable, order, orderBy, numSelected, rowCount, onRequestSort, headCells }: IProps) => {
+export const Head = ({ onSelectAllClick, editable, excludeId, order, orderBy, numSelected, rowCount, onRequestSort, headCells }: IProps) => {
     const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
@@ -37,6 +38,7 @@ export const Head = ({ onSelectAllClick, editable, order, orderBy, numSelected, 
                 )}
 
                 {headCells.map((headCell) => {
+                    if (excludeId && headCell.id === 'id') return;
                     return (
                         <TableCell
                             key={headCell.id}

@@ -20,7 +20,8 @@ export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
     headCells: headCells,
-    // rows: newProducts,
+    rows: newProducts,
+    excludeId: true,
     editable: true,
     title: 'ExampleTable',
     toolbar: true,

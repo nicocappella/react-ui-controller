@@ -21,6 +21,7 @@ export interface IComplexTable {
     editableCell: string | undefined;
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     editRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
+    excludeId?: boolean;
     filterButtons: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
     handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -45,6 +46,7 @@ export const ComplexTable = ({
     editableCell,
     editableFunctions,
     editRow,
+    excludeId = false,
     filterButtons,
     handleDateChange,
     // handleSelectAllClick,
@@ -124,7 +126,6 @@ export const ComplexTable = ({
         setSelected([]);
         setPage(0);
     };
-
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
         setSelected([]);
         const isAsc = orderBy === property && order === 'asc';
@@ -179,6 +180,7 @@ export const ComplexTable = ({
                             <Head
                                 numSelected={selected && selected.length}
                                 order={order}
+                                excludeId={excludeId}
                                 orderBy={orderBy}
                                 rowCount={rows && rows.length}
                                 headCells={headCells}
@@ -189,7 +191,6 @@ export const ComplexTable = ({
                             <TableBody>
                                 {tableRows &&
                                     tableRows.map((row, index) => {
-                                        const includeId = !Object.values(headCells.map((d) => d.id)).includes('id');
                                         const isItemSelected = isSelected(row.id.toString());
                                         const labelId = `enhaced-table-checkbox-${index}`;
 
@@ -219,7 +220,7 @@ export const ComplexTable = ({
                                                     </TableCell>
                                                 )}
                                                 {Object.keys(row).map((cell, id) => {
-                                                    if (includeId && row['id']) return;
+                                                    if (excludeId && cell === 'id') return;
                                                     if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
                                                         return (
                                                             <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
