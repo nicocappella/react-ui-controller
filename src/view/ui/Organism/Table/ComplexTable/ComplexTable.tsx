@@ -1,6 +1,7 @@
 import { Check, Close, Delete, Edit } from '@mui/icons-material';
 import { Box, Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import React from 'react';
+import { capitalizeWord } from '../../../../../utils/StringFormat';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
@@ -49,8 +50,8 @@ export const ComplexTable = ({
     excludeId = false,
     filterButtons,
     handleDateChange,
-    // handleSelectAllClick,
     headCells,
+    // handleSelectAllClick,
     mainButton,
     pagination = true,
     rows,
@@ -65,7 +66,8 @@ export const ComplexTable = ({
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);
     const [selected, setSelected] = React.useState<string[]>([]);
-
+    const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
+    const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
     const tableRows =
         rows &&
         tableFunctions
@@ -133,22 +135,36 @@ export const ComplexTable = ({
         setOrderBy(property);
     };
     React.useEffect(() => {
-        if (headCells) {
-            editable &&
-                headCells.push({
-                    id: 'actions',
-                    align: 'center',
-                    disablePadding: false,
-                    label: 'Acciones',
-                    editable: false,
-                });
+        if (rows) {
+            const highestKeys = rows.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0];
+            const arrayOfHeads = Object.keys(highestKeys).map<HeadCell>((d) => {
+                const align = typeof highestKeys[d] === 'string' ? 'left' : 'right';
+                const disablePadding = d === 'id' ? true : false;
+                return {
+                    id: d,
+                    align,
+                    disablePadding,
+                    label: capitalizeWord(d),
+                    editable: editable ? editable : false,
+                };
+            });
+            setHeaderCells(arrayOfHeads);
+            setHeaderKeys(Object.keys(highestKeys));
+            // headCells.push({
+            //     id: 'actions',
+            //     align: 'center',
+            //     disablePadding: false,
+            //     label: 'Acciones',
+            //     editable: false,
+            // });
         }
         // if (handleEditedRow) {
         //     handleEditedRow(editedRow);
         // }
-    }, []);
+    }, [headerCells, headerKeys]);
 
     React.useEffect(() => {}, [selected]);
+
     return (
         <>
             <TableContainer sx={{ marginTop: '40px' }}>
@@ -183,7 +199,7 @@ export const ComplexTable = ({
                                 excludeId={excludeId}
                                 orderBy={orderBy}
                                 rowCount={rows && rows.length}
-                                headCells={headCells}
+                                headCells={headerCells && headerCells}
                                 onRequestSort={handleRequestSort}
                                 onSelectAllClick={handleSelectAllClick}
                                 editable={editable}
@@ -219,7 +235,7 @@ export const ComplexTable = ({
                                                         />
                                                     </TableCell>
                                                 )}
-                                                {Object.keys(row).map((cell, id) => {
+                                                {headerKeys.map((cell, id) => {
                                                     if (excludeId && cell === 'id') return;
                                                     if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
                                                         return (

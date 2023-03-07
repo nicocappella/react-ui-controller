@@ -11,7 +11,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface IDialog {
+export interface IDialog {
     open: boolean;
     handleClose: () => void;
     ariaDescription: string;

@@ -8,7 +8,6 @@ export const products = [
         rating: 4.69,
         stock: 94,
         brand: 'Apple',
-        category: 'smartphones',
         thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
         images: [
             'https://i.dummyjson.com/data/products/1/1.jpg',
@@ -28,6 +27,7 @@ export const products = [
         stock: 34,
         brand: 'Apple',
         category: 'smartphones',
+        theme: 'blue',
         thumbnail: 'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
         images: [
             'https://i.dummyjson.com/data/products/2/1.jpg',
