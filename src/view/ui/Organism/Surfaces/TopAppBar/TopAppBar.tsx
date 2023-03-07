@@ -58,7 +58,7 @@ const TopAppBar = ({
                 ) : (
                     navButtons &&
                     !tabs && (
-                        <Box display="grid" gap="40px" sx={{ gridGap: '40px', gridTemplateColumns: `repeat(${navButtons.length}, 1fr)` }}>
+                        <Box display="grid" gap="40px" sx={{ gridGap: '40px', gridTemplateColumns: `repeat(${navButtons.length}, auto)` }}>
                             {navButtons && navButtons.map((d, i) => <Box key={`navButton-${i}`}>{d.component}</Box>)}
                         </Box>
                     )
