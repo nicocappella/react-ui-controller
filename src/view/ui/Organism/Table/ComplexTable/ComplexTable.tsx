@@ -142,13 +142,12 @@ export const ComplexTable = ({
                     id: d,
                     align,
                     disablePadding,
-                    // label: capitalizeWord(d),
-                    label: d,
+                    label: capitalizeWord(d),
                     editable: editable ? editable : false,
                 };
             });
-            setHeaderCells(arrayOfHeads);
-            setHeaderKeys(Object.keys(highestKeys));
+            setHeaderCells([...arrayOfHeads]);
+            setHeaderKeys([...Object.keys(highestKeys)]);
             // headCells.push({
             //     id: 'actions',
             //     align: 'center',
