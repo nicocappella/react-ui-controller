@@ -26,7 +26,6 @@ export interface IComplexTable {
     filterButtons: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
     handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    headCells: HeadCell[];
     mainButton?: React.ReactNode[];
     pagination?: boolean;
     rows?: { [key: string]: string | number; id: string }[];
@@ -50,7 +49,6 @@ export const ComplexTable = ({
     excludeId = false,
     filterButtons,
     handleDateChange,
-    headCells,
     // handleSelectAllClick,
     mainButton,
     pagination = true,
@@ -237,7 +235,7 @@ export const ComplexTable = ({
                                                 )}
                                                 {headerKeys.map((cell, id) => {
                                                     if (excludeId && cell === 'id') return;
-                                                    if (editableCell !== row['id'] || (editableCell === row['id'] && !headCells[id - 1].editable)) {
+                                                    if (editableCell !== row['id'] || (editableCell === row['id'] && !headerCells[id - 1].editable) && row[cell]) {
                                                         return (
                                                             <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
                                                                 {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
