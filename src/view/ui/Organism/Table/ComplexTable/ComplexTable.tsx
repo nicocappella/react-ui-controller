@@ -142,7 +142,8 @@ export const ComplexTable = ({
                     id: d,
                     align,
                     disablePadding,
-                    label: capitalizeWord(d),
+                    // label: capitalizeWord(d),
+                    label: d,
                     editable: editable ? editable : false,
                 };
             });
