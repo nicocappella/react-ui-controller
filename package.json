@@ -1,6 +1,6 @@
 {
     "name": "react-ui-controller",
-    "version": "0.0.100",
+    "version": "0.0.101",
     "description": "A react component library based in Material UI",
     "types": "dist/index.d.ts",
     "files": [

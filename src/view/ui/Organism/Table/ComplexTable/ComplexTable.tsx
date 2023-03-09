@@ -23,7 +23,7 @@ export interface IComplexTable {
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     editRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     excludeId?: boolean;
-    filterButtons: React.ReactNode[];
+    filterButtons?: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
     handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     mainButton?: React.ReactNode[];
@@ -37,7 +37,7 @@ export interface IComplexTable {
 export const ComplexTable = ({
     cancelEdit,
     confirmEdit,
-    date = new Date(),
+    date,
     deleteRow,
     deleteRows,
     dense,
@@ -173,7 +173,7 @@ export const ComplexTable = ({
                         filterButtons={filterButtons}
                         deleteRows={handleDeleteRows}
                         date={date}
-                        handleDateChange={(value: Date | null) => handleDateChange?.(value)}
+                        handleDateChange={date ? (value: Date | null) => handleDateChange?.(value) : () => {}}
                         title={title}
                     />
                 )}
@@ -184,19 +184,19 @@ export const ComplexTable = ({
                     size={dense ? 'small' : 'medium'}
                     onKeyDown={cancelEdit}
                 >
-                    {!rows && (
+                    {rows?.length === 0 && (
                         <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
                             <CircularProgress />
                         </Box>
                     )}
-                    {rows && (
+                    {rows!.length > 0 && (
                         <>
                             <Head
                                 numSelected={selected && selected.length}
                                 order={order}
                                 excludeId={excludeId}
                                 orderBy={orderBy}
-                                rowCount={rows && rows.length}
+                                rowCount={rows!.length}
                                 headCells={headerCells && headerCells}
                                 onRequestSort={handleRequestSort}
                                 onSelectAllClick={handleSelectAllClick}
@@ -235,7 +235,10 @@ export const ComplexTable = ({
                                                 )}
                                                 {headerKeys.map((cell, id) => {
                                                     if (excludeId && cell === 'id') return;
-                                                    if (editableCell !== row['id'] || (editableCell === row['id'] && !headerCells[id - 1].editable) && row[cell]) {
+                                                    if (
+                                                        editableCell !== row['id'] ||
+                                                        (editableCell === row['id'] && !headerCells[id - 1].editable && row[cell])
+                                                    ) {
                                                         return (
                                                             <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
                                                                 {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
@@ -333,7 +336,7 @@ export const ComplexTable = ({
                     )}
                 </Table>
             </TableContainer>
-            {pagination && (
+            {pagination && rows!.length > 0 && (
                 <Pagination
                     handleChangePage={handleChangePage}
                     page={page}
