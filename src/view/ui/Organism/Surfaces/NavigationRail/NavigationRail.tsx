@@ -55,7 +55,7 @@ export const NavigationRail = ({ navButtons, actions, menuItems, background = 'w
                 component="div"
                 zIndex={1000}
             >
-                <Box display="flex" flexDirection="column" pt="20px">
+                <Box display="flex" flexDirection="column" pt="20px" position="relative" zIndex={999}>
                     {navButtons.map((d, i: number) => (
                         <Box
                             key={i}
@@ -66,7 +66,7 @@ export const NavigationRail = ({ navButtons, actions, menuItems, background = 'w
                         </Box>
                     ))}
                 </Box>
-                <Box display="flex" flexDirection="column" alignItems="center" pb="20px">
+                <Box display="flex" flexDirection="column" alignItems="center" pb="20px" position="relative" zIndex={999}>
                     {actions &&
                         actions.map((d, i) => (
                             <Box key={i} onClick={handleOpenMenuSettings}>
@@ -83,40 +83,45 @@ export const NavigationRail = ({ navButtons, actions, menuItems, background = 'w
                         />
                     )}
                 </Box>
+                <AnimatePresence>
+                    {openPanel.includes(true) && (
+                        <Box
+                            height="100vh"
+                            width="200px"
+                            position="absolute"
+                            ml="100px"
+                            top="0px"
+                            left="0px"
+                            bgcolor={background}
+                            component={motion.div}
+                            initial={{ opacity: 0, width: '0px' }}
+                            animate={{ opacity: 1, width: '200px' }}
+                            exit={{ opacity: 0, width: '0px' }}
+                            transition={{ ease: 'easeIn', duration: 0.5 }}
+                        >
+                            {navButtons.map(
+                                (d, i) =>
+                                    d.layer && (
+                                        <Box
+                                            flexDirection="column"
+                                            position="absolute"
+                                            alignItems="center"
+                                            display={openPanel![i] ? 'flex' : 'none'}
+                                            key={i}
+                                            component={motion.div}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ ease: 'easeIn', duration: 0.5, delay: 0.25 }}
+                                        >
+                                            {d.layer.components!.map((e, j) => e)}
+                                        </Box>
+                                    ),
+                            )}
+                        </Box>
+                    )}
+                </AnimatePresence>
             </Box>
-            <AnimatePresence>
-                {openPanel.includes(true) && (
-                    <Box
-                        height="100vh"
-                        width="200px"
-                        position="absolute"
-                        ml="100px"
-                        top="0px"
-                        left="0px"
-                        bgcolor={background}
-                        component={motion.div}
-                        initial={{ x: '-100px', opacity: 0 }}
-                        animate={{ x: '0px', opacity: 1 }}
-                        exit={{ x: '-100px', opacity: 0 }}
-                        transition={{ ease: 'easeInOut', duration: 0.5 }}
-                    >
-                        {navButtons.map(
-                            (d, i) =>
-                                d.layer && (
-                                    <Box
-                                        flexDirection="column"
-                                        position="absolute"
-                                        alignItems="center"
-                                        display={openPanel![i] ? 'flex' : 'none'}
-                                        key={i}
-                                    >
-                                        {d.layer.components!.map((e, j) => e)}
-                                    </Box>
-                                ),
-                        )}
-                    </Box>
-                )}
-            </AnimatePresence>
         </Box>
     );
 };
