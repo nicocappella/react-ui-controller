@@ -11,4 +11,6 @@ const Template: ComponentStory<typeof Menu> = (args) => <Menu {...args} />;
 
 export const DefaultCheck = Template.bind({});
 
-DefaultCheck.args = {};
+DefaultCheck.args = {
+    
+};

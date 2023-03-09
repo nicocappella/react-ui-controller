@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu as MuiMenu } from '@mui/material';
 import { IMenuItem, MenuItem } from '../../Atoms/MenuItem/MenuItem';
 
-interface IMenu {
+export interface IMenu {
     items: IMenuItem[];
     open: boolean;
     handleClose: (e: React.MouseEvent<HTMLElement>) => void;

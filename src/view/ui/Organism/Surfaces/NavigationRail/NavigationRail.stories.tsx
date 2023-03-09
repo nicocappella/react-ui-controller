@@ -46,7 +46,7 @@ NormalNavigationRail.args = {
                 </Box>
             ),
             layer: {
-                components: [<Button text="Hola" variant="text" type="button"/>, <Button text="Hola" variant="text" type='button' />],
+                components: [<Button text="Hola" variant="text" type="button" />, <Button text="Hola" variant="text" type="button" />],
             },
         },
     ],
@@ -56,6 +56,7 @@ NormalNavigationRail.args = {
         </IconButton>,
     ],
     background: '#F3F6FC',
+    menuItems: [{ leadingText: 'Hey' }],
 };
 
 export const SmallNavigationRail = Template.bind({});

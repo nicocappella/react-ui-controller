@@ -52,9 +52,7 @@ const Toolbar = ({ date, handleDateChange, deleteRows, filterButtons, mainButton
                 <>
                     <Box display="flex" justifyContent="end" alignItems="center">
                         <Typography variant="h5">{title}&nbsp;</Typography>
-                        {date && (
-                            <DatePicker value={date} key={'date'} handleChange={(value: Date | null) => handleDateChange?.(value)} />
-                        )}
+                        {date && <DatePicker value={date} key={'date'} handleChange={(value: Date | null) => handleDateChange?.(value)} />}
                     </Box>
                     <Box component="div" sx={{ display: 'flex', justifyContent: 'space-around', flexGrow: 1 }}>
                         {mainButton && mainButton.map((d, i) => d)}
