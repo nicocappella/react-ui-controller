@@ -52,7 +52,7 @@ export const ComplexTable = ({
     // handleSelectAllClick,
     mainButton,
     pagination = true,
-    rows,
+    rows = [],
     rowPerPageOptions,
     title = 'Example Table',
     toolbar,
@@ -68,6 +68,7 @@ export const ComplexTable = ({
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
     const tableRows =
         rows &&
+        rows.length > 0 &&
         tableFunctions
             .stableSort<{ [key: string]: string | number; id: string }>(rows, tableFunctions.getComparator(order, orderBy))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -133,7 +134,7 @@ export const ComplexTable = ({
         setOrderBy(property);
     };
     React.useEffect(() => {
-        if (rows) {
+        if (rows && rows.length > 0) {
             const highestKeys = rows.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0];
             const arrayOfHeads = Object.keys(highestKeys).map<HeadCell>((d) => {
                 const align = typeof highestKeys[d] === 'string' ? 'left' : 'right';
@@ -189,7 +190,7 @@ export const ComplexTable = ({
                             <CircularProgress />
                         </Box>
                     )}
-                    {rows!.length > 0 && (
+                    {rows && rows.length > 0 && (
                         <>
                             <Head
                                 numSelected={selected && selected.length}

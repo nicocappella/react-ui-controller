@@ -17,7 +17,7 @@ export interface IButton {
     padding?: string;
     borderRadius?: string;
     uploadButton?: { multiple: boolean; type: string; id: string };
-    loginButton?: { loading: boolean; success: boolean; error: boolean };
+    loginButton?: { loading: boolean; success: boolean; error?: boolean };
 }
 
 const Button = ({
