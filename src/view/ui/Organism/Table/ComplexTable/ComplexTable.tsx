@@ -1,5 +1,5 @@
 import { Check, Close, Delete, Edit } from '@mui/icons-material';
-import { Box, Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { Box, Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
@@ -26,6 +26,8 @@ export interface IComplexTable {
     filterButtons?: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
     handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    isError: boolean;
+    isLoading: boolean;
     mainButton?: React.ReactNode[];
     pagination?: boolean;
     rows?: { [key: string]: string | number; id: string }[];
@@ -50,11 +52,13 @@ export const ComplexTable = ({
     filterButtons,
     handleDateChange,
     // handleSelectAllClick,
+    isError,
+    isLoading,
     mainButton,
     pagination = true,
     rows = [],
     rowPerPageOptions,
-    title = 'Example Table',
+    title = 'Rows',
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
@@ -185,7 +189,12 @@ export const ComplexTable = ({
                     size={dense ? 'small' : 'medium'}
                     onKeyDown={cancelEdit}
                 >
-                    {rows?.length === 0 && (
+                    {isError && (
+                        <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
+                            <Typography>No hay {title.toLowerCase()} disponibles</Typography>
+                        </Box>
+                    )}
+                    {isLoading && (
                         <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
                             <CircularProgress />
                         </Box>
