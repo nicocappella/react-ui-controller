@@ -86,7 +86,6 @@ export const ComplexTable = ({
         const { name, value } = event.target;
         setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
     };
-    console.log(editedRow);
     const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
         setEditedRow(undefined);
@@ -163,7 +162,7 @@ export const ComplexTable = ({
             setHeaderCells([...arrayOfHeads]);
             setHeaderKeys([...Object.keys(highestKeys)]);
         }
-    }, []);
+    }, [rows]);
 
     // React.useEffect(() => {}, [selected]);
 
