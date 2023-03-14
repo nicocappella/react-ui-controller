@@ -243,10 +243,7 @@ export const ComplexTable = ({
                                                 )}
                                                 {headerKeys.map((cell, id) => {
                                                     if (excludeId && cell === 'id') return;
-                                                    if (
-                                                        editableCell !== row['id'] ||
-                                                        (editableCell === row['id'] && !headerCells[id - 1].editable && row[cell])
-                                                    ) {
+                                                    if (editableCell !== row['id']) {
                                                         return (
                                                             <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
                                                                 {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
