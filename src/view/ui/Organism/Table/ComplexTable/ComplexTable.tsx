@@ -86,6 +86,11 @@ export const ComplexTable = ({
         const { name, value } = event.target;
         setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
     };
+    const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
+        e.stopPropagation();
+        setEditableCell(id);
+        setEditedRow(rows.find((d) => d.id === id));
+    };
     const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
         setEditedRow(undefined);
@@ -100,15 +105,12 @@ export const ComplexTable = ({
         deleteRows(selected);
         setSelected([]);
     };
-    const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
-        e.stopPropagation();
-        setEditableCell(id);
-        setEditedRow(rows.find((d) => d.id === id));
-    };
     const handleRowClick = (event: React.MouseEvent<unknown>, name: string) => {
         const selectedIndex = selected.indexOf(name);
         let newSelected: string[] = [];
-        if (editedRow) return;
+        if (editedRow) {
+            return setSelected([]);
+        }
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, name);
         } else if (selectedIndex === 0) {
@@ -332,7 +334,8 @@ export const ComplexTable = ({
                                                                 title="Aceptar"
                                                                 handleClick={(e: React.MouseEvent<HTMLElement>) => {
                                                                     confirmEdit(row.id.toString(), editedRow!);
-                                                                    setEditedRow({});
+                                                                    setEditedRow(undefined);
+                                                                    setEditableCell(undefined);
                                                                 }}
                                                             >
                                                                 <Check color="primary" />
