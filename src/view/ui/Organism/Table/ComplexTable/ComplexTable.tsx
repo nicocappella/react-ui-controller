@@ -13,7 +13,7 @@ import Toolbar from './Toolbar';
 
 export interface IComplexTable {
     cancelEdit: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
-    confirmEdit: (e: React.MouseEvent<HTMLElement>, value: string) => void;
+    confirmEdit: (id: string, value: { [key: string]: string | number | undefined }) => void;
     date?: Date | null;
     deleteRow: (e: React.MouseEvent<HTMLElement>, value: string | number) => void;
     deleteRows: (rows: string[]) => void;
@@ -331,8 +331,8 @@ export const ComplexTable = ({
                                                             <IconButton
                                                                 title="Aceptar"
                                                                 handleClick={(e: React.MouseEvent<HTMLElement>) => {
+                                                                    confirmEdit(row.id.toString(), editedRow!);
                                                                     setEditedRow({});
-                                                                    confirmEdit(e, row.id.toString());
                                                                 }}
                                                             >
                                                                 <Check color="primary" />
