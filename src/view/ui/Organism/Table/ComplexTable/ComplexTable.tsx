@@ -146,7 +146,7 @@ export const ComplexTable = ({
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if (rows && rows.length > 0) {
             const highestKeys = rows.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0];
             const arrayOfHeads = Object.keys(highestKeys).map<HeadCell>((d) => {
@@ -163,7 +163,7 @@ export const ComplexTable = ({
             setHeaderCells([...arrayOfHeads]);
             setHeaderKeys([...Object.keys(highestKeys)]);
         }
-    }, [headerCells, headerKeys]);
+    }, []);
 
     // React.useEffect(() => {}, [selected]);
 
