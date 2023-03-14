@@ -163,7 +163,7 @@ export const ComplexTable = ({
             setHeaderCells([...arrayOfHeads]);
             setHeaderKeys([...Object.keys(highestKeys)]);
         }
-    }, []);
+    }, [headerCells, headerKeys]);
 
     // React.useEffect(() => {}, [selected]);
 
