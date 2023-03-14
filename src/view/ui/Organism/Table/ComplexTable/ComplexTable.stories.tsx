@@ -18,11 +18,23 @@ const Template: ComponentStory<typeof ComplexTable> = (args) => <ComplexTable {.
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-    // rows: newProducts,
+    rows: newProducts,
     excludeId: true,
     editable: true,
     title: 'ExampleTable',
     toolbar: true,
+    editableCellForms: [
+        { formInput: 'textfield', head: 'title' },
+        { formInput: 'textfield', head: 'description' },
+        { formInput: 'textfield', head: 'price' },
+        { formInput: 'textfield', head: 'discountPercentage' },
+        { formInput: 'textfield', head: 'rating' },
+        { formInput: 'textfield', head: 'stock' },
+        { formInput: 'select', head: 'category', options: ['fragnaces', 'groceries', 'home-decoration', 'laptops', 'skincara', 'smartphones'] },
+        { formInput: 'textfield', head: 'brand' },
+        { formInput: 'textfield', head: 'thumbnail' },
+        { formInput: 'textfield', head: 'images' },
+    ],
 };
 // export const UploadButton = Template.bind({});
 // UploadButton.args = {

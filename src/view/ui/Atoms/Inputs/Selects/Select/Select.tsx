@@ -29,6 +29,7 @@ export interface ISelect {
     name: string;
     value: string | undefined;
     size?: 'medium' | 'small';
+    // Test with SelectChangeEvent<string> if it works in another projects
     handleChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
     width?: string | number;
 }

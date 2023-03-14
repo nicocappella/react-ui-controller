@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu as MuiMenu } from '@mui/material';
 import { IMenuItem, MenuItem } from '../../Atoms/MenuItem/MenuItem';
 
+
 export interface IMenu {
     items: IMenuItem[];
     open: boolean;

@@ -4,7 +4,7 @@ import { SyntheticEvent } from 'react';
 export interface IAutocomplete {
     options: string[];
     label?: string;
-    width: number;
+    width?: number;
     name: string;
     defaultValue?: string | undefined;
     value: string | undefined;

@@ -1,7 +1,8 @@
 import { Check, Close, Delete, Edit } from '@mui/icons-material';
-import { Box, Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { Box, Checkbox, CircularProgress, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
+import { Autocomplete, DatePicker, Select } from '../../../Atoms';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
@@ -14,23 +15,24 @@ export interface IComplexTable {
     cancelEdit: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
     confirmEdit: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     date?: Date | null;
-    deleteRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
+    deleteRow: (e: React.MouseEvent<HTMLElement>, value: string | number) => void;
     deleteRows: (rows: string[]) => void;
     dense?: boolean;
     editable?: boolean;
     editableButtons?: React.ReactNode[];
-    editableCell: string | undefined;
+    editableCell?: string | undefined;
+    editableCellForms: { formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete'; options?: string[]; others?: 'currency'; head: string }[];
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     editRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     excludeId?: boolean;
     filterButtons?: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
     handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    isError: boolean;
-    isLoading: boolean;
+    isError?: boolean;
+    isLoading?: boolean;
     mainButton?: React.ReactNode[];
     pagination?: boolean;
-    rows?: { [key: string]: string | number; id: string }[];
+    rows?: { [key: string]: string | number | undefined; id: string | number }[];
     rowPerPageOptions: number[];
     title: string;
     toolbar?: boolean;
@@ -45,9 +47,9 @@ export const ComplexTable = ({
     dense,
     editable,
     editableButtons,
-    editableCell,
+    editableCellForms,
     editableFunctions,
-    editRow,
+    // editRow,
     excludeId = false,
     filterButtons,
     handleDateChange,
@@ -62,7 +64,8 @@ export const ComplexTable = ({
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
-    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string }>({});
+    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | undefined } | undefined>();
+    const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [page, setPage] = React.useState(0);
@@ -74,20 +77,22 @@ export const ComplexTable = ({
         rows &&
         rows.length > 0 &&
         tableFunctions
-            .stableSort<{ [key: string]: string | number; id: string }>(rows, tableFunctions.getComparator(order, orderBy))
+            .stableSort<{ [key: string]: string | number | undefined; id: string | number }>(rows, tableFunctions.getComparator(order, orderBy))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
-    const handleEditedRow = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleEditedRow = (event: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<unknown>) => {
         const { name, value } = event.target;
-        setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+        setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
     };
+    console.log(editedRow);
     const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-        setEditedRow({});
-        cancelEdit(e);
+        e.stopPropagation();
+        setEditedRow(undefined);
+        setEditableCell(undefined);
     };
-    const handleDeleteRow = (e: React.MouseEvent<HTMLElement>, id: string) => {
+    const handleDeleteRow = (e: React.MouseEvent<HTMLElement>, id: string | number) => {
         e.stopPropagation();
         deleteRow(e, id);
         setSelected([]);
@@ -96,11 +101,15 @@ export const ComplexTable = ({
         deleteRows(selected);
         setSelected([]);
     };
-
+    const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
+        e.stopPropagation();
+        setEditableCell(id);
+        setEditedRow(rows.find((d) => d.id === id));
+    };
     const handleRowClick = (event: React.MouseEvent<unknown>, name: string) => {
         const selectedIndex = selected.indexOf(name);
         let newSelected: string[] = [];
-        // if (editedRow) return;
+        if (editedRow) return;
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, name);
         } else if (selectedIndex === 0) {
@@ -153,20 +162,10 @@ export const ComplexTable = ({
             });
             setHeaderCells([...arrayOfHeads]);
             setHeaderKeys([...Object.keys(highestKeys)]);
-            // headCells.push({
-            //     id: 'actions',
-            //     align: 'center',
-            //     disablePadding: false,
-            //     label: 'Acciones',
-            //     editable: false,
-            // });
         }
-        // if (handleEditedRow) {
-        //     handleEditedRow(editedRow);
-        // }
-    }, [headerCells, headerKeys]);
+    }, []);
 
-    React.useEffect(() => {}, [selected]);
+    // React.useEffect(() => {}, [selected]);
 
     return (
         <>
@@ -255,30 +254,45 @@ export const ComplexTable = ({
                                                             </TableCell>
                                                         );
                                                     } else if (editableCell === row['id']) {
+                                                        const cellForm = editableCellForms.find((d) => d.head === cell);
                                                         return (
                                                             <TableCell
                                                                 key={id}
                                                                 align={typeof row[cell] === 'string' ? 'left' : 'right'}
-                                                                onClick={() => console.log(cell)}
+                                                                onClick={() => {}}
                                                             >
-                                                                <TextField
-                                                                    padding={0.75}
-                                                                    label=""
-                                                                    variant="filled"
-                                                                    value={
-                                                                        editedRow[cell.toString()] !== undefined
-                                                                            ? editedRow[cell.toString()]
-                                                                            : typeof row[cell] === 'number'
-                                                                            ? Number(row[cell])
-                                                                            : row[cell]
-                                                                    }
-                                                                    size="small"
-                                                                    width={150}
-                                                                    name={cell}
-                                                                    type="text"
-                                                                    handleChange={handleEditedRow}
-                                                                    isNumber={typeof row[cell] === 'number' && true}
-                                                                />
+                                                                {cellForm &&
+                                                                    (cellForm.formInput === 'textfield' ? (
+                                                                        <TextField
+                                                                            name={cellForm.head}
+                                                                            value={editedRow && editedRow[cell] ? editedRow[cell] : ''}
+                                                                            handleChange={handleEditedRow}
+                                                                            label=""
+                                                                            type="text"
+                                                                            variant="outlined"
+                                                                            size="small"
+                                                                        />
+                                                                    ) : cellForm.formInput === 'select' ? (
+                                                                        <Select
+                                                                            name={cellForm.head}
+                                                                            items={cellForm.options}
+                                                                            value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
+                                                                            size="small"
+                                                                            handleChange={handleEditedRow}
+                                                                        />
+                                                                    ) : cellForm.formInput === 'datepicker' ? (
+                                                                        <DatePicker />
+                                                                    ) : (
+                                                                        cellForm.formInput === 'autocomplete' && (
+                                                                            <Autocomplete
+                                                                                name={cellForm.head}
+                                                                                options={cellForm.options!}
+                                                                                value={
+                                                                                    editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''
+                                                                                }
+                                                                            />
+                                                                        )
+                                                                    ))}
                                                             </TableCell>
                                                         );
                                                     }
@@ -286,14 +300,14 @@ export const ComplexTable = ({
                                                 {editable && editableCell !== row['id'] ? (
                                                     <TableCell align="left" padding="normal">
                                                         <IconButton
-                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id.toString())}
+                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id)}
                                                             title="Editar"
                                                         >
                                                             <Edit />
                                                         </IconButton>
 
                                                         <IconButton
-                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => handleDeleteRow(e, row.id.toString())}
+                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => handleDeleteRow(e, row.id)}
                                                             title="Eliminar"
                                                         >
                                                             <Delete />

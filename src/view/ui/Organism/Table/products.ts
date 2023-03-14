@@ -27,7 +27,6 @@ export const products = [
         stock: 34,
         brand: 'Apple',
         category: 'smartphones',
-        theme: 'blue',
         thumbnail: 'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
         images: [
             'https://i.dummyjson.com/data/products/2/1.jpg',
@@ -42,7 +41,6 @@ export const products = [
         description: "Samsung's new variant which goes beyond Galaxy to the Universe",
         price: 1249,
         discountPercentage: 15.46,
-       
     },
     {
         id: 4,

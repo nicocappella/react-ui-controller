@@ -4,7 +4,7 @@ export class TableClass {
     getComparator<Key extends keyof any>(
         order: Order,
         orderBy: Key,
-    ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
+    ): (a: { [key in Key]: number | string | undefined }, b: { [key in Key]: number | string | undefined }) => number {
         return order === 'desc' ? (a, b) => this.descendingComparator(a, b, orderBy) : (a, b) => -this.descendingComparator(a, b, orderBy);
     }
 
