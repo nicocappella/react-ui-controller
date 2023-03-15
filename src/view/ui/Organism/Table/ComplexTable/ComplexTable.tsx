@@ -91,12 +91,21 @@ export const ComplexTable = ({
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
-    const handleEditedRow = (event: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<unknown>) => {
+    const handleEditInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, checked } = event.target;
+        if (event.target.type === 'checkbox') {
+            console.log(checked);
+            return setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
+        }
+        return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
+    };
+    const handleEditSelectChange = (event: SelectChangeEvent<unknown>) => {
         const { name, value } = event.target;
-        setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
+        return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
     };
     const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
         e.stopPropagation();
+        setSelected([]);
         setEditableCell(id);
         setEditedRow(rows.find((d) => d.id === id));
     };
@@ -258,7 +267,11 @@ export const ComplexTable = ({
                                                         return (
                                                             <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
                                                                 {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
-                                                                {typeof row[cell] === 'boolean' ? <Switch checked={row[cell] as boolean}  /> : row[cell]}
+                                                                {typeof row[cell] === 'boolean' ? (
+                                                                    <Switch checked={row[cell] as boolean} />
+                                                                ) : (
+                                                                    row[cell]
+                                                                )}
                                                             </TableCell>
                                                         );
                                                     } else if (editableCell === row['id']) {
@@ -278,7 +291,7 @@ export const ComplexTable = ({
                                                                                     ? (editedRow[cell] as string | number)
                                                                                     : ''
                                                                             }
-                                                                            handleChange={handleEditedRow}
+                                                                            handleChange={handleEditInputChange}
                                                                             label=""
                                                                             type="text"
                                                                             variant="outlined"
@@ -290,7 +303,7 @@ export const ComplexTable = ({
                                                                             items={cellForm.options}
                                                                             value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
                                                                             size="small"
-                                                                            handleChange={handleEditedRow}
+                                                                            handleChange={handleEditSelectChange}
                                                                         />
                                                                     ) : cellForm.formInput === 'datepicker' ? (
                                                                         <DatePicker />
@@ -309,7 +322,7 @@ export const ComplexTable = ({
                                                                                         ? (editedRow[cell]! as boolean)
                                                                                         : false
                                                                                 }
-                                                                                handleChange={handleEditedRow}
+                                                                                handleChange={handleEditInputChange}
                                                                             />
                                                                         )
                                                                     ))}

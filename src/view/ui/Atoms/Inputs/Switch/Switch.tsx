@@ -6,7 +6,7 @@ export interface ISwitch {
     labelPlacement?: 'top' | 'start' | 'end' | 'bottom';
     name?: string;
     checked: boolean;
-    handleChange?: (e: SelectChangeEvent<boolean>) => void;
+    handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'end' }: ISwitch) => {
