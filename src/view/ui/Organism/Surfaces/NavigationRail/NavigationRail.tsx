@@ -105,7 +105,7 @@ export const NavigationRail = ({ navButtons, actions, menuItems, background = 'w
                                         <Box
                                             flexDirection="column"
                                             position="absolute"
-                                            alignItems="center"
+                                            alignItems="left"
                                             display={openPanel![i] ? 'flex' : 'none'}
                                             key={i}
                                             component={motion.div}

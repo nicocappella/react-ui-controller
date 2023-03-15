@@ -4,6 +4,7 @@ import React from 'react';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
 import { Autocomplete, DatePicker, Select } from '../../../Atoms';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
+import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
 import Pagination from './Pagination';
@@ -13,7 +14,7 @@ import Toolbar from './Toolbar';
 
 export interface IComplexTable {
     cancelEdit: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
-    confirmEdit: (id: string, value: { [key: string]: string | number | undefined }) => void;
+    confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
     date?: Date | null;
     deleteRow: (e: React.MouseEvent<HTMLElement>, value: string | number) => void;
     deleteRows: (rows: string[]) => void;
@@ -21,7 +22,12 @@ export interface IComplexTable {
     editable?: boolean;
     editableButtons?: React.ReactNode[];
     editableCell?: string | undefined;
-    editableCellForms: { formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete'; options?: string[]; others?: 'currency'; head: string }[];
+    editableCellForms: {
+        formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch';
+        options?: string[];
+        others?: 'currency';
+        head: string;
+    }[];
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     editRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     excludeId?: boolean;
@@ -32,7 +38,7 @@ export interface IComplexTable {
     isLoading?: boolean;
     mainButton?: React.ReactNode[];
     pagination?: boolean;
-    rows?: { [key: string]: string | number | undefined; id: string | number }[];
+    rows?: { [key: string]: string | number | boolean | undefined; id: string | number }[];
     rowPerPageOptions: number[];
     title: string;
     toolbar?: boolean;
@@ -64,7 +70,7 @@ export const ComplexTable = ({
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
-    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | undefined } | undefined>();
+    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | undefined } | undefined>();
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
     const [orderBy, setOrderBy] = React.useState('id');
@@ -77,7 +83,10 @@ export const ComplexTable = ({
         rows &&
         rows.length > 0 &&
         tableFunctions
-            .stableSort<{ [key: string]: string | number | undefined; id: string | number }>(rows, tableFunctions.getComparator(order, orderBy))
+            .stableSort<{ [key: string]: string | number | boolean | undefined; id: string | number }>(
+                rows,
+                tableFunctions.getComparator(order, orderBy),
+            )
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
@@ -249,6 +258,7 @@ export const ComplexTable = ({
                                                         return (
                                                             <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
                                                                 {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
+                                                                {typeof row[cell] === 'boolean' ? <Switch checked={row[cell] as boolean}  /> : row[cell]}
                                                             </TableCell>
                                                         );
                                                     } else if (editableCell === row['id']) {
@@ -263,7 +273,11 @@ export const ComplexTable = ({
                                                                     (cellForm.formInput === 'textfield' ? (
                                                                         <TextField
                                                                             name={cellForm.head}
-                                                                            value={editedRow && editedRow[cell] ? editedRow[cell] : ''}
+                                                                            value={
+                                                                                editedRow && editedRow[cell]
+                                                                                    ? (editedRow[cell] as string | number)
+                                                                                    : ''
+                                                                            }
                                                                             handleChange={handleEditedRow}
                                                                             label=""
                                                                             type="text"
@@ -280,14 +294,22 @@ export const ComplexTable = ({
                                                                         />
                                                                     ) : cellForm.formInput === 'datepicker' ? (
                                                                         <DatePicker />
+                                                                    ) : cellForm.formInput === 'autocomplete' ? (
+                                                                        <Autocomplete
+                                                                            name={cellForm.head}
+                                                                            options={cellForm.options!}
+                                                                            value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
+                                                                        />
                                                                     ) : (
-                                                                        cellForm.formInput === 'autocomplete' && (
-                                                                            <Autocomplete
+                                                                        cellForm.formInput === 'switch' && (
+                                                                            <Switch
                                                                                 name={cellForm.head}
-                                                                                options={cellForm.options!}
-                                                                                value={
-                                                                                    editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''
+                                                                                checked={
+                                                                                    editedRow && editedRow[cell]
+                                                                                        ? (editedRow[cell]! as boolean)
+                                                                                        : false
                                                                                 }
+                                                                                handleChange={handleEditedRow}
                                                                             />
                                                                         )
                                                                     ))}

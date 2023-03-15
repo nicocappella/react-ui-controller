@@ -4,7 +4,7 @@ import { products } from '../products';
 
 import { ComplexTable } from './ComplexTable';
 
-const newProducts = products.map((d) => ({ ...d, images: '' }));
+const newProducts = products.map((d) => ({ ...d, images: true }));
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -33,7 +33,7 @@ Primary.args = {
         { formInput: 'select', head: 'category', options: ['fragnaces', 'groceries', 'home-decoration', 'laptops', 'skincara', 'smartphones'] },
         { formInput: 'textfield', head: 'brand' },
         { formInput: 'textfield', head: 'thumbnail' },
-        { formInput: 'textfield', head: 'images' },
+        { formInput: 'switch', head: 'images' },
     ],
 };
 // export const UploadButton = Template.bind({});
