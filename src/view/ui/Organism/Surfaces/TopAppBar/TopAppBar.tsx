@@ -1,5 +1,7 @@
+import { Menu } from '@mui/icons-material';
 import { Toolbar, AppBar } from '@mui/material';
 import { Box } from '@mui/system';
+import { IconButton } from '../../../Atoms';
 import { Tabs } from '../../../Molecules';
 
 export interface ITopAppBar {
@@ -17,7 +19,7 @@ export interface ITopAppBar {
     otherButtons?: { component: React.ReactNode | string }[];
     navButtons?: { component: React.ReactNode }[];
     position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
-    showMenu?: boolean;
+    menuButton?: boolean;
 }
 
 const TopAppBar = ({
@@ -25,7 +27,7 @@ const TopAppBar = ({
     alignNavBar = 'space-between',
     navButtons,
     otherButtons,
-    showMenu,
+    menuButton,
     tabs,
     background = 'transparent',
     boxShadow,
@@ -44,6 +46,11 @@ const TopAppBar = ({
                 alignItems="center"
             >
                 {logo && <Box component="div">{logo?.component}</Box>}
+                {menuButton && (
+                    <IconButton>
+                        <Menu />
+                    </IconButton>
+                )}
                 {navButtons && tabs ? (
                     <Tabs
                         centered

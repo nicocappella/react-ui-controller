@@ -3,5 +3,5 @@ export type HeadCell = {
     align: 'inherit' | 'left' | 'center' | 'right' | 'justify' | undefined;
     disablePadding: boolean;
     label: string;
-    editable: boolean;
+    editable?: boolean;
 };
