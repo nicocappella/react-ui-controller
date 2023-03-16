@@ -14,6 +14,8 @@ export interface IProps {
 export const SimpleTable = ({ rows, excludeId, isLoading, isError }: IProps) => {
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
+    console.log('rows', rows);
+    console.log('headerCells', headerCells);
     React.useLayoutEffect(() => {
         if (rows && rows.length > 0) {
             const highestKeys = rows.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0];
