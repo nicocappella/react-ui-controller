@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, IconButton, InputAdornment, TextField as MuiTextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
 import React from 'react';
 
 export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
@@ -70,7 +70,7 @@ const TextField = ({
     variant = 'filled',
     width = 200,
     ...props
-}: ITextField) => {
+}: ITextField & TextFieldProps) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => {
@@ -81,7 +81,6 @@ const TextField = ({
         <Box component="div" display="flex" flexDirection="column">
             <>
                 <MuiTextField
-                    {...props}
                     autoComplete={autoComplete}
                     color={borderColor.focused}
                     fullWidth={fullWidth}
@@ -139,6 +138,7 @@ const TextField = ({
                             ),
                     }}
                     value={value}
+                    {...props}
                 />
                 {required && (
                     <Typography variant="caption" color="GrayText">

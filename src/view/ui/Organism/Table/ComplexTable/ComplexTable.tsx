@@ -13,7 +13,6 @@ import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
 
 export interface IComplexTable {
-    cancelEdit: (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
     date?: Date | null;
     deleteRow: (e: React.MouseEvent<HTMLElement>, value: string | number) => void;
@@ -29,7 +28,6 @@ export interface IComplexTable {
         head: string;
     }[];
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
-    editRow: (e: React.MouseEvent<HTMLElement>, value: string) => void;
     excludeId?: boolean;
     filterButtons?: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
@@ -39,13 +37,12 @@ export interface IComplexTable {
     mainButton?: React.ReactNode[];
     pagination?: boolean;
     rows?: { [key: string]: string | number | boolean | undefined; id: string | number }[];
-    rowPerPageOptions: number[];
+    rowPerPageOptions?: number[];
     title: string;
     toolbar?: boolean;
 }
 
 export const ComplexTable = ({
-    cancelEdit,
     confirmEdit,
     date,
     deleteRow,
@@ -65,7 +62,7 @@ export const ComplexTable = ({
     mainButton,
     pagination = true,
     rows = [],
-    rowPerPageOptions,
+    rowPerPageOptions = [25, 50, 100],
     title = 'Rows',
     toolbar,
 }: IComplexTable) => {
@@ -109,7 +106,9 @@ export const ComplexTable = ({
         setEditableCell(id);
         setEditedRow(rows.find((d) => d.id === id));
     };
-    const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
+    const handleCancelEdit = (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
+        const { code } = e as React.KeyboardEvent<HTMLElement>;
+        if (code && code !== 'Escape') return;
         e.stopPropagation();
         setEditedRow(undefined);
         setEditableCell(undefined);
@@ -205,7 +204,7 @@ export const ComplexTable = ({
                     sx={{ minWidth: 750, backgroundColor: '#fff', borderRadius: '4px' }}
                     aria-labelledby="tableTitle"
                     size={dense ? 'small' : 'medium'}
-                    onKeyDown={cancelEdit}
+                    onKeyDown={handleCancelEdit}
                 >
                     {isError && (
                         <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
@@ -376,7 +375,7 @@ export const ComplexTable = ({
                                                             >
                                                                 <Check color="primary" />
                                                             </IconButton>
-                                                            <IconButton title="Cancelar" handleClick={handleCancel}>
+                                                            <IconButton title="Cancelar" handleClick={handleCancelEdit}>
                                                                 <Close color="error" />
                                                             </IconButton>
                                                         </TableCell>
