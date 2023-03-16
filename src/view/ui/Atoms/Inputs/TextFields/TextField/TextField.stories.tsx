@@ -22,7 +22,7 @@ NormalTextField.args = {
         hover: 'blue',
         focused: 'primary',
     },
-    // borderRadius: '100px',
+    
 };
 
 export const FileButton = Template.bind({});
