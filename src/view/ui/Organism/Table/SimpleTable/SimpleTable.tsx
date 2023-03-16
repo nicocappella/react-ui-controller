@@ -1,14 +1,17 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Typography, CircularProgress } from '@mui/material';
 import { HeadCell } from '../ComplexTable/table';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
+import { Box } from '@mui/system';
 
 export interface IProps {
     rows: { [key: string]: string | number | undefined; id: string | number }[];
     excludeId?: boolean;
+    isLoading?: boolean;
+    isError?: boolean;
 }
 
-export const SimpleTable = ({ rows, excludeId }: IProps) => {
+export const SimpleTable = ({ rows, excludeId, isLoading, isError }: IProps) => {
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
     React.useLayoutEffect(() => {
@@ -31,6 +34,16 @@ export const SimpleTable = ({ rows, excludeId }: IProps) => {
     return (
         <TableContainer>
             <Table>
+                {isError && (
+                    <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
+                        <Typography>No hay información disponible</Typography>
+                    </Box>
+                )}
+                {isLoading && (
+                    <Box display="flex" justifyContent="center" alignItems="center" p="24px" width="100vw">
+                        <CircularProgress />
+                    </Box>
+                )}
                 <TableHead>
                     <TableRow>
                         {headerCells.map((headCell, i) => {
@@ -45,6 +58,7 @@ export const SimpleTable = ({ rows, excludeId }: IProps) => {
                 </TableHead>
                 <TableBody>
                     {rows &&
+                        rows.length > 0 &&
                         rows.map((row, i) => {
                             return (
                                 <TableRow key={i}>
