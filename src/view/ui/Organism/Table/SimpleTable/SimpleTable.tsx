@@ -46,36 +46,38 @@ export const SimpleTable = ({ rows, excludeId, isLoading, isError }: IProps) => 
                         <CircularProgress />
                     </Box>
                 )}
-                <TableHead>
-                    <TableRow>
-                        {headerCells.map((headCell, i) => {
-                            if (excludeId && headCell.id === 'id') return;
-                            return (
-                                <TableCell key={i} align={headCell.align} padding={headCell.disablePadding ? 'none' : 'normal'}>
-                                    {headCell.label}
-                                </TableCell>
-                            );
-                        })}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows &&
-                        rows.length > 0 &&
-                        rows.map((row, i) => {
-                            return (
-                                <TableRow key={i}>
-                                    {headerKeys.map((cell, index) => {
-                                        if (excludeId && cell === 'id') return;
-                                        return (
-                                            <TableCell key={i} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
-                                                {row[cell]}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })}
-                </TableBody>
+                {rows && rows.length > 0 && (
+                    <>
+                        <TableHead>
+                            <TableRow>
+                                {headerCells.map((headCell, i) => {
+                                    if (excludeId && headCell.id === 'id') return;
+                                    return (
+                                        <TableCell key={i} align={headCell.align} padding={headCell.disablePadding ? 'none' : 'normal'}>
+                                            {headCell.label}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row, i) => {
+                                return (
+                                    <TableRow key={i}>
+                                        {headerKeys.map((cell, index) => {
+                                            if (excludeId && cell === 'id') return;
+                                            return (
+                                                <TableCell key={index} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
+                                                    {row[cell]}
+                                                </TableCell>
+                                            );
+                                        })}
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </>
+                )}
             </Table>
         </TableContainer>
     );
