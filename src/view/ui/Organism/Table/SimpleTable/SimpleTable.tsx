@@ -4,10 +4,11 @@ import { HeadCell } from '../ComplexTable/table';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
 
 export interface IProps {
-    rows: { [key: string]: string | number | undefined }[];
+    rows: { [key: string]: string | number | undefined; id: string | number }[];
+    excludeId?: boolean;
 }
 
-export const SimpleTable = ({ rows }: IProps) => {
+export const SimpleTable = ({ rows, excludeId }: IProps) => {
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
     React.useLayoutEffect(() => {
@@ -32,26 +33,32 @@ export const SimpleTable = ({ rows }: IProps) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        {headerCells.map((d, i) => (
-                            <TableCell key={i} align={d.align} padding={d.disablePadding ? 'none' : 'normal'}>
-                                {d.label}
-                            </TableCell>
-                        ))}
+                        {headerCells.map((headCell, i) => {
+                            if (excludeId && headCell.id === 'id') return;
+                            return (
+                                <TableCell key={i} align={headCell.align} padding={headCell.disablePadding ? 'none' : 'normal'}>
+                                    {headCell.label}
+                                </TableCell>
+                            );
+                        })}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((d, i) => {
-                        const keys = Object.keys(d);
-                        return (
-                            <TableRow key={keys[i]}>
-                                {keys.map((k, i) => (
-                                    <TableCell key={i} align={headerCells[i].align ? 'right' : 'left'}>
-                                        {d[k]}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        );
-                    })}
+                    {rows &&
+                        rows.map((row, i) => {
+                            return (
+                                <TableRow key={i}>
+                                    {headerKeys.map((cell, index) => {
+                                        if (excludeId && cell === 'id') return;
+                                        return (
+                                            <TableCell key={i} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
+                                                {row[cell]}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            );
+                        })}
                 </TableBody>
             </Table>
         </TableContainer>
