@@ -266,8 +266,9 @@ export const ComplexTable = ({
                                                     if (editableCell !== row['id']) {
                                                         return (
                                                             <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
-                                                                {typeof row[cell] === 'number' ? Number(row[cell]).toFixed(2) : row[cell]}
-                                                                {typeof row[cell] === 'boolean' ? (
+                                                                {typeof row[cell] === 'number' ? (
+                                                                    Number(row[cell]).toFixed(2)
+                                                                ) : typeof row[cell] === 'boolean' ? (
                                                                     <Switch checked={row[cell] as boolean} />
                                                                 ) : (
                                                                     row[cell]
