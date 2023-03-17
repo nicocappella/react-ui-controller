@@ -67,6 +67,7 @@ export const ComplexTable = ({
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
+    const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>();
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | undefined } | undefined>();
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
@@ -91,13 +92,15 @@ export const ComplexTable = ({
     const handleEditInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, checked } = event.target;
         if (event.target.type === 'checkbox') {
-            console.log(checked);
             return setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
         }
         return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
     };
-    const handleEditSelectChange = (event: SelectChangeEvent<unknown>) => {
+    const handleEditSelectChange = (event: SelectChangeEvent<unknown>, index: string | undefined) => {
         const { name, value } = event.target;
+        if (index) {
+            setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
+        }
         return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
     };
     const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
@@ -105,6 +108,13 @@ export const ComplexTable = ({
         setSelected([]);
         setEditableCell(id);
         setEditedRow(rows.find((d) => d.id === id));
+    };
+    const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id: string) => {
+        const newEditedRow = { editedRow, ...editdedRowById };
+        console.log(newEditedRow);
+        confirmEdit(id, editedRow!);
+        setEditedRow(undefined);
+        setEditableCell(undefined);
     };
     const handleCancelEdit = (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
         const { code } = e as React.KeyboardEvent<HTMLElement>;
@@ -296,6 +306,7 @@ export const ComplexTable = ({
                                                                             type="text"
                                                                             variant="outlined"
                                                                             size="small"
+                                                                            width="100%"
                                                                         />
                                                                     ) : cellForm.formInput === 'select' ? (
                                                                         <Select
@@ -304,6 +315,7 @@ export const ComplexTable = ({
                                                                             value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
                                                                             size="small"
                                                                             handleChange={handleEditSelectChange}
+                                                                            width="100%"
                                                                         />
                                                                     ) : cellForm.formInput === 'datepicker' ? (
                                                                         <DatePicker />
@@ -367,11 +379,7 @@ export const ComplexTable = ({
                                                         >
                                                             <IconButton
                                                                 title="Aceptar"
-                                                                handleClick={(e: React.MouseEvent<HTMLElement>) => {
-                                                                    confirmEdit(row.id.toString(), editedRow!);
-                                                                    setEditedRow(undefined);
-                                                                    setEditableCell(undefined);
-                                                                }}
+                                                                handleClick={(event) => handleConfirmEdit(event, row.id.toString())}
                                                             >
                                                                 <Check color="primary" />
                                                             </IconButton>
