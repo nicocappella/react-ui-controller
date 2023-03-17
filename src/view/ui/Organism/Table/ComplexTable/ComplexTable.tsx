@@ -23,7 +23,7 @@ export interface IComplexTable {
     editableCell?: string | undefined;
     editableCellForms: {
         formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch';
-        options?: string[];
+        options?: string[] | { id: string | number; text: string }[];
         others?: 'currency';
         head: string;
     }[];
@@ -310,7 +310,7 @@ export const ComplexTable = ({
                                                                     ) : cellForm.formInput === 'autocomplete' ? (
                                                                         <Autocomplete
                                                                             name={cellForm.head}
-                                                                            options={cellForm.options!}
+                                                                            options={cellForm.options! as string[]}
                                                                             value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
                                                                         />
                                                                     ) : (

@@ -16,7 +16,7 @@ import { PaletteColors } from '../../TextFields/TextField/TextField';
 export interface ISelect {
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     itemWithIcon?: boolean;
-    items?: string[];
+    items?: string[] | { [key: string]: string | number; id: string | number; text: string }[];
     itemsObject?: { icon: string; text: string }[];
     color?: string;
     label?:
@@ -30,7 +30,7 @@ export interface ISelect {
     value: string | undefined;
     size?: 'medium' | 'small';
     // Test with SelectChangeEvent<string> if it works in another projects
-    handleChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
+    handleChange: (event: SelectChangeEvent<unknown>, id?: string) => void;
     width?: string | number;
 }
 
@@ -48,6 +48,16 @@ const Select = ({
     width = '200px',
     ...props
 }: ISelect & SelectProps) => {
+    const handleChangeInterceptor = (event: SelectChangeEvent<unknown>) => {
+        const { value } = event.target;
+        const _items: Array<string | { id: string | number; text: string }> = items ? items : [];
+        if (_items.every((item) => typeof item === 'object' && item !== null)) {
+            // @ts-ignore
+            const id = _items.find((d) => d.text === value).id;
+            return handleChange(event, id);
+        }
+        return handleChange(event);
+    };
     return (
         <FormControl>
             <InputLabel>{label}</InputLabel>
@@ -56,7 +66,7 @@ const Select = ({
                 labelId={name}
                 value={value}
                 id={name}
-                onChange={handleChange}
+                onChange={handleChangeInterceptor}
                 name={name}
                 size={size}
                 required
@@ -79,11 +89,22 @@ const Select = ({
                               <ListItemText>{d.text}</ListItemText>
                           </MenuItem>
                       ))
-                    : items?.map((d, i) => (
-                          <MenuItem key={i} value={d}>
-                              {d}
-                          </MenuItem>
-                      ))}
+                    : items?.map((d, i) => {
+                          if (typeof d === 'string') {
+                              return (
+                                  <MenuItem key={i} value={d}>
+                                      {d}
+                                  </MenuItem>
+                              );
+                          }
+                          if (typeof d === 'object') {
+                              return (
+                                  <MenuItem key={i} value={d.text}>
+                                      {d.text}
+                                  </MenuItem>
+                              );
+                          }
+                      })}
             </MuiSelect>
         </FormControl>
     );

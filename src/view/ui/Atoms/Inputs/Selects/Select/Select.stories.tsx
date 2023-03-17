@@ -14,8 +14,13 @@ export const NormalSelect = Template.bind({});
 
 NormalSelect.args = {
     color: 'primary',
-    items: ['Hola', 'Chau']
-
+    items: [
+        { id: '1', text: 'Hola' },
+        { id: '2', text: 'Chau' },
+    ],
+    handleChange: (e, i) => {
+        console.log('render', i);
+    },
 };
 
 export const SmallSelect = Template.bind({});
