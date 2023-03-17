@@ -110,8 +110,6 @@ export const ComplexTable = ({
         setEditedRow(rows.find((d) => d.id === id));
     };
     const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id: string) => {
-        const newEditedRow = { editedRow, ...editdedRowById };
-        console.log(newEditedRow);
         confirmEdit(id, editedRow!);
         setEditedRow(undefined);
         setEditableCell(undefined);
@@ -306,7 +304,9 @@ export const ComplexTable = ({
                                                                             type="text"
                                                                             variant="outlined"
                                                                             size="small"
-                                                                            width="100%"
+                                                                            width={
+                                                                                editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'
+                                                                            }
                                                                         />
                                                                     ) : cellForm.formInput === 'select' ? (
                                                                         <Select
