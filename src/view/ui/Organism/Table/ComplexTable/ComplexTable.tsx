@@ -110,7 +110,7 @@ export const ComplexTable = ({
         setEditedRow(rows.find((d) => d.id === id));
     };
     const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id: string) => {
-        const editableCellsByObject = editableCellForms.filter((d) => typeof d.options === 'object').map((d) => d.head);
+        const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
         const objectKeysNotEdited = editableCellsByObject.filter((d) => !Object.keys(editdedRowById).includes(d));
         const newEdited = Object.assign(editedRow!, editdedRowById);
         Object.keys(newEdited).forEach((d) => {
