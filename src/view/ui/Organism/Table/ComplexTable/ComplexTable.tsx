@@ -67,7 +67,7 @@ export const ComplexTable = ({
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
-    const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>();
+    const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>([]);
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | undefined } | undefined>();
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
@@ -96,12 +96,12 @@ export const ComplexTable = ({
         }
         return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
     };
-    const handleEditSelectChange = (event: SelectChangeEvent<unknown>, index: string | undefined) => {
+    const handleEditSelectChange = (event: SelectChangeEvent<unknown>) => {
         const { name, value } = event.target;
-        if (index) {
-            setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
-        }
         return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
+    };
+    const handleEditSelectById = (event: React.MouseEvent<HTMLElement>, index: string | undefined, name: string) => {
+        setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
     };
     const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
         e.stopPropagation();
@@ -110,7 +110,16 @@ export const ComplexTable = ({
         setEditedRow(rows.find((d) => d.id === id));
     };
     const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id: string) => {
-        confirmEdit(id, editedRow!);
+        const editableCellsByObject = editableCellForms.filter((d) => typeof d.options === 'object').map((d) => d.head);
+        const objectKeysNotEdited = editableCellsByObject.filter((d) => !Object.keys(editdedRowById).includes(d));
+        const newEdited = Object.assign(editedRow!, editdedRowById);
+        Object.keys(newEdited).forEach((d) => {
+            if (objectKeysNotEdited.includes(d)) {
+                delete newEdited[d];
+            }
+        });
+        console.log(newEdited);
+        confirmEdit(id, newEdited);
         setEditedRow(undefined);
         setEditableCell(undefined);
     };
@@ -315,6 +324,7 @@ export const ComplexTable = ({
                                                                             value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
                                                                             size="small"
                                                                             handleChange={handleEditSelectChange}
+                                                                            handleObjectClick={handleEditSelectById}
                                                                             width="100%"
                                                                         />
                                                                     ) : cellForm.formInput === 'datepicker' ? (

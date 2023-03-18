@@ -30,8 +30,22 @@ Primary.args = {
         { formInput: 'textfield', head: 'discountPercentage' },
         { formInput: 'textfield', head: 'rating' },
         { formInput: 'textfield', head: 'stock' },
-        { formInput: 'select', head: 'category', options: ['fragnaces', 'groceries', 'home-decoration', 'laptops', 'skincara', 'smartphones'] },
-        { formInput: 'textfield', head: 'brand' },
+        {
+            formInput: 'select',
+            head: 'category',
+            options: [
+                { id: '1', text: '20' },
+                { id: '2', text: '30' },
+            ],
+        },
+        {
+            formInput: 'select',
+            head: 'brand',
+            options: [
+                { id: '1', text: '20' },
+                { id: '2', text: '30' },
+            ],
+        },
         { formInput: 'textfield', head: 'thumbnail' },
         { formInput: 'switch', head: 'images' },
     ],
