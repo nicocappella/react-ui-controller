@@ -8,7 +8,7 @@ import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
 import Pagination from './Pagination';
-import { HeadCell } from './table';
+import { HeadCell, IEditableCellForm } from './table';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
 
@@ -21,12 +21,7 @@ export interface IComplexTable {
     editable?: boolean;
     editableButtons?: React.ReactNode[];
     editableCell?: string | undefined;
-    editableCellForms: {
-        formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch';
-        options?: string[] | { id: string | number; text: string }[];
-        others?: 'currency';
-        head: string;
-    }[];
+    editableCellForms: IEditableCellForm[];
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     excludeId?: boolean;
     filterButtons?: React.ReactNode[];

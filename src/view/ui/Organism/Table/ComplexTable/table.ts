@@ -5,3 +5,9 @@ export type HeadCell = {
     label: string;
     editable?: boolean;
 };
+export interface IEditableCellForm {
+    formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch';
+    options?: string[] | { id: string | number; text: string }[];
+    others?: 'currency';
+    head: string;
+}
