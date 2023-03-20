@@ -7,11 +7,12 @@ import { Box } from '@mui/system';
 export interface IProps {
     rows: { [key: string]: string | number | undefined; id: string | number }[];
     excludeId?: boolean;
+    headCellsLabelObject?: { [key: string]: string };
     isLoading?: boolean;
     isError?: boolean;
 }
 
-export const SimpleTable = ({ rows, excludeId, isLoading, isError }: IProps) => {
+export const SimpleTable = ({ rows, excludeId, headCellsLabelObject, isLoading, isError }: IProps) => {
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
     React.useLayoutEffect(() => {
@@ -52,7 +53,7 @@ export const SimpleTable = ({ rows, excludeId, isLoading, isError }: IProps) => 
                                     if (excludeId && headCell.id === 'id') return;
                                     return (
                                         <TableCell key={i} align={headCell.align} padding={headCell.disablePadding ? 'none' : 'normal'}>
-                                            {headCell.label}
+                                            {headCellsLabelObject ? headCellsLabelObject[headCell.id] : headCell.label}
                                         </TableCell>
                                     );
                                 })}

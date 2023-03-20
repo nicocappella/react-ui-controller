@@ -30,7 +30,7 @@ export interface ISelect {
     value: string | undefined;
     size?: 'medium' | 'small';
     // Test with SelectChangeEvent<string> if it works in another projects
-    handleObjectClick: (event: React.MouseEvent<HTMLElement>, index: string | number, name: string) => void;
+    handleObjectClick?: (event: React.MouseEvent<HTMLElement>, index: string | number, name: string) => void;
     handleChange: (event: SelectChangeEvent<unknown>) => void;
     width?: string | number;
 }

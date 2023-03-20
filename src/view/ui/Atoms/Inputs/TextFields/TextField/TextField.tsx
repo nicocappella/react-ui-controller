@@ -104,7 +104,7 @@ const TextField = ({
                         textAlign: 'center',
                         width: width,
                         color: borderColor.focused,
-                        input: { textAlign: 'right', padding: padding && padding },
+                        input: { textAlign: typeof value === 'string' ? 'left' : 'right', padding: padding && padding },
                         ['& fieldset']: {
                             borderRadius: borderRadius,
                             borderColor: borderColor.active,
