@@ -1,10 +1,10 @@
-export type HeadCell = {
+export interface HeadCell {
     id: string;
     align: 'inherit' | 'left' | 'center' | 'right' | 'justify' | undefined;
     disablePadding: boolean;
     label: string;
     editable?: boolean;
-};
+}
 export interface IEditableCellForm {
     formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch';
     options?: string[] | { id: string | number; text: string }[];

@@ -23,6 +23,19 @@ Primary.args = {
     editable: true,
     title: 'ExampleTable',
     toolbar: true,
+    headCellsLabelObject: {
+        title: 'Título',
+        description: 'Descripción',
+        price: 'Precio',
+        discountPercentage: 'Porcentaje de descuento',
+        rating: 'Clasificación',
+        stock: 'Cantidad en stock',
+        category: 'Categoría',
+        brand: 'Marca',
+        thumbnail: 'Miniatura',
+        date: 'Día',
+        images: 'Imágenes',
+    },
     editableCellForms: [
         { formInput: 'textfield', head: 'title' },
         { formInput: 'textfield', head: 'description' },
@@ -47,6 +60,7 @@ Primary.args = {
             ],
         },
         { formInput: 'textfield', head: 'thumbnail' },
+        { formInput: 'datepicker', head: 'date' },
         { formInput: 'switch', head: 'images' },
     ],
 };

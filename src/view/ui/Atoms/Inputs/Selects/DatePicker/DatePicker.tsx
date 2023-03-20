@@ -6,17 +6,25 @@ import esLocale from 'date-fns/locale/es';
 
 export interface IDatePicker {
     value: Date | null;
+    name?: string;
     handleChange: (value: Date | null) => void;
 }
 
-const DatePicker = ({ value, handleChange, ...props }: IDatePicker & DatePickerProps<Date, Date>) => {
+const DatePicker = ({ value, handleChange, name, ...props }: IDatePicker & DatePickerProps<Date>) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale}>
             <MuiDatePicker
                 {...props}
                 value={value}
                 onChange={(value: Date | null) => handleChange(value)}
-                renderInput={(params) => <TextField variant="standard" sx={{ width: 140 }} {...params} />}
+                slots={{ textField: TextField }}
+                slotProps={{
+                    textField: {
+                        name,
+                        size: 'small',
+                        variant: 'outlined',
+                    },
+                }}
             />
         </LocalizationProvider>
     );

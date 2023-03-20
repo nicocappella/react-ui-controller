@@ -7,6 +7,7 @@ export const products = [
         discountPercentage: 12.96,
         rating: 4.69,
         stock: 94,
+        date: '01/10/2023',
         brand: 'Apple',
         thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
         images: [

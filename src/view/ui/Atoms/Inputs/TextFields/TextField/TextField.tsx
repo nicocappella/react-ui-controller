@@ -87,7 +87,7 @@ const TextField = ({
                     label={label}
                     name={name}
                     onChange={handleChange}
-                    onKeyPress={(e) => {
+                    onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (isNumber) {
                             let charCode = e.key;
                             const regExpNumber = /^[0-9]*$/;
@@ -104,7 +104,7 @@ const TextField = ({
                         textAlign: 'center',
                         width: width,
                         color: borderColor.focused,
-                        input: { textAlign: align ? align : isNumber ? 'right' : 'left', padding: padding && padding },
+                        input: { textAlign: 'right', padding: padding && padding },
                         ['& fieldset']: {
                             borderRadius: borderRadius,
                             borderColor: borderColor.active,

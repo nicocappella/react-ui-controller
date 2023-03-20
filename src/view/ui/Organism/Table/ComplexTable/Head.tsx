@@ -10,6 +10,7 @@ interface IProps {
     editable?: boolean;
     excludeId: boolean;
     headCells: HeadCell[];
+    headCellsLabelObejct?: { [key: string]: string };
     numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -18,7 +19,18 @@ interface IProps {
     rowCount: number;
 }
 
-export const Head = ({ onSelectAllClick, editable, excludeId, order, orderBy, numSelected, rowCount, onRequestSort, headCells }: IProps) => {
+export const Head = ({
+    onSelectAllClick,
+    editable,
+    excludeId,
+    headCells,
+    headCellsLabelObejct,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+}: IProps) => {
     const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
@@ -51,7 +63,7 @@ export const Head = ({ onSelectAllClick, editable, excludeId, order, orderBy, nu
                                 direction={orderBy === headCell.id ? order : 'asc'}
                                 onClick={createSortHandler(headCell.id)}
                             >
-                                {headCell.label}
+                                {headCellsLabelObejct ? headCellsLabelObejct[headCell.id] : headCell.label}
                                 {orderBy === headCell.id ? (
                                     <Box component="span" sx={visuallyHidden}>
                                         {order === 'desc' ? 'sorted descending' : 'sorted ascending'}

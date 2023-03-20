@@ -15,6 +15,7 @@ import Toolbar from './Toolbar';
 export interface IComplexTable {
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
     date?: Date | null;
+    defaultOrder?: string;
     deleteRow: (e: React.MouseEvent<HTMLElement>, value: string | number) => void;
     deleteRows: (rows: string[]) => void;
     dense?: boolean;
@@ -26,7 +27,7 @@ export interface IComplexTable {
     excludeId?: boolean;
     filterButtons?: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
-    handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    headCellsLabelObject?: { [key: string]: string };
     isError?: boolean;
     isLoading?: boolean;
     mainButton?: React.ReactNode[];
@@ -40,6 +41,7 @@ export interface IComplexTable {
 export const ComplexTable = ({
     confirmEdit,
     date,
+    defaultOrder = 'id',
     deleteRow,
     deleteRows,
     dense,
@@ -51,7 +53,7 @@ export const ComplexTable = ({
     excludeId = false,
     filterButtons,
     handleDateChange,
-    // handleSelectAllClick,
+    headCellsLabelObject,
     isError,
     isLoading,
     mainButton,
@@ -63,10 +65,10 @@ export const ComplexTable = ({
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
     const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>([]);
-    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | undefined } | undefined>();
+    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | Date | undefined } | undefined>();
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
-    const [orderBy, setOrderBy] = React.useState('id');
+    const [orderBy, setOrderBy] = React.useState(defaultOrder);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);
     const [selected, setSelected] = React.useState<string[]>([]);
@@ -97,6 +99,11 @@ export const ComplexTable = ({
     };
     const handleEditSelectById = (event: React.MouseEvent<HTMLElement>, index: string | undefined, name: string) => {
         setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
+    };
+    const handleEditDateChange = (value: Date | null, name: string) => {
+        if (value) {
+            setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+        }
     };
     const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
         e.stopPropagation();
@@ -154,7 +161,7 @@ export const ComplexTable = ({
     };
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.checked) {
+        if (selected.length === 0) {
             tableRows && setSelected(tableRows.map((d) => d.id.toString()));
             return;
         }
@@ -237,6 +244,7 @@ export const ComplexTable = ({
                                 orderBy={orderBy}
                                 rowCount={rows!.length}
                                 headCells={headerCells && headerCells}
+                                headCellsLabelObejct={headCellsLabelObject}
                                 onRequestSort={handleRequestSort}
                                 onSelectAllClick={handleSelectAllClick}
                                 editable={editable}
@@ -291,8 +299,9 @@ export const ComplexTable = ({
                                                         return (
                                                             <TableCell
                                                                 key={id}
-                                                                align={typeof row[cell] === 'string' ? 'left' : 'right'}
+                                                                align="right"
                                                                 onClick={() => {}}
+                                                                sx={{ width: cellForm?.formInput === 'datepicker' ? '160px' : 'auto' }}
                                                             >
                                                                 {cellForm &&
                                                                     (cellForm.formInput === 'textfield' ? (
@@ -308,6 +317,7 @@ export const ComplexTable = ({
                                                                             type="text"
                                                                             variant="outlined"
                                                                             size="small"
+                                                                            isNumber={typeof editedRow![cell] === 'number' ? true : false}
                                                                             width={
                                                                                 editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'
                                                                             }
@@ -323,7 +333,11 @@ export const ComplexTable = ({
                                                                             width="100%"
                                                                         />
                                                                     ) : cellForm.formInput === 'datepicker' ? (
-                                                                        <DatePicker />
+                                                                        <DatePicker
+                                                                            name={cellForm.head}
+                                                                            value={editedRow ? new Date(editedRow[cell] as string) : null}
+                                                                            handleChange={(value) => handleEditDateChange(value, cellForm.head)}
+                                                                        />
                                                                     ) : cellForm.formInput === 'autocomplete' ? (
                                                                         <Autocomplete
                                                                             name={cellForm.head}
