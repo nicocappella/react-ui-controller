@@ -15,7 +15,8 @@ import Toolbar from './Toolbar';
 export interface IComplexTable {
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
     date?: Date | null;
-    defaultOrder?: string;
+    defaultOrder?: 'asc' | 'desc';
+    defaultOrderBy?: string;
     deleteRow: (e: React.MouseEvent<HTMLElement>, value: string | number) => void;
     deleteRows: (rows: string[]) => void;
     dense?: boolean;
@@ -33,6 +34,7 @@ export interface IComplexTable {
     mainButton?: React.ReactNode[];
     pagination?: boolean;
     rows?: { [key: string]: string | number | boolean | undefined; id: string | number }[];
+    rowsPerPage?: number;
     rowPerPageOptions?: number[];
     title: string;
     toolbar?: boolean;
@@ -41,7 +43,8 @@ export interface IComplexTable {
 export const ComplexTable = ({
     confirmEdit,
     date,
-    defaultOrder = 'id',
+    defaultOrder = 'asc',
+    defaultOrderBy = 'id',
     deleteRow,
     deleteRows,
     dense,
@@ -59,6 +62,7 @@ export const ComplexTable = ({
     mainButton,
     pagination = true,
     rows = [],
+    rowsPerPage = 50,
     rowPerPageOptions = [25, 50, 100],
     title = 'Rows',
     toolbar,
@@ -67,10 +71,10 @@ export const ComplexTable = ({
     const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>([]);
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | Date | undefined } | undefined>();
     const [editableCell, setEditableCell] = React.useState<string | number>();
-    const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
-    const [orderBy, setOrderBy] = React.useState(defaultOrder);
+    const [order, setOrder] = React.useState<'asc' | 'desc'>(defaultOrder);
+    const [orderBy, setOrderBy] = React.useState(defaultOrderBy);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(25);
+    const [rowsPerPageState, setRowsPerPageState] = React.useState(50);
     const [selected, setSelected] = React.useState<string[]>([]);
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
@@ -82,7 +86,7 @@ export const ComplexTable = ({
                 rows,
                 tableFunctions.getComparator(order, orderBy),
             )
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+            .slice(page * rowsPerPageState, page * rowsPerPageState + rowsPerPageState);
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
@@ -173,7 +177,7 @@ export const ComplexTable = ({
         setPage(newPage);
     };
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPageState(parseInt(event.target.value, 10));
         setSelected([]);
         setPage(0);
     };
@@ -427,7 +431,7 @@ export const ComplexTable = ({
                     page={page}
                     rowPerPageOptions={rowPerPageOptions}
                     rows={rows ? rows : []}
-                    rowsPerPage={rowsPerPage}
+                    rowsPerPage={rowsPerPageState}
                     handleChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             )}
