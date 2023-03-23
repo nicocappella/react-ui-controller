@@ -5,7 +5,6 @@ import React from 'react';
 export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 
 export interface ITextField {
-    align?: 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
     autoComplete?: string;
     borderRadius?: string;
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
@@ -48,7 +47,6 @@ export interface ITextField {
 }
 
 const TextField = ({
-    align = 'left',
     autoComplete,
     borderRadius,
     borderColor = { focused: 'primary' },
@@ -68,7 +66,7 @@ const TextField = ({
     type = 'text',
     value,
     variant = 'filled',
-    width = 200,
+    width = '100%',
     ...props
 }: ITextField & TextFieldProps) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -101,10 +99,20 @@ const TextField = ({
                     rows={multiline && rows ? rows : undefined}
                     size={size}
                     sx={{
-                        textAlign: 'center',
                         width: width,
                         color: borderColor.focused,
-                        input: { textAlign: isNumber ? 'right' : 'left', padding: padding && padding },
+                        input: { padding: padding && padding, textAlign: type === 'number' ? 'right' : 'left' },
+                        ['&[type=number]::-webkit-inner-spin-button']: {
+                            WebkitAppearance: 'none',
+                            margin: 0,
+                        },
+                        ['[type=number]::-webkit-outer-inner-button']: {
+                            WebkitAppearance: 'none',
+                            margin: 0,
+                        },
+                        ['[type=number]']: {
+                            MozAppearance: 'textfield',
+                        },
                         ['& fieldset']: {
                             borderRadius: borderRadius,
                             borderColor: borderColor.active,
@@ -151,3 +159,4 @@ const TextField = ({
 };
 
 export { TextField };
+const c = <TextField />;

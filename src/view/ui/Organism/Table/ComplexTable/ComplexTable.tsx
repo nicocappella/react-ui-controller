@@ -22,7 +22,6 @@ export interface IComplexTable {
     dense?: boolean;
     editable?: boolean;
     editableButtons?: React.ReactNode[];
-    editableCell?: string | undefined;
     editableCellForms: IEditableCellForm[];
     editableFunctions?: ((e: React.MouseEvent<HTMLElement>, id: string) => void)[];
     excludeId?: boolean;

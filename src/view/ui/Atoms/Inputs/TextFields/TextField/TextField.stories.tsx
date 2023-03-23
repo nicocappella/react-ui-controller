@@ -14,21 +14,22 @@ export const NormalTextField = Template.bind({});
 
 NormalTextField.args = {
     variant: 'outlined',
-    value: 'text',
+    value: '',
     label: '',
+    type: 'number',
     width: '60px',
     borderColor: {
         active: 'red',
         hover: 'blue',
         focused: 'primary',
     },
-    
+    padding: '20px',
 };
 
 export const FileButton = Template.bind({});
 FileButton.args = {
     type: 'file',
-    label: 'Subir archivos'
+    label: 'Subir archivos',
 };
 
 export const LargeTextField = Template.bind({});
