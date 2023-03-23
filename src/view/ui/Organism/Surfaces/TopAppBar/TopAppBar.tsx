@@ -35,9 +35,9 @@ const TopAppBar = ({
     horizontalPadding = '64px',
     height = '64px',
     ...props
-}: ITopAppBar) => {
+}: ITopAppBar & AppBarProps) => {
     return (
-        <AppBar {...props} position={position} sx={{ background: 'transparent', boxShadow: 'none' }}>
+        <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none' }} {...props}>
             <Box
                 component="nav"
                 display="flex"
