@@ -36,6 +36,7 @@ Primary.args = {
         date: 'Día',
         images: 'Imágenes',
     },
+    rowsPerPage: 5,
     editableCellForms: [
         { formInput: 'textfield', head: 'title' },
         { formInput: 'textfield', head: 'description' },

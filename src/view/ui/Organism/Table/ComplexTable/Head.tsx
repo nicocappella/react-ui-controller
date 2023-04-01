@@ -73,6 +73,11 @@ export const Head = ({
                         </TableCell>
                     );
                 })}
+                {editable && (
+                    <TableCell key="actions" align="right" padding="normal">
+                        Acciones
+                    </TableCell>
+                )}
             </TableRow>
         </TableHead>
     );

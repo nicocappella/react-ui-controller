@@ -10,17 +10,22 @@ interface IProps {
     handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Pagination = (props: IProps) => {
+// Add Autocomplete for each one of the pages. Obviously optional.
+
+const Pagination = ({ rowPerPageOptions, rowsPerPage, rows, page, handleChangePage, handleChangeRowsPerPage }: IProps) => {
     return (
         <TablePagination
-            rowsPerPageOptions={props.rowPerPageOptions}
+            rowsPerPageOptions={rowPerPageOptions}
             component="div"
             labelRowsPerPage="Filas por página"
-            count={props.rows && props.rows.length}
-            rowsPerPage={props.rowsPerPage}
-            page={props.page}
-            onPageChange={props.handleChangePage}
-            onRowsPerPageChange={props.handleChangeRowsPerPage}
+            count={rows && rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            showFirstButton={rows.length / rowsPerPage > 2}
+            showLastButton={rows.length / rowsPerPage > 2}
+            
         />
     );
 };

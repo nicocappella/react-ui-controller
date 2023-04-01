@@ -27,6 +27,7 @@ export interface IComplexTable {
     excludeId?: boolean;
     filterButtons?: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
+    headCells?: string[];
     headCellsLabelObject?: { [key: string]: string };
     isError?: boolean;
     isLoading?: boolean;
@@ -55,6 +56,7 @@ export const ComplexTable = ({
     excludeId = false,
     filterButtons,
     handleDateChange,
+    headCells,
     headCellsLabelObject,
     isError,
     isLoading,
@@ -73,7 +75,7 @@ export const ComplexTable = ({
     const [order, setOrder] = React.useState<'asc' | 'desc'>(defaultOrder);
     const [orderBy, setOrderBy] = React.useState(defaultOrderBy);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPageState, setRowsPerPageState] = React.useState(50);
+    const [rowsPerPageState, setRowsPerPageState] = React.useState(rowsPerPage);
     const [selected, setSelected] = React.useState<string[]>([]);
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
@@ -189,19 +191,35 @@ export const ComplexTable = ({
     React.useLayoutEffect(() => {
         if (rows && rows.length > 0) {
             const highestKeys = rows.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0];
-            const arrayOfHeads = Object.keys(highestKeys).map<HeadCell>((d) => {
-                const align = typeof highestKeys[d] === 'string' ? 'left' : 'right';
-                const disablePadding = d === 'id' ? true : false;
-                return {
-                    id: d,
-                    align,
-                    disablePadding,
-                    label: capitalizeWord(d),
-                    editable: editable ? editable : false,
-                };
-            });
-            setHeaderCells([...arrayOfHeads]);
-            setHeaderKeys([...Object.keys(highestKeys)]);
+            if (!headCells) {
+                const arrayOfHeads = Object.keys(highestKeys).map<HeadCell>((d) => {
+                    const align = typeof highestKeys[d] === 'string' ? 'left' : 'right';
+                    const disablePadding = d === 'id' ? true : false;
+                    return {
+                        id: d,
+                        align,
+                        disablePadding,
+                        label: capitalizeWord(d),
+                        editable: editable ? editable : false,
+                    };
+                });
+                setHeaderCells([...arrayOfHeads]);
+                setHeaderKeys([...Object.keys(highestKeys)]);
+            } else {
+                const arrayOfHeads = headCells.map<HeadCell>((d) => {
+                    const align = typeof highestKeys[d] === 'string' ? 'left' : 'right';
+                    const disablePadding = d === 'id' ? true : false;
+                    return {
+                        id: d,
+                        align,
+                        disablePadding,
+                        label: capitalizeWord(d),
+                        editable: editable ? editable : false,
+                    };
+                });
+                setHeaderCells([...arrayOfHeads]);
+                setHeaderKeys([...headCells]);
+            }
         }
     }, [rows]);
 
