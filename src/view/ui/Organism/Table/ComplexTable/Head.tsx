@@ -66,7 +66,7 @@ export const Head = ({
                                 {headCellsLabelObejct ? headCellsLabelObejct[headCell.id] : headCell.label}
                                 {orderBy === headCell.id ? (
                                     <Box component="span" sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                        {order === 'desc' ? 'sorted descendinrightg' : 'sorted ascending'}
                                     </Box>
                                 ) : null}
                             </TableSortLabel>
@@ -74,7 +74,7 @@ export const Head = ({
                     );
                 })}
                 {editable && (
-                    <TableCell key="actions" align="right" padding="normal">
+                    <TableCell key="actions" align="left" padding="normal">
                         Acciones
                     </TableCell>
                 )}

@@ -193,7 +193,7 @@ export const ComplexTable = ({
             const highestKeys = rows.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0];
             if (!headCells) {
                 const arrayOfHeads = Object.keys(highestKeys).map<HeadCell>((d) => {
-                    const align = typeof highestKeys[d] === 'string' ? 'left' : 'right';
+                    const align = typeof highestKeys[d] === 'string' ? 'left' : typeof highestKeys[d] === 'number' ? 'right' : 'center';
                     const disablePadding = d === 'id' ? true : false;
                     return {
                         id: d,
@@ -365,18 +365,16 @@ export const ComplexTable = ({
                                                                             options={cellForm.options! as string[]}
                                                                             value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
                                                                         />
+                                                                    ) : cellForm.formInput === 'switch' ? (
+                                                                        <Switch
+                                                                            name={cellForm.head}
+                                                                            checked={
+                                                                                editedRow && editedRow[cell] ? (editedRow[cell]! as boolean) : false
+                                                                            }
+                                                                            handleChange={handleEditInputChange}
+                                                                        />
                                                                     ) : (
-                                                                        cellForm.formInput === 'switch' && (
-                                                                            <Switch
-                                                                                name={cellForm.head}
-                                                                                checked={
-                                                                                    editedRow && editedRow[cell]
-                                                                                        ? (editedRow[cell]! as boolean)
-                                                                                        : false
-                                                                                }
-                                                                                handleChange={handleEditInputChange}
-                                                                            />
-                                                                        )
+                                                                        row[cell]
                                                                     ))}
                                                             </TableCell>
                                                         );

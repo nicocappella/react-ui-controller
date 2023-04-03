@@ -3,6 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { products } from '../products';
 
 import { ComplexTable } from './ComplexTable';
+import { Button } from '../../../Atoms';
 
 const newProducts = products.map((d) => ({ ...d, images: true }));
 
@@ -36,6 +37,7 @@ Primary.args = {
         date: 'Día',
         images: 'Imágenes',
     },
+    mainButton: [<Button text="Agregar fila" variant="contained" type="button" />],
     rowsPerPage: 5,
     editableCellForms: [
         { formInput: 'textfield', head: 'title' },

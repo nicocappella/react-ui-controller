@@ -6,7 +6,7 @@ export interface HeadCell {
     editable?: boolean;
 }
 export interface IEditableCellForm {
-    formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch';
+    formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch' | 'none';
     options?: string[] | { id: string | number; text: string }[];
     others?: 'currency';
     head: string;
