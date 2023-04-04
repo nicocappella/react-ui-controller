@@ -62,7 +62,7 @@ Primary.args = {
                 { id: '2', text: '30' },
             ],
         },
-        { formInput: 'textfield', head: 'thumbnail' },
+        { formInput: 'none', head: 'thumbnail' },
         { formInput: 'datepicker', head: 'date' },
         { formInput: 'switch', head: 'images' },
     ],

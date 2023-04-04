@@ -305,7 +305,16 @@ export const ComplexTable = ({
                                                     if (excludeId && cell === 'id') return;
                                                     if (editableCell !== row['id']) {
                                                         return (
-                                                            <TableCell key={id} align={typeof row[cell] === 'string' ? 'left' : 'right'}>
+                                                            <TableCell
+                                                                key={id}
+                                                                align={
+                                                                    typeof row[cell] === 'string'
+                                                                        ? 'left'
+                                                                        : typeof row[cell] === 'number'
+                                                                        ? 'right'
+                                                                        : 'center'
+                                                                }
+                                                            >
                                                                 {typeof row[cell] === 'number' ? (
                                                                     Number(row[cell]).toFixed(2)
                                                                 ) : typeof row[cell] === 'boolean' ? (

@@ -9,9 +9,9 @@ export interface ICard {
         padding?: string;
         background?: string;
     };
-    description: { components: React.ReactNode | React.ReactNode[]; padding: string };
+    description?: { components: React.ReactNode | React.ReactNode[]; padding: string };
     actions?: React.ReactNode | React.ReactNode[];
-    background: string;
+    background?: string;
     direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-evenly';
     alignment?: 'left' | 'center' | 'right';
@@ -28,7 +28,7 @@ const Card = ({
     description,
     actions,
     direction = 'row',
-    background,
+    background = '#fff',
     alignment = 'center',
     width,
     height,
@@ -65,9 +65,11 @@ const Card = ({
                     sx={{ padding: header.padding ? header.padding : '16px', background: header.background }}
                 />
             )}
-            <CardContent sx={{ padding: description.padding ? description.padding : '24px', '&:last-child': { paddingBottom: '0px' } }}>
-                {description.components}
-            </CardContent>
+            {description && (
+                <CardContent sx={{ padding: description.padding ? description.padding : '24px', '&:last-child': { paddingBottom: '0px' } }}>
+                    {description.components}
+                </CardContent>
+            )}
             {actions && <CardActions>{actions}</CardActions>}
         </MuiCard>
     );
