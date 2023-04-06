@@ -1,11 +1,13 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
+import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
 import React from 'react';
 
 export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 
 export interface ITextField {
+    align?: string;
     autoComplete?: string;
+    backgroundColor?: string;
     borderRadius?: string;
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     endIcon?: string | React.ReactNode;
@@ -20,6 +22,7 @@ export interface ITextField {
         | React.ReactElement<any, any>
         | undefined;
     isNumber?: boolean;
+    minWidth?: string;
     multiline?: boolean;
     name: string;
     padding?: string | number;
@@ -47,7 +50,9 @@ export interface ITextField {
 }
 
 const TextField = ({
+    align = 'left',
     autoComplete,
+    backgroundColor = '#fff',
     borderRadius,
     borderColor = { focused: 'primary' },
     endIcon,
@@ -56,6 +61,7 @@ const TextField = ({
     handleEndIconClick,
     label = 'TextField',
     isNumber,
+    minWidth,
     multiline,
     name,
     padding,
@@ -99,9 +105,12 @@ const TextField = ({
                     rows={multiline && rows ? rows : undefined}
                     size={size}
                     sx={{
+                        borderRadius,
+                        backgroundColor,
                         width: width,
                         color: borderColor.focused,
                         input: { padding: padding && padding, textAlign: type === 'number' ? 'right' : 'left' },
+                        minWidth,
                         ['&[type=number]::-webkit-inner-spin-button']: {
                             WebkitAppearance: 'none',
                             margin: 0,
@@ -114,7 +123,7 @@ const TextField = ({
                             MozAppearance: 'textfield',
                         },
                         ['& fieldset']: {
-                            borderRadius: borderRadius,
+                            borderRadius,
                             borderColor: borderColor.active,
                         },
                         ['& div:hover > fieldset']: {
@@ -122,6 +131,9 @@ const TextField = ({
                         },
                         ['& label']: {
                             color: borderColor.active,
+                        },
+                        ['& input']: {
+                            textAlign: align,
                         },
                     }}
                     type={type !== 'password' ? type : showPassword ? 'text' : 'password'}

@@ -329,7 +329,13 @@ export const ComplexTable = ({
                                                         return (
                                                             <TableCell
                                                                 key={id}
-                                                                align="right"
+                                                                align={
+                                                                    typeof row[cell] === 'string'
+                                                                        ? 'left'
+                                                                        : typeof row[cell] === 'number'
+                                                                        ? 'right'
+                                                                        : 'center'
+                                                                }
                                                                 onClick={() => {}}
                                                                 sx={{ width: cellForm?.formInput === 'datepicker' ? '160px' : 'auto' }}
                                                             >
