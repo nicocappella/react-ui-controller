@@ -1,14 +1,14 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
-import { TextField } from './TextField';
+import { CurrencyTextField } from './CurrencyTextField';
 
 export default {
-    title: 'React-Ui-Controller/Atoms/Inputs/TextFields/TextField',
-    component: TextField,
-} as Meta<typeof TextField>;
+    title: 'React-Ui-Controller/Atoms/Inputs/TextFields/CurrencyTextField',
+    component: CurrencyTextField,
+} as Meta<typeof CurrencyTextField>;
 
-const Template: StoryFn<typeof TextField> = (args) => <TextField {...args} />;
+const Template: StoryFn<typeof CurrencyTextField> = (args) => <CurrencyTextField {...args} />;
 
 export const NormalTextField = Template.bind({});
 
@@ -42,4 +42,5 @@ NumberTextField.args = {
     value: '0',
     variant: 'outlined',
     label: '',
+    allowNegativeValues: false,
 };

@@ -5,7 +5,7 @@ import React from 'react';
 
 export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 
-export interface ICurrencyTextField {
+export interface ITextField {
     align?: string;
     autoComplete?: string;
     backgroundColor?: string;
@@ -23,34 +23,19 @@ export interface ICurrencyTextField {
         | React.ReactElement<any, any>
         | undefined;
     minWidth?: string;
-    multiline?: boolean;
     name: string;
     padding?: string | number;
     required?: boolean;
     rows?: number;
     size?: 'small' | 'medium';
     startIcon?: string | React.ReactNode;
-    type:
-        | 'button'
-        | 'checkbox'
-        | 'color'
-        | 'date'
-        | 'datetime-local'
-        | 'email'
-        | 'file'
-        | 'hidden'
-        | 'image'
-        | 'month'
-        | 'number'
-        | 'password'
-        | 'text';
     value: string | number | undefined;
     variant?: 'filled' | 'outlined' | 'standard';
     width?: string | number;
 }
 
-export const TextField = ({
-    align = 'left',
+export const CurrencyTextField = ({
+    align = 'right',
     autoComplete,
     backgroundColor = '#fff',
     borderRadius,
@@ -59,25 +44,43 @@ export const TextField = ({
     fullWidth = false,
     handleChange,
     handleEndIconClick,
-    label = 'TextField',
+    label = '',
     minWidth,
-    multiline,
     name,
     padding,
     required,
     rows,
     size = 'medium',
     startIcon,
-    type = 'text',
-    value,
+    value = 0,
     variant = 'outlined',
     width = '100%',
     ...props
-}: ICurrencyTextField & TextFieldProps) => {
-    const [showPassword, setShowPassword] = React.useState(false);
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
+}: ITextField & TextFieldProps) => {
+    const [numberValue, setNumberValue] = React.useState<AutoNumeric>();
+    const textFieldRef = React.useRef<HTMLInputElement>(null);
+    const predefined = AutoNumeric.getPredefinedOptions().Spanish;
+    const getValue = () => {
+        if (!numberValue) return;
+        return numberValue.getNumericString();
     };
+    const eventHandler = (e: React.SyntheticEvent<HTMLInputElement>, eventName: string) => {
+        setNumberValue()
+    };
+    React.useEffect(() => {
+        if (textFieldRef.current) {
+            const number = new AutoNumeric(textFieldRef.current, value, {
+                ...predefined,
+                ...props,
+                currencySymbol: '$',
+                currencySymbolPlacement: 'p',
+            });
+
+            setNumberValue(number.getNumericString());
+        }
+    }, [numberValue, textFieldRef]);
+
+    console.log(numberValue);
     return (
         <Box component="div" display="flex" flexDirection="column">
             <>
@@ -87,17 +90,28 @@ export const TextField = ({
                     fullWidth={fullWidth}
                     label={label}
                     name={name}
-                    onChange={handleChange}
-                    multiline={multiline ? multiline : undefined}
+                    // onChange={handleChange}
+                    // onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    //     let charCode = e.key;
+                    //     const regExpNumber = /^[0-9]*$/;
+                    //     if (!regExpNumber.test(charCode)) {
+                    //         e.preventDefault();
+                    //     }
+                    // }}
+                    onChange={(e) => eventHandler(e, 'onChange')}
+                    onFocus={(e) => eventHandler(e, 'onFocus')}
+                    onBlur={(e) => eventHandler(e, 'onBlur')}
+                    onKeyPress={(e) => eventHandler(e, 'onKeyPress')}
+                    onKeyUp={(e) => eventHandler(e, 'onKeyUp')}
+                    onKeyDown={(e) => eventHandler(e, 'onKeyDown')}
                     required={required}
-                    rows={multiline && rows ? rows : undefined}
                     size={size}
                     sx={{
                         borderRadius,
                         backgroundColor,
                         width: width,
                         color: borderColor.focused,
-                        input: { padding: padding && padding, textAlign: 'left' },
+                        input: { padding: padding && padding, textAlign: 'right' },
                         minWidth,
                         ['&[type=number]::-webkit-inner-spin-button']: {
                             WebkitAppearance: 'none',
@@ -121,31 +135,19 @@ export const TextField = ({
                             color: borderColor.active,
                         },
                         ['& input']: {
-                            textAlign: align,
+                            textAlign: 'right',
                         },
                     }}
-                    type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
+                    type="text"
                     variant={variant ? variant : 'outlined'}
                     InputProps={{
                         startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
-                        endAdornment:
-                            type === 'password' ? (
-                                <InputAdornment position="end">
-                                    <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickShowPassword}>
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            ) : (
-                                endIcon && (
-                                    <InputAdornment position="end">
-                                        <IconButton aria-label="" edge="end" onClick={handleEndIconClick}>
-                                            {endIcon}
-                                        </IconButton>
-                                    </InputAdornment>
-                                )
-                            ),
+                        endAdornment: <></>,
                     }}
-                    value={value}
+                    inputProps={{
+                        ref: textFieldRef,
+                    }}
+                    value={numberValue}
                     {...props}
                 />
                 {required && (

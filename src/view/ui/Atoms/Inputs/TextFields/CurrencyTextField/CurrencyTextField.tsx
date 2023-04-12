@@ -1,19 +1,20 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
-import AutoNumeric from 'autonumeric';
 import React from 'react';
+import CurrencyInput from 'react-currency-input-field';
 
 export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 
-export interface ICurrencyTextField {
+export interface ITextField {
     align?: string;
+    allowNegativeValues: boolean;
     autoComplete?: string;
     backgroundColor?: string;
     borderRadius?: string;
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChange: (value: string | undefined, name: string | undefined) => void;
     handleEndIconClick?: (e: React.MouseEvent) => void;
     label:
         | string
@@ -23,34 +24,21 @@ export interface ICurrencyTextField {
         | React.ReactElement<any, any>
         | undefined;
     minWidth?: string;
-    multiline?: boolean;
     name: string;
     padding?: string | number;
+    prefix: string;
     required?: boolean;
     rows?: number;
     size?: 'small' | 'medium';
     startIcon?: string | React.ReactNode;
-    type:
-        | 'button'
-        | 'checkbox'
-        | 'color'
-        | 'date'
-        | 'datetime-local'
-        | 'email'
-        | 'file'
-        | 'hidden'
-        | 'image'
-        | 'month'
-        | 'number'
-        | 'password'
-        | 'text';
     value: string | number | undefined;
     variant?: 'filled' | 'outlined' | 'standard';
     width?: string | number;
 }
 
-export const TextField = ({
-    align = 'left',
+export const CurrencyTextField = ({
+    align = 'right',
+    allowNegativeValues = true,
     autoComplete,
     backgroundColor = '#fff',
     borderRadius,
@@ -59,25 +47,20 @@ export const TextField = ({
     fullWidth = false,
     handleChange,
     handleEndIconClick,
-    label = 'TextField',
+    label = '',
     minWidth,
-    multiline,
     name,
     padding,
+    prefix,
     required,
     rows,
     size = 'medium',
     startIcon,
-    type = 'text',
-    value,
+    value = 0,
     variant = 'outlined',
     width = '100%',
     ...props
-}: ICurrencyTextField & TextFieldProps) => {
-    const [showPassword, setShowPassword] = React.useState(false);
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
+}: ITextField & TextFieldProps) => {
     return (
         <Box component="div" display="flex" flexDirection="column">
             <>
@@ -86,18 +69,14 @@ export const TextField = ({
                     color={borderColor.focused}
                     fullWidth={fullWidth}
                     label={label}
-                    name={name}
-                    onChange={handleChange}
-                    multiline={multiline ? multiline : undefined}
                     required={required}
-                    rows={multiline && rows ? rows : undefined}
                     size={size}
                     sx={{
                         borderRadius,
                         backgroundColor,
                         width: width,
                         color: borderColor.focused,
-                        input: { padding: padding && padding, textAlign: 'left' },
+                        input: { padding: padding && padding, textAlign: 'right' },
                         minWidth,
                         ['&[type=number]::-webkit-inner-spin-button']: {
                             WebkitAppearance: 'none',
@@ -121,31 +100,28 @@ export const TextField = ({
                             color: borderColor.active,
                         },
                         ['& input']: {
-                            textAlign: align,
+                            textAlign: 'right',
                         },
                     }}
-                    type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
+                    type="text"
                     variant={variant ? variant : 'outlined'}
                     InputProps={{
                         startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
-                        endAdornment:
-                            type === 'password' ? (
-                                <InputAdornment position="end">
-                                    <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickShowPassword}>
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            ) : (
-                                endIcon && (
-                                    <InputAdornment position="end">
-                                        <IconButton aria-label="" edge="end" onClick={handleEndIconClick}>
-                                            {endIcon}
-                                        </IconButton>
-                                    </InputAdornment>
-                                )
-                            ),
+                        endAdornment: <></>,
+                        inputComponent: (props) => (
+                            <CurrencyInput
+                                {...props}
+                                allowNegativeValue={allowNegativeValues}
+                                name={name}
+                                defaultValue={''}
+                                decimalsLimit={2}
+                                onValueChange={(value, name) => handleChange(value, name)}
+                                style={{ textAlign: 'right' }}
+                                prefix={prefix}
+                            />
+                        ),
                     }}
-                    value={value}
+                    // value={value}
                     {...props}
                 />
                 {required && (
