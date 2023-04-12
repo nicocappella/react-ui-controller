@@ -6,8 +6,8 @@ import { TextField } from '../../TextFields';
 
 export interface ICounterButton {
     name: string;
-    width: string;
-    handleValue: ({}) => void;
+    width?: string;
+    handleValue: (files: { [key: string]: number }) => void;
 }
 
 export const CounterButton = ({ name, width = '120px', handleValue }: ICounterButton) => {
@@ -22,8 +22,9 @@ export const CounterButton = ({ name, width = '120px', handleValue }: ICounterBu
         handleValue({ [name]: value - 1 });
     };
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setValue(Number(value));
+        const { name, value: textFieldValue } = e.target;
+        setValue(Number(textFieldValue));
+
         handleValue({ [name]: value });
     };
 
@@ -39,7 +40,7 @@ export const CounterButton = ({ name, width = '120px', handleValue }: ICounterBu
             </IconButton>
             <TextField
                 value={value}
-                type="text"
+                type="number"
                 label=""
                 variant="outlined"
                 isNumber
