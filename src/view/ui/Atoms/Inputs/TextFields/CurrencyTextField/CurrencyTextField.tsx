@@ -114,7 +114,6 @@ export const CurrencyTextField = ({
                                 onValueChange={(value) => handleChange(name, value)}
                                 style={{ textAlign: 'right' }}
                                 prefix={prefix}
-                                name={name}
                                 value={value}
                                 {...props}
                                 defaultValue={'0'}

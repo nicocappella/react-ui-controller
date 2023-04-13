@@ -1,8 +1,8 @@
 import React from 'react';
-import { Meta, StoryFn, storiesOf } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { CurrencyTextField } from './CurrencyTextField';
-import useState from 'storybook-addon-state';
+// import useState from 'storybook-addon-state';
 
 export default {
     title: 'React-Ui-Controller/Atoms/Inputs/TextFields/CurrencyTextField',
@@ -41,6 +41,7 @@ export const NumberTextField = Template.bind({});
 NumberTextField.args = {
     type: 'text',
     value: '0',
+    name: 'test',
     variant: 'outlined',
     label: '',
     allowNegativeValues: false,

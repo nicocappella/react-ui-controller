@@ -8,7 +8,7 @@ export default {
         '@storybook/addon-interactions',
         '@storybook/addon-a11y',
         '@storybook/addon-mdx-gfm',
-        'storybook-addon-state'
+        // 'storybook-addon-state'
     ],
     framework: { name: '@storybook/react-vite', options: {} },
    
