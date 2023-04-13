@@ -114,10 +114,10 @@ export const CurrencyTextField = ({
                                 name={name}
                                 defaultValue={''}
                                 decimalsLimit={2}
-                                onValueChange={(value, name) => handleChange(name, value)}
+                                onValueChange={handleChange}
                                 style={{ textAlign: 'right' }}
-                                value={value}
                                 prefix={prefix}
+                                value={value}
                             />
                         ),
                     }}
