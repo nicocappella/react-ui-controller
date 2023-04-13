@@ -1,4 +1,3 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
 import React from 'react';
 import CurrencyInput from 'react-currency-input-field';
@@ -117,11 +116,11 @@ export const CurrencyTextField = ({
                                 decimalsLimit={2}
                                 onValueChange={(value, name) => handleChange(name, value)}
                                 style={{ textAlign: 'right' }}
+                                value={value}
                                 prefix={prefix}
                             />
                         ),
                     }}
-                    // value={value}
                     {...props}
                 />
                 {required && (
