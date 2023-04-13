@@ -107,19 +107,19 @@ export const CurrencyTextField = ({
                     InputProps={{
                         startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
                         endAdornment: <></>,
-                        inputComponent: (props) => (
-                            <CurrencyInput
-                                {...props}
-                                onValueChange={(value, name) => handleChange(name, value)}
-                                name={name}
-                                value={value}
-                                allowNegativeValue={allowNegativeValues}
-                                defaultValue={0}
-                                decimalsLimit={2}
-                                style={{ textAlign: 'right' }}
-                                prefix={prefix}
-                            />
-                        ),
+                        inputComponent: CurrencyInput as any,
+                        inputProps: {
+                            name,
+                            value,
+                            onValueChange: (value: string | undefined, name: string | undefined) => handleChange(name, value),
+                            allowNegativeValue: false,
+                            prefix,
+                            defaultValue: 0,
+                            decimalsLimit: 2,
+                            style: {
+                                textAlign: 'right',
+                            },
+                        },
                     }}
                     {...props}
                 />
