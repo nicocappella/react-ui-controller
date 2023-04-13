@@ -68,6 +68,7 @@ export const CurrencyTextField = ({
                     color={borderColor.focused}
                     fullWidth={fullWidth}
                     label={label}
+                    name={name}
                     required={required}
                     size={size}
                     sx={{
@@ -111,11 +112,11 @@ export const CurrencyTextField = ({
                             <CurrencyInput
                                 allowNegativeValue={allowNegativeValues}
                                 decimalsLimit={2}
+                                name={name}
                                 onValueChange={(value, name) => handleChange(name, value)}
                                 style={{ textAlign: 'right' }}
                                 prefix={prefix}
                                 value={value}
-                                name={name}
                                 {...props}
                                 defaultValue={'0'}
                             />
