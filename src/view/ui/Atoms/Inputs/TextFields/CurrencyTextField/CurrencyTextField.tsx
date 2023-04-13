@@ -55,7 +55,7 @@ export const CurrencyTextField = ({
     rows,
     size = 'medium',
     startIcon,
-    value = 0,
+    value,
     variant = 'outlined',
     width = '100%',
     ...props
@@ -109,15 +109,15 @@ export const CurrencyTextField = ({
                         endAdornment: <></>,
                         inputComponent: (props) => (
                             <CurrencyInput
-                                {...props}
                                 allowNegativeValue={allowNegativeValues}
-                                name={name}
-                                defaultValue={''}
                                 decimalsLimit={2}
-                                onValueChange={handleChange}
+                                onValueChange={(value, name) => handleChange(name, value)}
                                 style={{ textAlign: 'right' }}
                                 prefix={prefix}
                                 value={value}
+                                name={name}
+                                {...props}
+                                defaultValue={'0'}
                             />
                         ),
                     }}

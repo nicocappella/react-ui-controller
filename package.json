@@ -1,6 +1,6 @@
 {
     "name": "react-ui-controller",
-    "version": "0.0.145",
+    "version": "0.0.146",
     "description": "A react component library based in Material UI",
     "types": "dist/index.d.ts",
     "files": [
@@ -28,6 +28,7 @@
         "framer-motion": "^10.11.6",
         "next": "^13.3.0",
         "react-currency-input-field": "^3.6.10",
+        "storybook-addon-state": "^1.0.3",
         "styled-components": "^5.3.9"
     },
     "peerDependencies": {
