@@ -5,3 +5,4 @@ export { DatePicker } from './Selects/DatePicker';
 export { Select } from './Selects/Select';
 export { TextField } from './TextFields/TextField';
 export { Switch } from './Switch/Switch';
+export { CurrencyTextField } from './TextFields/CurrencyTextField'
