@@ -14,7 +14,7 @@ export interface ITextField {
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
-    handleChange: (value: string | undefined, name: string | undefined) => void;
+    handleChange: (name: string | undefined, value: string | undefined) => void;
     handleEndIconClick?: (e: React.MouseEvent) => void;
     label:
         | string
@@ -115,7 +115,7 @@ export const CurrencyTextField = ({
                                 name={name}
                                 defaultValue={''}
                                 decimalsLimit={2}
-                                onValueChange={(value, name) => handleChange(value, name)}
+                                onValueChange={(value, name) => handleChange(name, value)}
                                 style={{ textAlign: 'right' }}
                                 prefix={prefix}
                             />

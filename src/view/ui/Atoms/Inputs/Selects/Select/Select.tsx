@@ -31,7 +31,7 @@ export interface ISelect {
     size?: 'medium' | 'small';
     // Test with SelectChangeEvent<string> if it works in another projects
     handleObjectClick?: (event: React.MouseEvent<HTMLElement>, index: string | number, name: string) => void;
-    handleChange: (event: SelectChangeEvent<unknown>) => void;
+    handleChange: (name: string | undefined, value: string | undefined) => void;
     width?: string | number;
 }
 
@@ -50,6 +50,11 @@ const Select = ({
     width = '200px',
     ...props
 }: ISelect & SelectProps) => {
+    const handleSelectChange = (e: SelectChangeEvent<unknown>) => {
+        const { name, value } = e.target;
+
+        handleChange(name, value as string);
+    };
     return (
         <FormControl>
             <InputLabel>{label}</InputLabel>
@@ -58,7 +63,7 @@ const Select = ({
                 labelId={name}
                 value={value}
                 id={name}
-                onChange={handleChange}
+                onChange={handleSelectChange}
                 name={name}
                 size={size}
                 required
