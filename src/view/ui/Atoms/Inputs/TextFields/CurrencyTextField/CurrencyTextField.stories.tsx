@@ -40,7 +40,6 @@ export const NumberTextField = Template.bind({});
 
 NumberTextField.args = {
     type: 'text',
-    value: '0',
     name: 'test',
     variant: 'outlined',
     label: '',

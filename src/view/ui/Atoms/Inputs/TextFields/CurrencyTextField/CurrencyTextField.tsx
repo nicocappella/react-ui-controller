@@ -109,14 +109,15 @@ export const CurrencyTextField = ({
                         endAdornment: <></>,
                         inputComponent: (props) => (
                             <CurrencyInput
+                                {...props}
+                                onValueChange={(value, name) => handleChange(name, value)}
+                                name={name}
+                                value={value}
                                 allowNegativeValue={allowNegativeValues}
+                                defaultValue={0}
                                 decimalsLimit={2}
-                                onValueChange={(value) => handleChange(name, value)}
                                 style={{ textAlign: 'right' }}
                                 prefix={prefix}
-                                value={value}
-                                {...props}
-                                defaultValue={'0'}
                             />
                         ),
                     }}
