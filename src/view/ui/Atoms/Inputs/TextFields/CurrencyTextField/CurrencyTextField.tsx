@@ -112,7 +112,7 @@ export const CurrencyTextField = ({
                             name,
                             value,
                             onValueChange: (value: string | undefined, name: string | undefined) => handleChange(name, value),
-                            allowNegativeValue: false,
+                            allowNegativeValues,
                             prefix,
                             defaultValue: 0,
                             decimalsLimit: 2,
