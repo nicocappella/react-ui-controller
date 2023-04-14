@@ -25,7 +25,7 @@ export interface ITextField {
     minWidth?: string;
     name: string;
     padding?: string | number;
-    prefix: string;
+    prefix?: string;
     required?: boolean;
     rows?: number;
     size?: 'small' | 'medium';

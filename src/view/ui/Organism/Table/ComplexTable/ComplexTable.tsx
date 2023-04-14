@@ -2,7 +2,7 @@ import { Check, Close, Delete, Edit } from '@mui/icons-material';
 import { Box, Checkbox, CircularProgress, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
-import { Autocomplete, DatePicker, Select } from '../../../Atoms';
+import { Autocomplete, CurrencyTextField, DatePicker, Select } from '../../../Atoms';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
 import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
@@ -11,6 +11,7 @@ import Pagination from './Pagination';
 import { HeadCell, IEditableCellForm } from './table';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
+import { convertCurrency } from '../../../../../utils/CurrencyFormat';
 
 export interface IComplexTable {
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
@@ -91,12 +92,13 @@ export const ComplexTable = ({
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
-    const handleEditInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, checked } = event.target;
-        if (event.target.type === 'checkbox') {
-            return setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
+    const handleEditInputChange = (name: string | undefined, value: string | undefined) => {
+        if (name && value) {
+            setEditedRow((prevState) => ({ ...prevState, [name]: value }));
         }
-        return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
+    };
+    const handleSwitchChange = (name: string | undefined, checked: boolean) => {
+        setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
     };
     const handleEditSelectChange = (event: SelectChangeEvent<unknown>) => {
         const { name, value } = event.target;
@@ -298,6 +300,7 @@ export const ComplexTable = ({
                                                             color="primary"
                                                             checked={isItemSelected}
                                                             inputProps={{ 'aria-labelledby': labelId }}
+                                                            sx={{ display: 'table-cell' }}
                                                         />
                                                     </TableCell>
                                                 )}
@@ -314,9 +317,10 @@ export const ComplexTable = ({
                                                                         ? 'right'
                                                                         : 'center'
                                                                 }
+                                                                sx={{ display: 'table-cell' }}
                                                             >
                                                                 {typeof row[cell] === 'number' ? (
-                                                                    Number(row[cell]).toFixed(2)
+                                                                    convertCurrency(Number(row[cell]))
                                                                 ) : typeof row[cell] === 'boolean' ? (
                                                                     <Switch checked={row[cell] as boolean} />
                                                                 ) : (
@@ -337,10 +341,13 @@ export const ComplexTable = ({
                                                                         : 'center'
                                                                 }
                                                                 onClick={() => {}}
-                                                                sx={{ width: cellForm?.formInput === 'datepicker' ? '160px' : 'auto' }}
+                                                                sx={{
+                                                                    width: cellForm?.formInput === 'datepicker' ? '160px' : 'auto',
+                                                                    display: 'table-cell',
+                                                                }}
                                                             >
                                                                 {cellForm &&
-                                                                    (cellForm.formInput === 'textfield' ? (
+                                                                    (cellForm.formInput === 'textfield' && typeof row[cell] === 'string' ? (
                                                                         <TextField
                                                                             name={cellForm.head}
                                                                             value={
@@ -353,7 +360,23 @@ export const ComplexTable = ({
                                                                             type="text"
                                                                             variant="outlined"
                                                                             size="small"
-                                                                            isNumber={typeof editedRow![cell] === 'number' ? true : false}
+                                                                            width={
+                                                                                editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'
+                                                                            }
+                                                                        />
+                                                                    ) : cellForm.formInput === 'textfield' && typeof row[cell] === 'number' ? (
+                                                                        <CurrencyTextField
+                                                                            name={cellForm.head}
+                                                                            value={
+                                                                                editedRow && editedRow[cell]
+                                                                                    ? (editedRow[cell] as string | number)
+                                                                                    : ''
+                                                                            }
+                                                                            handleChange={handleEditInputChange}
+                                                                            label=""
+                                                                            variant="outlined"
+                                                                            size="small"
+                                                                            allowNegativeValues={true}
                                                                             width={
                                                                                 editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'
                                                                             }
@@ -386,7 +409,7 @@ export const ComplexTable = ({
                                                                             checked={
                                                                                 editedRow && editedRow[cell] ? (editedRow[cell]! as boolean) : false
                                                                             }
-                                                                            handleChange={handleEditInputChange}
+                                                                            handleChange={handleSwitchChange}
                                                                         />
                                                                     ) : (
                                                                         row[cell]
@@ -396,39 +419,46 @@ export const ComplexTable = ({
                                                     }
                                                 })}
                                                 {editable && editableCell !== row['id'] ? (
-                                                    <TableCell align="left" padding="normal">
-                                                        <IconButton
-                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id)}
-                                                            title="Editar"
-                                                        >
-                                                            <Edit />
-                                                        </IconButton>
+                                                    <TableCell align="left" padding="normal" sx={{ display: 'table-cell' }}>
+                                                        <Box display="flex" justifyContent="space-between">
+                                                            <IconButton
+                                                                handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id)}
+                                                                title="Editar"
+                                                            >
+                                                                <Edit />
+                                                            </IconButton>
 
-                                                        <IconButton
-                                                            handleClick={(e: React.MouseEvent<HTMLElement>) => handleDeleteRow(e, row.id)}
-                                                            title="Eliminar"
-                                                        >
-                                                            <Delete />
-                                                        </IconButton>
+                                                            <IconButton
+                                                                handleClick={(e: React.MouseEvent<HTMLElement>) => handleDeleteRow(e, row.id)}
+                                                                title="Eliminar"
+                                                            >
+                                                                <Delete />
+                                                            </IconButton>
 
-                                                        {editableButtons &&
-                                                            editableButtons.map((d, i) => (
-                                                                <IconButton
-                                                                    title=""
-                                                                    key={i}
-                                                                    handleClick={(e: React.MouseEvent<HTMLElement>) =>
-                                                                        editableFunctions && editableFunctions[i](e, row.id.toString())
-                                                                    }
-                                                                >
-                                                                    {d}
-                                                                </IconButton>
-                                                            ))}
+                                                            {editableButtons &&
+                                                                editableButtons.map((d, i) => (
+                                                                    <IconButton
+                                                                        title=""
+                                                                        key={i}
+                                                                        handleClick={(e: React.MouseEvent<HTMLElement>) =>
+                                                                            editableFunctions && editableFunctions[i](e, row.id.toString())
+                                                                        }
+                                                                    >
+                                                                        {d}
+                                                                    </IconButton>
+                                                                ))}
+                                                        </Box>
                                                     </TableCell>
                                                 ) : (
                                                     editable && (
                                                         <TableCell
                                                             align="center"
-                                                            sx={{ backgroundColor: '#fff', justifyContent: 'space-around', display: 'flex' }}
+                                                            sx={{
+                                                                backgroundColor: '#fff',
+                                                                justifyContent: 'space-around',
+                                                                height: '',
+                                                                display: 'table-cell',
+                                                            }}
                                                         >
                                                             <IconButton
                                                                 title="Aceptar"
