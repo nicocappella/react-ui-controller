@@ -8,12 +8,23 @@ export interface IAutocomplete {
     name: string;
     defaultValue?: string | undefined;
     value: string | undefined;
-    handleChange?: (e: SyntheticEvent<Element, Event>, newValue?: string | null) => void;
+    handleChange?: (name: string, value: string) => void;
     freeSolo?: boolean;
     required?: boolean;
 }
 
 const Autocomplete = ({ options, label, width, name, defaultValue, value, handleChange, freeSolo, required, ...props }: IAutocomplete) => {
+    const handleAutoCompleteChange = (e?: React.ChangeEvent<HTMLInputElement>, newValue?: string | null) => {
+        if (newValue && handleChange) {
+            return handleChange(name, newValue);
+        }
+        if (e) {
+            const { value } = e.target;
+            if (value && handleChange) {
+                return handleChange(name, value);
+            }
+        }
+    };
     return (
         <>
             <MuiAutocomplete
@@ -30,9 +41,11 @@ const Autocomplete = ({ options, label, width, name, defaultValue, value, handle
                 sx={{ width: width }}
                 placeholder={name}
                 // defaultValue={defaultValue}
-                onChange={(event, value) => handleChange!(event, value)}
+                onChange={(e, value) => handleAutoCompleteChange(undefined, value)}
                 value={value}
-                renderInput={(params) => <TextField {...params} required={required} label={label} name={name} onChange={handleChange} />}
+                renderInput={(params) => (
+                    <TextField {...params} required={required} label={label} name={name} onChange={(event) => console.log(event)} />
+                )}
             />
         </>
     );

@@ -1,13 +1,13 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { Switch } from './Switch';
 
 export default {
-    title: 'React-Ui-Controller/Atoms/Inputs/Switch',
+    title: 'React-Ui-Controller/Atoms/Inputs/Switch/Switch',
     component: Switch,
-} as ComponentMeta<typeof Switch>;
+} as Meta<typeof Switch>;
 
-const Template: ComponentStory<typeof Switch> = (args) => <Switch {...args} />;
+const Template: StoryFn<typeof Switch> = (args) => <Switch {...args} />;
 
 export const NormalSwitch = Template.bind({});
 
