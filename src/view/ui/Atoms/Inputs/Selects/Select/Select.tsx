@@ -30,7 +30,7 @@ export interface ISelect {
     value: string | undefined;
     size?: 'medium' | 'small';
     // Test with SelectChangeEvent<string> if it works in another projects
-    handleObjectClick?: (event: React.MouseEvent<HTMLElement>, index: string | number, name: string) => void;
+    handleObjectClick?: (name: string, index: string | number) => void;
     handleChange: (name: string | undefined, value: string | undefined) => void;
     width?: string | number;
 }
@@ -52,8 +52,14 @@ const Select = ({
 }: ISelect & SelectProps) => {
     const handleSelectChange = (e: SelectChangeEvent<unknown>) => {
         const { name, value } = e.target;
-
-        handleChange(name, value as string);
+        if (name && typeof value === 'string') {
+            handleChange(name, value);
+        }
+    };
+    const handleSelectObjectClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, id?: string | number, name?: string) => {
+        if (id && value && handleObjectClick && name) {
+            handleObjectClick(name, id);
+        }
     };
     return (
         <FormControl>
@@ -96,7 +102,7 @@ const Select = ({
                           }
                           if (typeof d === 'object') {
                               return (
-                                  <MenuItem key={i} value={d.text} onClick={(e) => handleObjectClick(e, d.id, name)}>
+                                  <MenuItem key={i} value={d.text} onClick={(e) => handleSelectObjectClick(e, d.id, name)}>
                                       {d.text}
                                   </MenuItem>
                               );

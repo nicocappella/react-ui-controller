@@ -98,7 +98,9 @@ export const ComplexTable = ({
         }
     };
     const handleSwitchChange = (name: string | undefined, checked: boolean) => {
-        setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
+        if (name && checked) {
+            setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
+        }
     };
     const handleEditSelectChange = (event: SelectChangeEvent<unknown>) => {
         const { name, value } = event.target;
@@ -376,7 +378,6 @@ export const ComplexTable = ({
                                                                             label=""
                                                                             variant="outlined"
                                                                             size="small"
-                                                                            allowNegativeValues={true}
                                                                             width={
                                                                                 editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'
                                                                             }

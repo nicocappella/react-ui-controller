@@ -6,7 +6,7 @@ export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'succes
 
 export interface ITextField {
     align?: string;
-    allowNegativeValues: boolean;
+    allowNegativeValues?: boolean;
     autoComplete?: string;
     backgroundColor?: string;
     borderRadius?: string;
