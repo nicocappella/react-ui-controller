@@ -74,7 +74,7 @@ export const Head = ({
                     );
                 })}
                 {editable && (
-                    <TableCell key="actions" align="left" padding="normal">
+                    <TableCell key="actions" align="center" padding="normal">
                         Acciones
                     </TableCell>
                 )}

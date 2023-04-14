@@ -420,7 +420,7 @@ export const ComplexTable = ({
                                                 })}
                                                 {editable && editableCell !== row['id'] ? (
                                                     <TableCell align="left" padding="normal" sx={{ display: 'table-cell' }}>
-                                                        <Box display="flex" justifyContent="space-between">
+                                                        <Box display="flex" justifyContent="center">
                                                             <IconButton
                                                                 handleClick={(e: React.MouseEvent<HTMLElement>) => editRow(e, row.id)}
                                                                 title="Editar"
@@ -455,7 +455,7 @@ export const ComplexTable = ({
                                                             align="center"
                                                             sx={{
                                                                 backgroundColor: '#fff',
-                                                                justifyContent: 'space-around',
+                                                                justifyContent: 'center',
                                                                 height: '',
                                                                 display: 'table-cell',
                                                             }}
