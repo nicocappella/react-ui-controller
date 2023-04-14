@@ -70,7 +70,7 @@ export const ComplexTable = ({
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
-    const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>([]);
+    const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>({});
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | Date | undefined } | undefined>();
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>(defaultOrder);
@@ -102,12 +102,15 @@ export const ComplexTable = ({
             setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
         }
     };
-    const handleEditSelectChange = (event: SelectChangeEvent<unknown>) => {
-        const { name, value } = event.target;
-        return setEditedRow((prevState) => ({ ...prevState, [name]: value as string | number }));
+    const handleEditSelectChange = (name: string | undefined, value: string | undefined) => {
+        if (name && value) {
+            return setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+        }
     };
-    const handleEditSelectById = (event: React.MouseEvent<HTMLElement>, index: string | undefined, name: string) => {
-        setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
+    const handleEditSelectById = (name: string, index: string | number) => {
+        if (index && name) {
+            setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
+        }
     };
     const handleEditDateChange = (value: Date | null, name: string) => {
         if (value) {
