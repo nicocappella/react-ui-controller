@@ -14,12 +14,12 @@ export interface IAutocomplete {
 }
 
 const Autocomplete = ({ options, label, width, name, defaultValue, value, handleChange, freeSolo, required, ...props }: IAutocomplete) => {
-    const handleAutoCompleteChange = (e?: React.ChangeEvent<HTMLInputElement>, newValue?: string | null) => {
+    const handleAutoCompleteChange = (e: React.ChangeEvent<HTMLInputElement> | SyntheticEvent<Element, Event>, newValue?: string | null) => {
         if (newValue && handleChange) {
             return handleChange(name, newValue);
         }
         if (e) {
-            const { value } = e.target;
+            const { value } = e.target as HTMLInputElement;
             if (value && handleChange) {
                 return handleChange(name, value);
             }
@@ -41,11 +41,9 @@ const Autocomplete = ({ options, label, width, name, defaultValue, value, handle
                 sx={{ width: width }}
                 placeholder={name}
                 // defaultValue={defaultValue}
-                onChange={(e, value) => handleAutoCompleteChange(undefined, value)}
+                onChange={(e, value) => handleAutoCompleteChange(e, value)}
                 value={value}
-                renderInput={(params) => (
-                    <TextField {...params} required={required} label={label} name={name} onChange={(event) => console.log(event)} />
-                )}
+                renderInput={(params) => <TextField {...params} required={required} label={label} name={name} onChange={handleAutoCompleteChange} />}
             />
         </>
     );
