@@ -11,7 +11,7 @@ import Pagination from './Pagination';
 import { HeadCell, IEditableCellForm } from './table';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
-import { convertCurrency } from '../../../../../utils/CurrencyFormat';
+import { convertCurrency, convertCurrencyToNumber } from '../../../../../utils/CurrencyFormat';
 
 export interface IComplexTable {
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
@@ -72,6 +72,7 @@ export const ComplexTable = ({
     const tableFunctions = new TableClass();
     const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>({});
     const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | Date | undefined } | undefined>();
+    const [editedKeys, setEditedKeys] = React.useState<string[]>([]);
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>(defaultOrder);
     const [orderBy, setOrderBy] = React.useState(defaultOrderBy);
@@ -95,21 +96,25 @@ export const ComplexTable = ({
     const handleEditInputChange = (name: string | undefined, value: string | undefined) => {
         if (name && value) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+            setEditedKeys((prevState) => [...prevState, name]);
         }
     };
     const handleSwitchChange = (name: string | undefined, checked: boolean) => {
         if (name && checked) {
             setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
+            setEditedKeys((prevState) => [...prevState, name]);
         }
     };
     const handleEditSelectChange = (name: string | undefined, value: string | undefined) => {
         if (name && value) {
-            return setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+            setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+            setEditedKeys((prevState) => [...prevState, name]);
         }
     };
     const handleEditSelectById = (name: string, index: string | number) => {
         if (index && name) {
             setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
+            setEditedKeys((prevState) => [...prevState, name]);
         }
     };
     const handleEditDateChange = (value: Date | null, name: string) => {
@@ -125,14 +130,15 @@ export const ComplexTable = ({
     };
     const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id: string) => {
         const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
-        const objectKeysNotEdited = editableCellsByObject.filter((d) => !Object.keys(editdedRowById).includes(d));
-        const newEdited = Object.assign(editedRow!, editdedRowById);
+        let newEdited = Object.assign(editedRow!, editdedRowById);
         Object.keys(newEdited).forEach((d) => {
-            if (objectKeysNotEdited.includes(d)) {
+            if (!editedKeys.includes(d)) {
                 delete newEdited[d];
             }
+            if (typeof newEdited[d] === 'string' && newEdited[d]!.includes(',') && /\d/.test(newEdited[d]!)) {
+                newEdited[d] = convertCurrencyToNumber(newEdited[d]).toString();
+            }
         });
-        console.log(newEdited);
         confirmEdit(id, newEdited);
         setEditedRow(undefined);
         setEditableCell(undefined);

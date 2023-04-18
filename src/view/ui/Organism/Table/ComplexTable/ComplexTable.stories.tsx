@@ -66,6 +66,7 @@ Primary.args = {
         { formInput: 'datepicker', head: 'date' },
         { formInput: 'switch', head: 'images' },
     ],
+    confirmEdit: (id, edited) => console.log(id, edited),
 };
 // export const UploadButton = Template.bind({});
 // UploadButton.args = {

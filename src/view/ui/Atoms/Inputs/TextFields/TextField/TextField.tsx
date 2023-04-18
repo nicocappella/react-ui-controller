@@ -13,6 +13,7 @@ export interface ICurrencyTextField {
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
+    handleOnBlur?: (name: string | undefined, value: string | undefined) => void;
     handleChange: (name: string | undefined, value: string | undefined) => void;
     handleEndIconClick?: (e: React.MouseEvent) => void;
     label:
@@ -57,6 +58,7 @@ export const TextField = ({
     borderColor = { focused: 'primary' },
     endIcon,
     fullWidth = false,
+    handleOnBlur,
     handleChange,
     handleEndIconClick,
     label = 'TextField',
@@ -78,10 +80,6 @@ export const TextField = ({
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
-    const handleChangeTextField = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = e.target;
-        handleChange(name, value);
-    };
     return (
         <Box component="div" display="flex" flexDirection="column">
             <>
@@ -91,7 +89,8 @@ export const TextField = ({
                     fullWidth={fullWidth}
                     label={label}
                     name={name}
-                    onChange={handleChangeTextField}
+                    onChange={(e) => handleChange(e.target.name, e.target.value)}
+                    onBlur={(e) => handleOnBlur(e.target.name, e.target.value)}
                     multiline={multiline ? multiline : undefined}
                     required={required}
                     rows={multiline && rows ? rows : undefined}

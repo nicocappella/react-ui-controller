@@ -50,7 +50,7 @@ export const CurrencyTextField = ({
     minWidth,
     name,
     padding,
-    prefix,
+    prefix = '',
     required,
     rows,
     size = 'medium',
