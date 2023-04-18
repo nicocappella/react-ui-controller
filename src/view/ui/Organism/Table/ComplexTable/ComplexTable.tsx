@@ -132,9 +132,9 @@ export const ComplexTable = ({
         const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
         let newEdited = Object.assign(editedRow!, editdedRowById);
         Object.keys(newEdited).forEach((d) => {
-            if (!editedKeys.includes(d)) {
-                delete newEdited[d];
-            }
+            // if (!editedKeys.includes(d)) {
+            //     delete newEdited[d];
+            // }
             if (typeof newEdited[d] === 'string' && newEdited[d]!.includes(',') && /\d/.test(newEdited[d]!)) {
                 newEdited[d] = convertCurrencyToNumber(newEdited[d]).toString();
             }
