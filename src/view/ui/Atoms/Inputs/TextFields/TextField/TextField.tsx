@@ -58,7 +58,7 @@ export const TextField = ({
     borderColor = { focused: 'primary' },
     endIcon,
     fullWidth = false,
-    handleOnBlur,
+    handleOnBlur = () => {},
     handleChange,
     handleEndIconClick,
     label = 'TextField',

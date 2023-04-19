@@ -56,8 +56,8 @@ const Select = ({
             handleChange(name, value);
         }
     };
-    const handleSelectObjectClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, id?: string | number, name?: string) => {
-        if (id && value && handleObjectClick && name) {
+    const handleSelectObjectClick = (name?: string, id?: string | number) => {
+        if (id && handleObjectClick && name) {
             handleObjectClick(name, id);
         }
     };
@@ -102,7 +102,7 @@ const Select = ({
                           }
                           if (typeof d === 'object') {
                               return (
-                                  <MenuItem key={i} value={d.text} onClick={(e) => handleSelectObjectClick(e, d.id, name)}>
+                                  <MenuItem key={i} value={d.text} onClick={(e) => handleSelectObjectClick(name, d.id)}>
                                       {d.text}
                                   </MenuItem>
                               );
