@@ -1,6 +1,7 @@
 import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
 import React from 'react';
 import CurrencyInput from 'react-currency-input-field';
+import { convertCurrencyToNumber } from '../../../../../../utils/CurrencyFormat';
 
 export type PaletteColors = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 
@@ -13,7 +14,7 @@ export interface ITextField {
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
-    handleChange: (name: string | undefined, value: string | undefined) => void;
+    handleChange: (name: string | undefined, value: number | undefined) => void;
     handleEndIconClick?: (e: React.MouseEvent) => void;
     label:
         | string
@@ -111,7 +112,13 @@ export const CurrencyTextField = ({
                         inputProps: {
                             name,
                             value,
-                            onValueChange: (value: string | undefined, name: string | undefined) => handleChange(name, value),
+                            onValueChange: (value: string | undefined, name: string | undefined) => {
+                                if (name && value) {
+                                    const newValue = convertCurrencyToNumber(value);
+                                    return handleChange(name, newValue);
+                                }
+                                return;
+                            },
                             allowNegativeValues,
                             prefix,
                             defaultValue: 0,
