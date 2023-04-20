@@ -7,25 +7,25 @@ import { TextField } from '../../TextFields';
 export interface ICounterButton {
     name: string;
     width?: string;
-    handleValue: (files: { [key: string]: number }) => void;
+    handleValue: (name: string | undefined, value: number) => void;
 }
 
 export const CounterButton = ({ name, width = '120px', handleValue }: ICounterButton) => {
     const [value, setValue] = React.useState(0);
     const incrementValue = (e: React.MouseEvent<HTMLElement>, name: string) => {
         setValue(value + 1);
-        handleValue({ [name]: value + 1 });
+        handleValue(name, value + 1);
     };
     const decrementValue = (e: React.MouseEvent<HTMLElement>, name: string) => {
         if (value <= 0) return;
         setValue(value - 1);
-        handleValue({ [name]: value - 1 });
+        handleValue(name, value - 1);
     };
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value: textFieldValue } = e.target;
-        setValue(Number(textFieldValue));
-
-        handleValue({ [name]: value });
+    const handleChange = (name: string | undefined, textFieldValue: string | undefined) => {
+        if (name && textFieldValue) {
+            setValue(Number(textFieldValue));
+            handleValue(name, value);
+        }
     };
 
     return (
@@ -43,7 +43,6 @@ export const CounterButton = ({ name, width = '120px', handleValue }: ICounterBu
                 type="number"
                 label=""
                 variant="outlined"
-                isNumber
                 align="center"
                 width={value.toString().length > 3 ? `${value.toString().length * 1.6}ch` : '6ch'}
                 borderRadius="100px"
