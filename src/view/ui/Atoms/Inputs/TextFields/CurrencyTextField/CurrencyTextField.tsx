@@ -121,6 +121,7 @@ export const CurrencyTextField = ({
                             onBlur: (e) => {
                                 if (e.target.name && e.target.value) {
                                     const newValue = convertCurrencyToNumber(e.target.value);
+                                    console.log(newValue);
                                     return handleChange(e.target.name, newValue);
                                 }
                             },
