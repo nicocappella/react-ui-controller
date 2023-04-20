@@ -14,7 +14,7 @@ export interface ITextField {
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     endIcon?: string | React.ReactNode;
     fullWidth?: boolean;
-    handleChange: (name: string | undefined, value: number | undefined) => void;
+    handleChange: (name: string | undefined, value: number | string | undefined) => void;
     handleEndIconClick?: (e: React.MouseEvent) => void;
     label:
         | string
@@ -114,10 +114,15 @@ export const CurrencyTextField = ({
                             value,
                             onValueChange: (value: string | undefined, name: string | undefined) => {
                                 if (name && value) {
-                                    const newValue = convertCurrencyToNumber(value);
-                                    return handleChange(name, newValue);
+                                    return handleChange(name, value);
                                 }
                                 return;
+                            },
+                            onBlur: (e) => {
+                                if (e.target.name && e.target.value) {
+                                    const newValue = convertCurrencyToNumber(e.target.value);
+                                    return handleChange(e.target.name, newValue);
+                                }
                             },
                             allowNegativeValues,
                             prefix,
