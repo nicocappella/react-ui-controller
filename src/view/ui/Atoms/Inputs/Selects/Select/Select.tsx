@@ -50,9 +50,9 @@ const Select = ({
     width = '200px',
     ...props
 }: ISelect & SelectProps) => {
-    const handleSelectChange = (e: SelectChangeEvent<unknown>) => {
-        const { name, value } = e.target;
-        if (name && typeof value === 'string') {
+    const handleSelectChange = (name: string | undefined, value: string | undefined ) => {
+        if (handleObjectClick) return;
+        if (name) {
             handleChange(name, value);
         }
     };
@@ -69,7 +69,7 @@ const Select = ({
                 labelId={name}
                 value={value}
                 id={name}
-                onChange={handleSelectChange}
+                onChange={(e) => handleSelectChange(e.target.name, e.target.value as string)}
                 name={name}
                 size={size}
                 required
