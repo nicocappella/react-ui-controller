@@ -3,32 +3,47 @@ import { Tab, Tabs as MuiTabs, TabsProps } from '@mui/material';
 import { Box } from '@mui/system';
 
 export interface ITabs {
-    color?: 'primary' | 'secondary' | undefined;
-    tabs: { label: string; value: string | number; href?: string; icon?: React.ReactElement }[];
-    panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
-    tabsComponents?: React.ElementType | any;
-    secondTabs?: { label: string; value: string }[];
     centered?: boolean;
+    contentPosition: 'relative' | 'absolute';
+    indicatorColor?: 'primary' | 'secondary' | undefined | string;
+    left?: string | number;
+    panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
+    secondTabs?: { label: string; value: string }[];
+    tabsComponents?: React.ElementType | any;
+    tabs: { label: string; value: string | number; href?: string; icon?: React.ReactElement }[];
+    textColor?: 'primary' | 'secondary' | 'inherit' | undefined;
     value: any;
 }
 
-const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs = [], color = 'primary', ...props }: ITabs & TabsProps) => {
+const Tabs = ({
+    centered = false,
+    contentPosition = 'relative',
+    indicatorColor = 'primary',
+    left = '0',
+    panel,
+    secondTabs = [],
+    tabs,
+    tabsComponents,
+    textColor = 'primary',
+    value,
+    ...props
+}: ITabs & TabsProps) => {
     const [tabValue, setTabValue] = React.useState(value);
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
     };
     const tabPanel = panel && panel.find((d) => d.value === tabValue);
     return (
-        <Box>
+        <Box zIndex={1000}>
             <MuiTabs
-                {...props}
                 value={tabValue}
                 onChange={handleChange}
                 centered={centered ? true : undefined}
                 TabIndicatorProps={{ sx: { height: '3px' } }}
                 sx={{ height: '64px' }}
-                textColor={color}
-                indicatorColor={color}
+                textColor={textColor}
+                indicatorColor={indicatorColor}
+                {...props}
             >
                 {tabs.map((d, i) => (
                     <Tab
@@ -50,7 +65,9 @@ const Tabs = ({ value, tabs, tabsComponents, panel, centered = false, secondTabs
                     ))}
                 </MuiTabs>
             )} */}
-            {tabPanel?.components}
+            <Box zIndex={999} position={contentPosition} left={left} width="100vw">
+                {tabPanel?.components}
+            </Box>
         </Box>
     );
 };

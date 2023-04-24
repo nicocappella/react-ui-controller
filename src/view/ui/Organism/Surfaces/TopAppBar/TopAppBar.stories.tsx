@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Tab } from '@mui/material';
+import { Box, Tab, Typography } from '@mui/material';
 import { TopAppBar } from './TopAppBar';
 import { Button, LinkButton } from '../../../Atoms';
 
@@ -40,8 +40,31 @@ LargeTopAppBar.args = {};
 export const TopAppBarWithTabs = Template.bind({});
 
 TopAppBarWithTabs.args = {
+    alignNavBar: 'center',
     background: 'red',
-    height: 64,
-    tabsValue: { value: 0 },
+    height: '64px',
+    tabs: {
+        color: 'primary',
+        value: '0',
+        components: [
+            {
+                components: (
+                    <Box border="1px solid black" width="60vw" height="500px" margin="0 auto">
+                        <Typography color="primary">One</Typography>
+                    </Box>
+                ),
+                value: '0',
+            },
+            {
+                components: (
+                    <Box border="1px solid black" width="60vw" margin="0 auto">
+                        <Typography color="primary">Two</Typography>
+                    </Box>
+                ),
+                value: '1',
+            },
+        ],
+    },
+
     navButtons: [{ component: 'One' }, { component: 'Two' }],
 };

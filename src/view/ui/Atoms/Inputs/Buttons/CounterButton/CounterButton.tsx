@@ -8,6 +8,7 @@ export interface ICounterButton {
     name: string;
     width?: string;
     handleValue: (name: string | undefined, value: number) => void;
+    size: 'small' | 'medium' | 'large';
 }
 
 export const CounterButton = ({ name, width = '120px', handleValue }: ICounterButton) => {

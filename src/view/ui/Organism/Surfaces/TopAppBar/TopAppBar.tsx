@@ -1,5 +1,5 @@
 import { Menu } from '@mui/icons-material';
-import { Toolbar, AppBar } from '@mui/material';
+import { Toolbar, AppBar, AppBarProps } from '@mui/material';
 import { Box } from '@mui/system';
 import { IconButton } from '../../../Atoms';
 import { Tabs } from '../../../Molecules';
@@ -9,17 +9,17 @@ export interface ITopAppBar {
     background?: string;
     boxShadow?: string;
     height?: string | number;
+    logo?: { component: React.ReactNode };
     horizontalPadding?: string | number;
+    menuButton?: boolean;
+    navButtons?: { component: React.ReactNode | string }[];
+    position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
+    otherButtons?: { component: React.ReactNode | string }[];
     tabs?: {
         value: string | number;
         color: 'primary' | 'secondary' | undefined;
         components: { components: React.ReactNode | React.ReactNode[]; value: string }[];
     };
-    logo?: { component: React.ReactNode };
-    otherButtons?: { component: React.ReactNode | string }[];
-    navButtons?: { component: React.ReactNode }[];
-    position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
-    menuButton?: boolean;
 }
 
 const TopAppBar = ({
@@ -37,13 +37,14 @@ const TopAppBar = ({
     ...props
 }: ITopAppBar & AppBarProps) => {
     return (
-        <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none' }} {...props}>
+        <AppBar position={position} sx={{ background: 'transparent', boxShadow: 'none', zIndex: 1000 }} {...props}>
             <Box
                 component="nav"
                 display="flex"
                 justifyContent={alignNavBar}
                 sx={{ height, background: background, boxShadow: boxShadow, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
                 alignItems="center"
+                position="relative"
             >
                 {logo && <Box component="div">{logo?.component}</Box>}
                 {menuButton && (
@@ -56,11 +57,13 @@ const TopAppBar = ({
                         centered
                         tabs={navButtons.map((d, i) => ({
                             label: d.component as string,
-                            value: i,
+                            value: i.toString(),
                         }))}
                         value={tabs.value}
-                        color={tabs.color}
+                        textColor={tabs.color}
+                        indicatorColor={tabs.color}
                         panel={tabs.components}
+                        contentPosition="absolute"
                     />
                 ) : (
                     navButtons &&
