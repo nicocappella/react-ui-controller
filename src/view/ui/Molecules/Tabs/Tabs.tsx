@@ -4,10 +4,11 @@ import { Box } from '@mui/system';
 
 export interface ITabs {
     centered?: boolean;
-    contentPosition: 'relative' | 'absolute';
+    contentPosition?: 'relative' | 'absolute';
     indicatorColor?: 'primary' | 'secondary' | undefined | string;
     left?: string | number;
     panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
+    orientation?: 'horizontal' | 'vertical';
     secondTabs?: { label: string; value: string }[];
     tabsComponents?: React.ElementType | any;
     tabs: { label: string; value: string | number; href?: string; icon?: React.ReactElement }[];
@@ -21,6 +22,7 @@ const Tabs = ({
     indicatorColor = 'primary',
     left = '0',
     panel,
+    orientation = 'horizontal',
     secondTabs = [],
     tabs,
     tabsComponents,
@@ -34,15 +36,15 @@ const Tabs = ({
     };
     const tabPanel = panel && panel.find((d) => d.value === tabValue);
     return (
-        <Box zIndex={1000}>
+        <Box zIndex={1000} display={orientation === 'vertical' ? 'flex' : 'block'}>
             <MuiTabs
-                value={tabValue}
-                onChange={handleChange}
-                centered={centered ? true : undefined}
-                TabIndicatorProps={{ sx: { height: '3px' } }}
-                sx={{ height: '64px' }}
-                textColor={textColor}
+                centered={centered}
                 indicatorColor={indicatorColor}
+                orientation={orientation}
+                onChange={handleChange}
+                TabIndicatorProps={{ sx: { left: orientation === 'vertical' ? '0' : undefined, width: '4px' } }}
+                textColor={textColor}
+                value={tabValue}
                 {...props}
             >
                 {tabs.map((d, i) => (
