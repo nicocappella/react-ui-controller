@@ -1,25 +1,23 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { products } from '../products';
 
 import { ComplexTable } from './ComplexTable';
 import { Button } from '../../../Atoms';
 
-const newProducts = products.map((d) => ({ ...d, images: true }));
-
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'React-Ui-Controller/Organism/Table/ComplexTable',
     component: ComplexTable,
-} as ComponentMeta<typeof ComplexTable>;
+} as Meta<typeof ComplexTable>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof ComplexTable> = (args) => <ComplexTable {...args} />;
+const Template: StoryFn<typeof ComplexTable> = (args) => <ComplexTable {...args} />;
 
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-    rows: newProducts,
+    rows: products,
     excludeId: true,
     editable: true,
     title: 'ExampleTable',
@@ -37,7 +35,7 @@ Primary.args = {
         date: 'Día',
         images: 'Imágenes',
     },
-    mainButton: [<Button text="Agregar fila" variant="contained" type="button" />],
+    mainButton: [<Button text="Agregar fila" variant="contained" type="button" key="main" />],
     rowsPerPage: 5,
     editableCellForms: [
         { formInput: 'textfield', head: 'title' },

@@ -93,6 +93,19 @@ export const ComplexTable = ({
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
+    const handleTypeCell = (cell: string | number | boolean | string[] | undefined) => {
+        if (typeof cell === 'number') {
+            return convertCurrency(Number(cell));
+        } else if (typeof cell === 'boolean') {
+            return <Switch checked={cell} />;
+        } else if (Array.isArray(cell)) {
+            const images = cell.map((d) => <img src={d} width="40px" height="40px" />);
+            return <Box display="flex" gap="4px">{images}</Box>;
+        } else {
+            return cell;
+        }
+    };
+
     const handleEditInputChange = (name: string | undefined, value: string | undefined) => {
         if (name && value) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
@@ -330,13 +343,7 @@ export const ComplexTable = ({
                                                                 }
                                                                 sx={{ display: 'table-cell' }}
                                                             >
-                                                                {typeof row[cell] === 'number' ? (
-                                                                    convertCurrency(Number(row[cell]))
-                                                                ) : typeof row[cell] === 'boolean' ? (
-                                                                    <Switch checked={row[cell] as boolean} />
-                                                                ) : (
-                                                                    row[cell]
-                                                                )}
+                                                                {handleTypeCell(row[cell])}
                                                             </TableCell>
                                                         );
                                                     } else if (editableCell === row['id']) {
