@@ -1,22 +1,11 @@
 import React from 'react';
-import {
-    InputLabel,
-    MenuItem,
-    Select as MuiSelect,
-    FormControl,
-    ListItemIcon,
-    ListItemText,
-    SelectChangeEvent,
-    SelectProps,
-    Typography,
-} from '@mui/material';
-import { Box } from '@mui/system';
+import { InputLabel, MenuItem, Select as MuiSelect, FormControl, ListItemIcon, ListItemText, SelectProps, Typography } from '@mui/material';
 import { PaletteColors } from '../../TextFields/TextField/TextField';
 
 export interface ISelect {
     borderColor?: { active?: string; hover?: string; focused: PaletteColors };
     itemWithIcon?: boolean;
-    items?: string[] | { [key: string]: string | number; id: string | number; text: string }[];
+    items?: string[] | { id: string | number | undefined; text: string | undefined }[];
     itemsObject?: { icon: string; text: string }[];
     color?: string;
     label?:
@@ -31,7 +20,7 @@ export interface ISelect {
     size?: 'medium' | 'small';
     // Test with SelectChangeEvent<string> if it works in another projects
     handleObjectClick?: (name: string, index: string | number) => void;
-    handleChange: (name: string | undefined, value: string | undefined) => void;
+    handleChange?: (name: string | undefined, value: string | undefined) => void;
     width?: string | number;
 }
 
@@ -50,9 +39,9 @@ const Select = ({
     width = '200px',
     ...props
 }: ISelect & SelectProps) => {
-    const handleSelectChange = (name: string | undefined, value: string | undefined ) => {
+    const handleSelectChange = (name: string | undefined, value: string | undefined) => {
         if (handleObjectClick) return;
-        if (name) {
+        if (name && handleChange) {
             handleChange(name, value);
         }
     };
