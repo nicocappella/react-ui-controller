@@ -100,13 +100,91 @@ export const ComplexTable = ({
             return <Switch checked={cell} />;
         } else if (Array.isArray(cell)) {
             const images = cell.map((d) => <img src={d} width="40px" height="40px" />);
-            return <Box display="flex" gap="4px">{images}</Box>;
+            return (
+                <Box display="flex" gap="4px" alignItems="center">
+                    {images}
+                </Box>
+            );
+        } else if (typeof cell === 'string' && cell.startsWith('http')) {
+            return <img src={cell} width="60px" height="60px" />;
         } else {
             return cell;
         }
     };
+    const handleEditCell = (
+        cellForm?: IEditableCellForm,
+        cell: string,
+        row: { [key: string]: string | number | boolean | undefined; id: string | number },
+    ) => {
+        if (editedRow && cellForm) {
+            if (cellForm.formInput === 'textfield' && typeof row[cell] === 'string') {
+                return (
+                    <TextField
+                        name={cellForm.head}
+                        value={editedRow[cell] as string}
+                        handleChange={handleEditInputChange}
+                        label=""
+                        type="text"
+                        variant="outlined"
+                        size="small"
+                        width={editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'}
+                    />
+                );
+            } else if (cellForm.formInput === 'textfield' && typeof row[cell] === 'number') {
+                return (
+                    <CurrencyTextField
+                        name={cellForm.head}
+                        value={editedRow[cell] as string | number}
+                        handleChange={handleEditInputChange}
+                        label=""
+                        variant="outlined"
+                        size="small"
+                        width={editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'}
+                    />
+                );
+            } else if (cellForm.formInput === 'select') {
+                return (
+                    <Select
+                        name={cellForm.head}
+                        items={cellForm.options}
+                        value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
+                        size="small"
+                        handleChange={handleEditSelectChange}
+                        handleObjectClick={handleEditSelectById}
+                        width="100%"
+                    />
+                );
+            } else if (cellForm.formInput === 'datepicker') {
+                return (
+                    <DatePicker
+                        name={cellForm.head}
+                        value={editedRow ? new Date(editedRow[cell] as string) : null}
+                        handleChange={(value) => handleEditDateChange(value, cellForm.head)}
+                    />
+                );
+            } else if (cellForm.formInput === 'autocomplete') {
+                return (
+                    <Autocomplete
+                        name={cellForm.head}
+                        options={cellForm.options! as string[]}
+                        value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
+                    />
+                );
+            } else if (cellForm.formInput === 'switch') {
+                return (
+                    <Switch
+                        name={cellForm.head}
+                        checked={editedRow && editedRow[cell] ? (editedRow[cell]! as boolean) : false}
+                        handleChange={handleSwitchChange}
+                    />
+                );
+            }
+        } else {
+            return row[cell];
+        }
+    };
 
-    const handleEditInputChange = (name: string | undefined, value: string | undefined) => {
+    const handleEditInputChange = (name: string | undefined, value: string | number | undefined) => {
         if (name && value) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
             setEditedKeys((prevState) => [...prevState, name]);
@@ -364,73 +442,7 @@ export const ComplexTable = ({
                                                                     display: 'table-cell',
                                                                 }}
                                                             >
-                                                                {cellForm &&
-                                                                    (cellForm.formInput === 'textfield' && typeof row[cell] === 'string' ? (
-                                                                        <TextField
-                                                                            name={cellForm.head}
-                                                                            value={
-                                                                                editedRow && editedRow[cell]
-                                                                                    ? (editedRow[cell] as string | number)
-                                                                                    : ''
-                                                                            }
-                                                                            handleChange={handleEditInputChange}
-                                                                            label=""
-                                                                            type="text"
-                                                                            variant="outlined"
-                                                                            size="small"
-                                                                            width={
-                                                                                editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'
-                                                                            }
-                                                                        />
-                                                                    ) : cellForm.formInput === 'textfield' && typeof row[cell] === 'number' ? (
-                                                                        <CurrencyTextField
-                                                                            name={cellForm.head}
-                                                                            value={
-                                                                                editedRow && editedRow[cell]
-                                                                                    ? (editedRow[cell] as string | number)
-                                                                                    : ''
-                                                                            }
-                                                                            handleChange={handleEditInputChange}
-                                                                            label=""
-                                                                            variant="outlined"
-                                                                            size="small"
-                                                                            width={
-                                                                                editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'
-                                                                            }
-                                                                        />
-                                                                    ) : cellForm.formInput === 'select' ? (
-                                                                        <Select
-                                                                            name={cellForm.head}
-                                                                            items={cellForm.options}
-                                                                            value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
-                                                                            size="small"
-                                                                            handleChange={handleEditSelectChange}
-                                                                            handleObjectClick={handleEditSelectById}
-                                                                            width="100%"
-                                                                        />
-                                                                    ) : cellForm.formInput === 'datepicker' ? (
-                                                                        <DatePicker
-                                                                            name={cellForm.head}
-                                                                            value={editedRow ? new Date(editedRow[cell] as string) : null}
-                                                                            handleChange={(value) => handleEditDateChange(value, cellForm.head)}
-                                                                        />
-                                                                    ) : cellForm.formInput === 'autocomplete' ? (
-                                                                        <Autocomplete
-                                                                            name={cellForm.head}
-                                                                            options={cellForm.options! as string[]}
-                                                                            value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
-                                                                        />
-                                                                    ) : cellForm.formInput === 'switch' ? (
-                                                                        <Switch
-                                                                            name={cellForm.head}
-                                                                            checked={
-                                                                                editedRow && editedRow[cell] ? (editedRow[cell]! as boolean) : false
-                                                                            }
-                                                                            handleChange={handleSwitchChange}
-                                                                        />
-                                                                    ) : (
-                                                                        row[cell]
-                                                                    ))}
+                                                                {handleEditCell(cellForm, cell, row)}
                                                             </TableCell>
                                                         );
                                                     }
