@@ -179,7 +179,6 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                                         }
                                     }}
                                     sx={{
-                                        color: '#df2c0e',
                                         position: 'absolute',
                                         right: '1rem',
                                         top: '50%',

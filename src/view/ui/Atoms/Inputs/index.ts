@@ -1,5 +1,5 @@
 export { Autocomplete } from './TextFields/Autocomplete';
-export { Button, FAB, IconButton, LinkButton, CounterButton } from './Buttons';
+export { Button, FAB, IconButton, LinkButton, CounterButton, UploadButton } from './Buttons';
 // export { Checkbox } from './Checkbox';
 export { DatePicker } from './Selects/DatePicker';
 export { Select } from './Selects/Select';
