@@ -6,12 +6,12 @@ export interface IUploadButton {
     limit?: number;
     multiple?: boolean;
     name: string;
-    handleFiles: (name: string | undefined, value: File[] | undefined) => void;
+    handleFiles: (name: string | undefined, value: File[] | File | undefined) => void;
     clearAll?: boolean;
 }
 
 export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAll }: IUploadButton) => {
-    const [singleFile, setSingleFile] = React.useState<File[]>([]);
+    const [singleFile, setSingleFile] = React.useState<File>();
     const [error, setError] = React.useState({ isError: false, text: '' });
     const [fileList, setFileList] = React.useState<File[]>([]);
     const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -31,8 +31,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
             if (!target.files) return;
 
             if (limit === 1 || !multiple) {
-                const newFile = Object.values(target.files).map((file: File) => file);
-                if (singleFile.length >= 1) return setError({ isError: true, text: 'Solo un archivo  se puede agregar.' });
+                const newFile = Object.values(target.files).map((file: File) => file)[0];
                 setSingleFile(newFile);
                 handleFiles(name, newFile);
                 // ref.onchange!(newFile[0]);
@@ -69,7 +68,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
         if (error.isError) {
             setError({ isError: false, text: '' });
         }
-        setSingleFile([]);
+        setSingleFile(undefined);
         handleFiles(name, []);
     };
 
@@ -80,10 +79,56 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
     const calcSize = (size: number) => {
         return size < 1000000 ? `${Math.floor(size / 1000)} KB` : `${Math.floor(size / 1000000)} MB`;
     };
+    const fileCard = (item: File, index?: number) => {
+        return (
+            <Box
+                key={`image-${index}`}
+                sx={{
+                    position: 'relative',
+                    backgroundColor: '#f5f8ff',
+                    borderRadius: 1.5,
+                    p: 0.5,
+                }}
+            >
+                <Box display="flex">
+                    <img
+                        src={URL.createObjectURL(item)}
+                        alt="upload"
+                        style={{
+                            height: '3.5rem',
+                            width: '3.5rem',
+                            objectFit: 'contain',
+                        }}
+                    />
+                    <Box sx={{ ml: 1 }}>
+                        <Typography>{item.name}</Typography>
+                        <Typography variant="body2">{calcSize(item.size)}</Typography>
+                    </Box>
+                </Box>
+                <IconButton
+                    onClick={() => {
+                        if (multiple) {
+                            fileRemove(item);
+                        } else {
+                            fileSingleRemove();
+                        }
+                    }}
+                    sx={{
+                        position: 'absolute',
+                        right: '1rem',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                    }}
+                >
+                    <Delete />
+                </IconButton>
+            </Box>
+        );
+    };
     React.useEffect(() => {
         if (clearAll) {
             setFileList([]);
-            setSingleFile([]);
+            setSingleFile(undefined);
         }
     }, [clearAll]);
 
@@ -141,55 +186,9 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
             </FormHelperText>
 
             {/* ?Image Preview ? */}
-            {fileList.length > 0 || singleFile.length > 0 ? (
+            {fileList.length > 0 || singleFile ? (
                 <Stack spacing={2} sx={{ my: 2 }}>
-                    {(multiple ? fileList : singleFile).map((item, index) => {
-                        const imageType = item.type.split('/')[1] as CustomType;
-                        return (
-                            <Box
-                                key={index}
-                                sx={{
-                                    position: 'relative',
-                                    backgroundColor: '#f5f8ff',
-                                    borderRadius: 1.5,
-                                    p: 0.5,
-                                }}
-                            >
-                                <Box display="flex">
-                                    <img
-                                        src={URL.createObjectURL(item)}
-                                        alt="upload"
-                                        style={{
-                                            height: '3.5rem',
-                                            width: '3.5rem',
-                                            objectFit: 'contain',
-                                        }}
-                                    />
-                                    <Box sx={{ ml: 1 }}>
-                                        <Typography>{item.name}</Typography>
-                                        <Typography variant="body2">{calcSize(item.size)}</Typography>
-                                    </Box>
-                                </Box>
-                                <IconButton
-                                    onClick={() => {
-                                        if (multiple) {
-                                            fileRemove(item);
-                                        } else {
-                                            fileSingleRemove();
-                                        }
-                                    }}
-                                    sx={{
-                                        position: 'absolute',
-                                        right: '1rem',
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                    }}
-                                >
-                                    <Delete />
-                                </IconButton>
-                            </Box>
-                        );
-                    })}
+                    {multiple ? fileList.map((item, index) => fileCard(item, index)) : singleFile && fileCard(singleFile, 0)}
                 </Stack>
             ) : null}
         </>
