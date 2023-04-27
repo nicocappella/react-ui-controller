@@ -35,7 +35,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                 if (singleFile.length >= 1) return setError({ isError: true, text: 'Solo un archivo  se puede agregar.' });
                 setSingleFile(newFile);
                 handleFiles({ [name]: newFile });
-                ref.onchange!(newFile[0]);
+                // ref.onchange!(newFile[0]);
             }
 
             if (multiple) {
@@ -47,7 +47,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                     }
                     setFileList(updatedList);
                     handleFiles({ name: updatedList });
-                    ref.onchange!(updatedList);
+                    // ref.onchange!(updatedList);
                 }
             }
         },
