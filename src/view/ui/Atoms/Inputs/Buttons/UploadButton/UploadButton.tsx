@@ -6,7 +6,7 @@ export interface IUploadButton {
     limit?: number;
     multiple?: boolean;
     name: string;
-    handleFiles: (files: { [key: string]: File[] }) => void;
+    handleFiles: (name: string | undefined, value: File[] | undefined) => void;
     clearAll?: boolean;
 }
 
@@ -27,14 +27,14 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                 setError({ isError: false, text: '' });
             }
             const target = e.target as HTMLInputElement;
-            const ref = inputRef.current as HTMLInputElement;
+            // const ref = inputRef.current as HTMLInputElement;
             if (!target.files) return;
 
             if (limit === 1 || !multiple) {
                 const newFile = Object.values(target.files).map((file: File) => file);
                 if (singleFile.length >= 1) return setError({ isError: true, text: 'Solo un archivo  se puede agregar.' });
                 setSingleFile(newFile);
-                handleFiles({ [name]: newFile });
+                handleFiles(name, newFile);
                 // ref.onchange!(newFile[0]);
             }
 
@@ -46,7 +46,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                         return setError({ isError: true, text: `No puede haber más de ${limit} archivos.` });
                     }
                     setFileList(updatedList);
-                    handleFiles({ name: updatedList });
+                    handleFiles(name, updatedList);
                     // ref.onchange!(updatedList);
                 }
             }
@@ -61,7 +61,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
         const updatedList = [...fileList];
         updatedList.splice(fileList.indexOf(file), 1);
         setFileList(updatedList);
-        handleFiles({ name: updatedList });
+        handleFiles(name, updatedList);
     };
 
     // ? remove single image
@@ -70,7 +70,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
             setError({ isError: false, text: '' });
         }
         setSingleFile([]);
-        handleFiles({ name: [] });
+        handleFiles(name, []);
     };
 
     // ? TypeScript Type
