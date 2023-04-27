@@ -12,16 +12,17 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: StoryFn<typeof UploadButton> = (args) => <UploadButton {...args} />;
 
-export const Primary = Template.bind({});
+export const MultipleFiles = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
+MultipleFiles.args = {
     name: 'test',
     multiple: true,
     handleFiles: (files) => console.log(files),
+    limit: 3,
 };
 
-export const Large = Template.bind({});
-Large.args = {};
+export const SingleFile = Template.bind({});
+SingleFile.args = { name: 'test', multiple: false, handleFiles: (files) => console.log(files) };
 
 export const Small = Template.bind({});
 Small.args = {};

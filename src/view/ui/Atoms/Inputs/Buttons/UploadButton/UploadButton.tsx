@@ -7,10 +7,12 @@ export interface IUploadButton {
     multiple?: boolean;
     name: string;
     handleFiles: (files: { [key: string]: File[] }) => void;
+    clearAll?: boolean;
 }
 
-export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUploadButton) => {
+export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAll }: IUploadButton) => {
     const [singleFile, setSingleFile] = React.useState<File[]>([]);
+    const [error, setError] = React.useState({ isError: false, text: '' });
     const [fileList, setFileList] = React.useState<File[]>([]);
     const wrapperRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -21,13 +23,16 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUplo
 
     const onFileDrop = React.useCallback(
         (e: React.SyntheticEvent<EventTarget>) => {
+            if (error.isError) {
+                setError({ isError: false, text: '' });
+            }
             const target = e.target as HTMLInputElement;
             const ref = inputRef.current as HTMLInputElement;
             if (!target.files) return;
 
-            if (limit === 1) {
+            if (limit === 1 || !multiple) {
                 const newFile = Object.values(target.files).map((file: File) => file);
-                if (singleFile.length >= 1) return alert('Only a single image allowed');
+                if (singleFile.length >= 1) return setError({ isError: true, text: 'Solo un archivo  se puede agregar.' });
                 setSingleFile(newFile);
                 handleFiles({ [name]: newFile });
                 ref.onchange!(newFile[0]);
@@ -38,7 +43,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUplo
                 if (newFiles) {
                     const updatedList = [...fileList, ...newFiles];
                     if (updatedList.length > limit) {
-                        return alert(`Image must not be more than ${limit}`);
+                        return setError({ isError: true, text: `No puede haber más de ${limit} archivos.` });
                     }
                     setFileList(updatedList);
                     handleFiles({ name: updatedList });
@@ -50,6 +55,9 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUplo
     );
     // ? remove multiple images
     const fileRemove = (file: File) => {
+        if (error.isError) {
+            setError({ isError: false, text: '' });
+        }
         const updatedList = [...fileList];
         updatedList.splice(fileList.indexOf(file), 1);
         setFileList(updatedList);
@@ -58,6 +66,9 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUplo
 
     // ? remove single image
     const fileSingleRemove = () => {
+        if (error.isError) {
+            setError({ isError: false, text: '' });
+        }
         setSingleFile([]);
         handleFiles({ name: [] });
     };
@@ -69,12 +80,12 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUplo
     const calcSize = (size: number) => {
         return size < 1000000 ? `${Math.floor(size / 1000)} KB` : `${Math.floor(size / 1000000)} MB`;
     };
-    // React.useEffect(() => {
-    //     if (isSubmitting) {
-    //         setFileList([]);
-    //         setSingleFile([]);
-    //     }
-    // }, [isSubmitting]);
+    React.useEffect(() => {
+        if (clearAll) {
+            setFileList([]);
+            setSingleFile([]);
+        }
+    }, [clearAll]);
 
     return (
         <>
@@ -125,9 +136,9 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUplo
                     />
                 </Box>
             </Box>
-            {/* <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={!!errors[name]}>
-                {errors[name] ? errors[name].message : ''}
-            </FormHelperText> */}
+            <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={error.isError}>
+                {error.text}
+            </FormHelperText>
 
             {/* ?Image Preview ? */}
             {fileList.length > 0 || singleFile.length > 0 ? (
@@ -145,14 +156,15 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles }: IUplo
                                 }}
                             >
                                 <Box display="flex">
-                                    {/* <img
-                                        src={ImageConfig[`${imageType}`] || ImageConfig['default']}
+                                    <img
+                                        src={URL.createObjectURL(item)}
                                         alt="upload"
                                         style={{
                                             height: '3.5rem',
+                                            width: '3.5rem',
                                             objectFit: 'contain',
                                         }}
-                                    /> */}
+                                    />
                                     <Box sx={{ ml: 1 }}>
                                         <Typography>{item.name}</Typography>
                                         <Typography variant="body2">{calcSize(item.size)}</Typography>
