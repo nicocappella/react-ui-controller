@@ -7,7 +7,7 @@ import esLocale from 'date-fns/locale/es';
 export interface IDatePicker {
     value: Date | null;
     name?: string;
-    handleChange: (value: Date | null) => void;
+    handleChange: (name: string | undefined, value: Date | null) => void;
 }
 
 const DatePicker = ({ value, handleChange, name, ...props }: IDatePicker & DatePickerProps<Date>) => {
@@ -16,7 +16,7 @@ const DatePicker = ({ value, handleChange, name, ...props }: IDatePicker & DateP
             <MuiDatePicker
                 {...props}
                 value={value}
-                onChange={(value: Date | null) => handleChange(value)}
+                onChange={(value: Date | null) => handleChange(name, value)}
                 slots={{ textField: TextField }}
                 slotProps={{
                     textField: {

@@ -99,7 +99,7 @@ export const ComplexTable = ({
         } else if (typeof cell === 'boolean') {
             return <Switch checked={cell} />;
         } else if (Array.isArray(cell)) {
-            const images = cell.map((d) => <img src={d} width="40px" height="40px" />);
+            const images = cell.map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
             return (
                 <Box display="flex" gap="4px" alignItems="center">
                     {images}
@@ -112,7 +112,7 @@ export const ComplexTable = ({
         }
     };
     const handleEditCell = (
-        cellForm?: IEditableCellForm,
+        cellForm: IEditableCellForm,
         cell: string,
         row: { [key: string]: string | number | boolean | undefined; id: string | number },
     ) => {
@@ -469,9 +469,10 @@ export const ComplexTable = ({
                                                                     <IconButton
                                                                         title=""
                                                                         key={i}
-                                                                        handleClick={(e: React.MouseEvent<HTMLElement>) =>
-                                                                            editableFunctions && editableFunctions[i](e, row.id.toString())
-                                                                        }
+                                                                        handleClick={(e: React.MouseEvent<HTMLElement>) => {
+                                                                            e.stopPropagation();
+                                                                            editableFunctions && editableFunctions[i](e, row.id.toString());
+                                                                        }}
                                                                     >
                                                                         {d}
                                                                     </IconButton>

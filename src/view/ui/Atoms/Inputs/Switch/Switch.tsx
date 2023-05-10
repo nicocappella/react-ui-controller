@@ -9,7 +9,7 @@ export interface ISwitch {
     handleChange?: (name: string | undefined, value: boolean) => void;
 }
 
-export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'end' }: ISwitch) => {
+export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'start' }: ISwitch) => {
     const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = e.target;
         if (handleChange) {
