@@ -2,7 +2,7 @@ import { Check, Close, Delete, Edit } from '@mui/icons-material';
 import { Box, Checkbox, CircularProgress, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
-import { Autocomplete, CurrencyTextField, DatePicker, Select } from '../../../Atoms';
+import { Autocomplete, CurrencyTextField, DatePicker, ImageSelect, Select } from '../../../Atoms';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
 import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
@@ -71,7 +71,7 @@ export const ComplexTable = ({
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
     const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>({});
-    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | Date | undefined } | undefined>();
+    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | Date | string[] | undefined } | undefined>();
     const [editedKeys, setEditedKeys] = React.useState<string[]>([]);
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>(defaultOrder);
@@ -178,7 +178,7 @@ export const ComplexTable = ({
                     <DatePicker
                         name={cellForm.head}
                         value={editedRow ? new Date(editedRow[cell] as string) : null}
-                        handleChange={(value) => handleEditDateChange(cellForm.head, value)}
+                        handleChange={handleEditDateChange}
                     />
                 );
             } else if (cellForm.formInput === 'autocomplete') {
@@ -198,7 +198,7 @@ export const ComplexTable = ({
                     />
                 );
             } else if (cellForm.formInput === 'images') {
-                return <Box></Box>;
+                return <ImageSelect name={cellForm.head} imgs={editedRow && (editedRow[cell] as string[])} handleFiles={() => {}} />;
             }
         } else {
             return row[cell];
@@ -229,8 +229,8 @@ export const ComplexTable = ({
             setEditedKeys((prevState) => [...prevState, name]);
         }
     };
-    const handleEditDateChange = (name: string, value: Date | null) => {
-        if (value) {
+    const handleEditDateChange = (name: string | undefined, value: Date | null) => {
+        if (name && value) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
         }
     };

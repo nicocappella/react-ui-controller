@@ -62,7 +62,7 @@ Primary.args = {
         },
         { formInput: 'none', head: 'thumbnail' },
         { formInput: 'datepicker', head: 'date' },
-        { formInput: 'switch', head: 'images' },
+        { formInput: 'images', head: 'images' },
     ],
     confirmEdit: (id, edited) => console.log(id, edited),
 };

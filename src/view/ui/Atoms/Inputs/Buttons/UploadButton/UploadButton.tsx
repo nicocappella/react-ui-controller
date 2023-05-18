@@ -95,14 +95,14 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                         src={URL.createObjectURL(item)}
                         alt="upload"
                         style={{
-                            height: '3.5rem',
-                            width: '3.5rem',
-                            objectFit: 'contain',
+                            height: '35px',
+                            width: '35px',
+                            objectFit: 'cover',
                         }}
                     />
                     <Box sx={{ ml: 1 }}>
-                        <Typography>{item.name}</Typography>
-                        <Typography variant="body2">{calcSize(item.size)}</Typography>
+                        <Typography variant='body2'>{item.name}</Typography>
+                        <Typography variant="caption">{calcSize(item.size)}</Typography>
                     </Box>
                 </Box>
                 <IconButton

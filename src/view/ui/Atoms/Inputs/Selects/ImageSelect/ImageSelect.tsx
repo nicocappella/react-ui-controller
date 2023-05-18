@@ -63,7 +63,10 @@ export const ImageSelect = ({ name, imgs, handleFiles }: IImageSelect) => {
                     <Box display="flex" flexDirection="row" gap="5px">
                         <UploadButton multiple name="addFiles" handleFiles={(name, value) => setImagesAdded(value as File[])} />
                     </Box>
-                    <Button text="Aceptar" type="button" variant="contained" handleClick={handleAccept} />
+                    <Box display="flex" gap={2}>
+                        <Button text="Aceptar" type="button" variant="contained" handleClick={handleAccept} />
+                        <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
+                    </Box>
                 </Box>
             </Modal>
             <Stack direction="row" gap="4px">
@@ -73,13 +76,12 @@ export const ImageSelect = ({ name, imgs, handleFiles }: IImageSelect) => {
                         <img src={d} alt={d} width="50px" height="50px" />
                     </Box>
                 ))}
-                {imgs.length > 5 && (
-                    <Box display="flex" justifyContent="center" alignItems="center">
-                        <IconButton handleClick={handleOpenModal}>
-                            <MoreHoriz />
-                        </IconButton>
-                    </Box>
-                )}
+
+                <Box display="flex" justifyContent="center" alignItems="center">
+                    <IconButton handleClick={handleOpenModal} title="Editar imágenes">
+                        <MoreHoriz />
+                    </IconButton>
+                </Box>
             </Stack>
         </>
     );
