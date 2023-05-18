@@ -8,7 +8,7 @@ import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
 import Pagination from './Pagination';
-import { HeadCell, IEditableCellForm } from './table';
+import { Cell, HeadCell, IEditableCellForm } from './table';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
 import { convertCurrency, convertCurrencyToNumber } from '../../../../../utils/CurrencyFormat';
@@ -93,22 +93,41 @@ export const ComplexTable = ({
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
-    const handleTypeCell = (cell: string | number | boolean | string[] | undefined) => {
-        if (typeof cell === 'number') {
-            return convertCurrency(Number(cell));
-        } else if (typeof cell === 'boolean') {
-            return <Switch checked={cell} />;
-        } else if (Array.isArray(cell)) {
-            const images = cell.map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
-            return (
-                <Box display="flex" gap="4px" alignItems="center">
-                    {images}
-                </Box>
-            );
-        } else if (typeof cell === 'string' && cell.startsWith('http')) {
-            return <img src={cell} width="60px" height="60px" />;
-        } else {
-            return cell;
+    const handleTypeCell = (cell: string | number | boolean | string[] | undefined, headCell?: { [key: string]: Cell }, cellName?: string) => {
+        if (!headCell) {
+            if (typeof cell === 'number') {
+                return convertCurrency(Number(cell));
+            } else if (typeof cell === 'boolean') {
+                return <Switch checked={cell} />;
+            } else if (Array.isArray(cell)) {
+                const images = cell.map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
+                return (
+                    <Box display="flex" gap="4px" alignItems="center">
+                        {images}
+                    </Box>
+                );
+            } else if (typeof cell === 'string' && cell.startsWith('http')) {
+                return <img src={cell} width="60px" height="60px" />;
+            } else {
+                return cell;
+            }
+        } else if (headCell && cellName) {
+            if (headCell[cellName] === 'number' && typeof cell === 'number') {
+                return convertCurrency(Number(cell));
+            } else if (headCell[cellName] === 'boolean' && typeof cell === 'boolean') {
+                return <Switch checked={cell} />;
+            } else if (headCell[cellName] === 'images' && Array.isArray(cell)) {
+                const images = (cell as string[]).map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
+                return (
+                    <Box display="flex" gap="4px" alignItems="center">
+                        {images}
+                    </Box>
+                );
+            } else if (headCell[cellName] === 'image' && typeof cell === 'string') {
+                return <img src={cell} width="60px" height="60px" />;
+            } else {
+                return cell;
+            }
         }
     };
     const handleEditCell = (
@@ -159,7 +178,7 @@ export const ComplexTable = ({
                     <DatePicker
                         name={cellForm.head}
                         value={editedRow ? new Date(editedRow[cell] as string) : null}
-                        handleChange={(value) => handleEditDateChange(value, cellForm.head)}
+                        handleChange={(value) => handleEditDateChange(cellForm.head, value)}
                     />
                 );
             } else if (cellForm.formInput === 'autocomplete') {
@@ -178,6 +197,8 @@ export const ComplexTable = ({
                         handleChange={handleSwitchChange}
                     />
                 );
+            } else if (cellForm.formInput === 'images') {
+                return <Box></Box>;
             }
         } else {
             return row[cell];
@@ -208,7 +229,7 @@ export const ComplexTable = ({
             setEditedKeys((prevState) => [...prevState, name]);
         }
     };
-    const handleEditDateChange = (value: Date | null, name: string) => {
+    const handleEditDateChange = (name: string, value: Date | null) => {
         if (value) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
         }
@@ -219,20 +240,22 @@ export const ComplexTable = ({
         setEditableCell(id);
         setEditedRow(rows.find((d) => d.id === id));
     };
-    const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id: string) => {
-        const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
-        let newEdited = Object.assign(editedRow!, editdedRowById);
-        Object.keys(newEdited).forEach((d) => {
-            if (!editedKeys.includes(d)) {
-                delete newEdited[d];
-            }
-            if (typeof newEdited[d] === 'string' && newEdited[d]!.includes(',') && /\d/.test(newEdited[d]!)) {
-                newEdited[d] = convertCurrencyToNumber(newEdited[d]).toString();
-            }
-        });
-        confirmEdit(id, newEdited);
-        setEditedRow(undefined);
-        setEditableCell(undefined);
+    const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id?: string | number) => {
+        if (id) {
+            const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
+            let newEdited = Object.assign(editedRow!, editdedRowById);
+            Object.keys(newEdited).forEach((d) => {
+                if (!editedKeys.includes(d)) {
+                    delete newEdited[d];
+                }
+                if (typeof newEdited[d] === 'string' && newEdited[d]!.includes(',') && /\d/.test(newEdited[d]!)) {
+                    newEdited[d] = convertCurrencyToNumber(newEdited[d]).toString();
+                }
+            });
+            confirmEdit(id.toString(), newEdited);
+            setEditedRow(undefined);
+            setEditableCell(undefined);
+        }
     };
     const handleCancelEdit = (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
         const { code } = e as React.KeyboardEvent<HTMLElement>;
@@ -442,7 +465,7 @@ export const ComplexTable = ({
                                                                     display: 'table-cell',
                                                                 }}
                                                             >
-                                                                {handleEditCell(cellForm, cell, row)}
+                                                                {cellForm && handleEditCell(cellForm, cell, row)}
                                                             </TableCell>
                                                         );
                                                     }
@@ -490,10 +513,7 @@ export const ComplexTable = ({
                                                                 display: 'table-cell',
                                                             }}
                                                         >
-                                                            <IconButton
-                                                                title="Aceptar"
-                                                                handleClick={(event) => handleConfirmEdit(event, row.id.toString())}
-                                                            >
+                                                            <IconButton title="Aceptar" handleClick={(event) => handleConfirmEdit(event, row.id)}>
                                                                 <Check color="primary" />
                                                             </IconButton>
                                                             <IconButton title="Cancelar" handleClick={handleCancelEdit}>

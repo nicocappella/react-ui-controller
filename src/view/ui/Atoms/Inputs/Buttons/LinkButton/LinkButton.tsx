@@ -3,7 +3,7 @@ import { darken, Link, LinkProps, useTheme } from '@mui/material';
 
 export interface ILinkButton {
     text?: string;
-    icon?: React.ElementType;
+    icon?: React.ReactNode;
     startIcon?: boolean;
     component?: React.ElementType<any>;
     color?: 'inherit' | 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | undefined;
@@ -39,7 +39,6 @@ const LinkButton = ({
     children,
     ...props
 }: ILinkButton & LinkProps) => {
-    const Icon = icon;
     return (
         <Link
             {...props}
@@ -52,7 +51,7 @@ const LinkButton = ({
             alignItems="center"
             sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
         >
-            {Icon ? <Icon /> : undefined}
+            {icon && icon}
             {text && text}
             {children}
         </Link>

@@ -17,7 +17,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
     const wrapperRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
-    // ? Toggle the dragover class
+    // Toggle the dragover class
     const onDragEnter = () => wrapperRef.current?.classList.add('dragover');
     const onDragLeave = () => wrapperRef.current?.classList.remove('dragover');
 
@@ -52,7 +52,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
         },
         [fileList, limit, multiple, singleFile, inputRef],
     );
-    // ? remove multiple images
+    // remove multiple images
     const fileRemove = (file: File) => {
         if (error.isError) {
             setError({ isError: false, text: '' });
@@ -63,7 +63,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
         handleFiles(name, updatedList);
     };
 
-    // ? remove single image
+    // remove single image
     const fileSingleRemove = () => {
         if (error.isError) {
             setError({ isError: false, text: '' });
@@ -72,10 +72,10 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
         handleFiles(name, []);
     };
 
-    // ? TypeScript Type
+    // TypeScript Type
     type CustomType = 'jpg' | 'png' | 'svg';
 
-    // ? Calculate Size in KiloByte and MegaByte
+    // Calculate Size in KiloByte and MegaByte
     const calcSize = (size: number) => {
         return size < 1000000 ? `${Math.floor(size / 1000)} KB` : `${Math.floor(size / 1000000)} MB`;
     };
@@ -134,16 +134,16 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
 
     return (
         <>
-            <Box sx={{ backgroundColor: '#fff', borderRadius: '2rem', boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px', padding: '1rem' }}>
+            <Box sx={{ backgroundColor: '#fff', borderRadius: '2rem', padding: '1rem' }}>
                 <Box
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
                     sx={{
                         position: 'relative',
-                        width: '100%',
-                        height: '13rem',
-                        border: '2px dashed #4267b2',
+                        width: 'fit-content',
+                        height: '5rem',
+                        border: '1px solid #c4c4c4',
                         borderRadius: '20px',
                     }}
                     ref={wrapperRef}

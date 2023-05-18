@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { Card } from './Card';
 import { Box } from '@mui/system';
@@ -10,9 +10,9 @@ import { ArrowBack } from '@mui/icons-material';
 export default {
     title: 'React-Ui-Controller/Molecules/Card',
     component: Card,
-} as ComponentMeta<typeof Card>;
+} as Meta<typeof Card>;
 
-const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />;
+const Template: StoryFn<typeof Card> = (args) => <Card {...args} />;
 
 export const EventCard = Template.bind({});
 
@@ -36,7 +36,6 @@ EventCard.args = {
     },
     padding: '0px 0px 0px 0px',
     boxShadow: '0px 2px 12px 0px #00000040',
-    
 };
 
 export const CareerCard = Template.bind({});

@@ -11,7 +11,7 @@ export interface IButton {
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
     color?: 'error' | 'info' | 'inherit' | 'primary' | 'secondary' | 'success' | 'warning';
-    handleClick?: () => void;
+    handleClick?: (e?: React.MouseEvent) => void;
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     href?: string;
     padding?: string;
