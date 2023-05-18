@@ -49,6 +49,7 @@ const LinkButton = ({
             href={href}
             display="flex"
             alignItems="center"
+            gap={2}
             sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
         >
             {icon && icon}

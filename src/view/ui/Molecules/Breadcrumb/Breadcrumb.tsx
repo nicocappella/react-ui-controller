@@ -16,10 +16,10 @@ export const Breadcrumb = ({ links, active, component }: IBreadcrumb) => {
             <LinkButton href={'/'} text="Inicio" icon={<Home />} variant="body2" />
             {links.map((d, i) => {
                 if (d === active) {
-                    return <Typography variant="caption">{capitalizeWord(d)}</Typography>;
+                    return <Typography variant="body2">{capitalizeWord(d)}</Typography>;
                 }
                 const to = `/${links.slice(0, i + 1).join('/')}`;
-                return <LinkButton href={to} key={i} text={capitalizeWord(d)} variant="body1" component={component} />;
+                return <LinkButton href={to} key={i} text={capitalizeWord(d)} variant="body2" component={component} />;
             })}
         </MuiBreadcrumb>
     );
