@@ -2,6 +2,7 @@ import React from 'react';
 import { Breadcrumbs as MuiBreadcrumb, Typography } from '@mui/material';
 import { LinkButton } from '../../Atoms';
 import { Home, NavigateNext } from '@mui/icons-material';
+import { capitalizeWord } from '../../../../utils/StringFormat';
 
 export interface IBreadcrumb {
     links: string[];
@@ -12,20 +13,13 @@ export interface IBreadcrumb {
 export const Breadcrumb = ({ links, active, component }: IBreadcrumb) => {
     return (
         <MuiBreadcrumb separator={<NavigateNext fontSize="small" />}>
+            <LinkButton href={'/'} text="Inicio" icon={<Home />} variant="body2" />
             {links.map((d, i) => {
                 if (d === active) {
-                    return <Typography variant="caption">{d}</Typography>;
+                    return <Typography variant="caption">{capitalizeWord(d)}</Typography>;
                 }
-                return (
-                    <LinkButton
-                        href={d}
-                        key={i}
-                        text={d === '' ? 'Inicio' : d}
-                        variant="caption"
-                        component={component}
-                        icon={d === '' ? <Home /> : undefined}
-                    />
-                );
+                const to = `/${links.slice(0, i + 1).join('/')}`;
+                return <LinkButton href={to} key={i} text={capitalizeWord(d)} variant="body1" component={component} />;
             })}
         </MuiBreadcrumb>
     );
