@@ -8,12 +8,14 @@ export interface IUploadButton {
     name: string;
     handleFiles: (name: string | undefined, value: File[] | File | undefined) => void;
     clearAll?: boolean;
+    defaultImages?: File[];
+    title?: string;
 }
 
-export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAll }: IUploadButton) => {
+export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAll, defaultImages = [], title }: IUploadButton) => {
     const [singleFile, setSingleFile] = React.useState<File>();
     const [error, setError] = React.useState({ isError: false, text: '' });
-    const [fileList, setFileList] = React.useState<File[]>([]);
+    const [fileList, setFileList] = React.useState<File[]>(defaultImages);
     const wrapperRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -93,7 +95,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                 <Box display="flex">
                     <img
                         src={URL.createObjectURL(item)}
-                        alt="upload"
+                        alt={`upload-${index}`}
                         style={{
                             height: '35px',
                             width: '35px',
@@ -101,27 +103,21 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                         }}
                     />
                     <Box sx={{ ml: 1 }}>
-                        <Typography variant='body2'>{item.name}</Typography>
+                        <Typography variant="body2">{item.name}</Typography>
                         <Typography variant="caption">{calcSize(item.size)}</Typography>
                     </Box>
+                    <IconButton
+                        onClick={() => {
+                            if (multiple) {
+                                fileRemove(item);
+                            } else {
+                                fileSingleRemove();
+                            }
+                        }}
+                    >
+                        <Delete />
+                    </IconButton>
                 </Box>
-                <IconButton
-                    onClick={() => {
-                        if (multiple) {
-                            fileRemove(item);
-                        } else {
-                            fileSingleRemove();
-                        }
-                    }}
-                    sx={{
-                        position: 'absolute',
-                        right: '1rem',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                    }}
-                >
-                    <Delete />
-                </IconButton>
             </Box>
         );
     };
@@ -186,11 +182,18 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
             </FormHelperText>
 
             {/* ?Image Preview ? */}
-            {fileList.length > 0 || singleFile ? (
-                <Stack spacing={2} sx={{ my: 2 }}>
-                    {multiple ? fileList.map((item, index) => fileCard(item, index)) : singleFile && fileCard(singleFile, 0)}
-                </Stack>
-            ) : null}
+            <Box>
+                {fileList.length > 0 && title && (
+                    <Typography variant="body1" align="center" fontWeight="bold">
+                        {title}
+                    </Typography>
+                )}
+                {fileList.length > 0 || singleFile ? (
+                    <Stack spacing={2} sx={{ my: 2 }}>
+                        {multiple ? fileList.map((item, index) => fileCard(item, index)) : singleFile && fileCard(singleFile, 0)}
+                    </Stack>
+                ) : null}
+            </Box>
         </>
     );
 };

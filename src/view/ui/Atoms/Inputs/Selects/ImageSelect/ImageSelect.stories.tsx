@@ -10,9 +10,9 @@ export default {
 
 const Template: StoryFn<typeof ImageSelect> = (args) => <ImageSelect {...args} />;
 
-export const NormalSelect = Template.bind({});
+export const NormalImagesSelect = Template.bind({});
 
-NormalSelect.args = {
+NormalImagesSelect.args = {
     name: 'images-test',
     imgs: [
         'https://i.dummyjson.com/data/products/1/1.jpg',
@@ -25,6 +25,7 @@ NormalSelect.args = {
         'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
         'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
     ],
+    handleFiles: (name, files) => console.log({ [name]: files }),
 };
 
 export const SmallSelect = Template.bind({});

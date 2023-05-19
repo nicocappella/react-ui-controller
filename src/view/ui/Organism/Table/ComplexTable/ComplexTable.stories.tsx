@@ -38,7 +38,7 @@ Primary.args = {
     mainButton: [<Button text="Agregar fila" variant="contained" type="button" key="main" />],
     rowsPerPage: 5,
     editableCellForms: [
-        { formInput: 'textfield', head: 'title' },
+        { formInput: 'switch', head: 'title' },
         { formInput: 'textfield', head: 'description' },
         { formInput: 'textfield', head: 'price' },
         { formInput: 'textfield', head: 'discountPercentage' },

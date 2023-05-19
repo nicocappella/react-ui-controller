@@ -24,6 +24,8 @@ export const ImageSelect = ({ name, imgs, handleFiles }: IImageSelect) => {
         const newImages = imagesState.filter((d, index) => index !== i);
         console.log(newImages.length);
         setImagesState(newImages);
+        const allFiles = [...imagesState, ...imagesAdded];
+        handleFiles(name, allFiles);
     };
     const RemoveIcon = ({ i }: { i: number }) => (
         <IconButton
@@ -47,6 +49,7 @@ export const ImageSelect = ({ name, imgs, handleFiles }: IImageSelect) => {
     const handleAccept = (e: React.MouseEvent<Element, MouseEvent> | undefined) => {
         const allFiles = [...imagesState, ...imagesAdded];
         handleFiles(name, allFiles);
+        handleCloseModal();
     };
     return (
         <>
@@ -61,7 +64,13 @@ export const ImageSelect = ({ name, imgs, handleFiles }: IImageSelect) => {
                         ))}
                     </Box>
                     <Box display="flex" flexDirection="row" gap="5px">
-                        <UploadButton multiple name="addFiles" handleFiles={(name, value) => setImagesAdded(value as File[])} />
+                        <UploadButton
+                            multiple
+                            name="addFiles"
+                            handleFiles={(name, value) => setImagesAdded(value as File[])}
+                            defaultImages={imagesAdded}
+                            title="Archivos nuevos"
+                        />
                     </Box>
                     <Box display="flex" gap={2}>
                         <Button text="Aceptar" type="button" variant="contained" handleClick={handleAccept} />
@@ -76,6 +85,13 @@ export const ImageSelect = ({ name, imgs, handleFiles }: IImageSelect) => {
                         <img src={d} alt={d} width="50px" height="50px" />
                     </Box>
                 ))}
+                {imagesState.length < 5 &&
+                    imagesAdded.slice(0, 5 - imagesState.length).map((d, i) => (
+                        <Box position="relative" p="2px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
+                            <RemoveIcon i={i} />
+                            <img src={URL.createObjectURL(d)} alt={`upload-${i}`} width="50px" height="50px" />
+                        </Box>
+                    ))}
 
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <IconButton handleClick={handleOpenModal} title="Editar imágenes">

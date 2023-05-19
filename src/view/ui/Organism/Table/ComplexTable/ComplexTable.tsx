@@ -70,8 +70,10 @@ export const ComplexTable = ({
     toolbar,
 }: IComplexTable) => {
     const tableFunctions = new TableClass();
-    const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | undefined }>({});
-    const [editedRow, setEditedRow] = React.useState<{ [key: string]: string | number | boolean | Date | string[] | undefined } | undefined>();
+    const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | number | undefined }>({});
+    const [editedRow, setEditedRow] = React.useState<
+        { [key: string]: string | number | boolean | Date | (string | File)[] | undefined } | undefined
+    >();
     const [editedKeys, setEditedKeys] = React.useState<string[]>([]);
     const [editableCell, setEditableCell] = React.useState<string | number>();
     const [order, setOrder] = React.useState<'asc' | 'desc'>(defaultOrder);
@@ -141,7 +143,7 @@ export const ComplexTable = ({
                     <TextField
                         name={cellForm.head}
                         value={editedRow[cell] as string}
-                        handleChange={handleEditInputChange}
+                        handleChange={handleEditChange}
                         label=""
                         type="text"
                         variant="outlined"
@@ -154,7 +156,7 @@ export const ComplexTable = ({
                     <CurrencyTextField
                         name={cellForm.head}
                         value={editedRow[cell] as string | number}
-                        handleChange={handleEditInputChange}
+                        handleChange={handleEditChange}
                         label=""
                         variant="outlined"
                         size="small"
@@ -168,7 +170,7 @@ export const ComplexTable = ({
                         items={cellForm.options}
                         value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
                         size="small"
-                        handleChange={handleEditSelectChange}
+                        handleChange={handleEditChange}
                         handleObjectClick={handleEditSelectById}
                         width="100%"
                     />
@@ -194,31 +196,19 @@ export const ComplexTable = ({
                     <Switch
                         name={cellForm.head}
                         checked={editedRow && editedRow[cell] ? (editedRow[cell]! as boolean) : false}
-                        handleChange={handleSwitchChange}
+                        handleChange={handleEditChange}
                     />
                 );
             } else if (cellForm.formInput === 'images') {
-                return <ImageSelect name={cellForm.head} imgs={editedRow && (editedRow[cell] as string[])} handleFiles={() => {}} />;
+                return <ImageSelect name={cellForm.head} imgs={editedRow && (editedRow[cell] as string[])} handleFiles={handleEditImagesSelect} />;
+            } else {
+                return row[cell];
             }
-        } else {
-            return row[cell];
         }
     };
-
-    const handleEditInputChange = (name: string | undefined, value: string | number | undefined) => {
-        if (name && value) {
-            setEditedRow((prevState) => ({ ...prevState, [name]: value }));
-            setEditedKeys((prevState) => [...prevState, name]);
-        }
-    };
-    const handleSwitchChange = (name: string | undefined, checked: boolean) => {
-        if (name && checked) {
-            setEditedRow((prevState) => ({ ...prevState, [name]: checked }));
-            setEditedKeys((prevState) => [...prevState, name]);
-        }
-    };
-    const handleEditSelectChange = (name: string | undefined, value: string | undefined) => {
-        if (name && value) {
+    console.log(editedRow);
+    const handleEditChange = (name: string | undefined, value: string | number | boolean | undefined) => {
+        if (name) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
             setEditedKeys((prevState) => [...prevState, name]);
         }
@@ -232,6 +222,13 @@ export const ComplexTable = ({
     const handleEditDateChange = (name: string | undefined, value: Date | null) => {
         if (name && value) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+            setEditedKeys((prevState) => [...prevState, name]);
+        }
+    };
+    const handleEditImagesSelect = (name: string | undefined, value: (string | File)[]) => {
+        if (name) {
+            setEditedRow((prevState) => ({ ...prevState, [name]: value }));
+            setEditedKeys((prevState) => [...prevState, name]);
         }
     };
     const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {

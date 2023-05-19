@@ -6,21 +6,15 @@ export interface ISwitch {
     labelPlacement?: 'top' | 'start' | 'end' | 'bottom';
     name?: string;
     checked: boolean;
-    handleChange?: (name: string | undefined, value: boolean) => void;
+    handleChange: (name: string | undefined, value: boolean) => void;
 }
 
 export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'start' }: ISwitch) => {
-    const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        if (handleChange) {
-            handleChange(name, checked);
-        }
-    };
     return (
         <FormControlLabel
             label={label}
             labelPlacement={labelPlacement}
-            control={<MuiSwitch name={name} checked={checked} onChange={handleSwitchChange} />}
+            control={<MuiSwitch name={name} checked={checked} onChange={(e) => handleChange(name, e.target.checked)} />}
         ></FormControlLabel>
     );
 };
