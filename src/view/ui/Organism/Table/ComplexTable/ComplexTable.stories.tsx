@@ -1,7 +1,6 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import { products } from '../products';
-
 import { ComplexTable } from './ComplexTable';
 import { Button } from '../../../Atoms';
 
@@ -44,14 +43,6 @@ Primary.args = {
         { formInput: 'textfield', head: 'discountPercentage' },
         { formInput: 'textfield', head: 'rating' },
         { formInput: 'textfield', head: 'stock' },
-        {
-            formInput: 'select',
-            head: 'category',
-            options: [
-                { id: '1', text: '20' },
-                { id: '2', text: '30' },
-            ],
-        },
         {
             formInput: 'select',
             head: 'brand',

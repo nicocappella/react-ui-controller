@@ -1,5 +1,5 @@
-import { Button, TablePagination } from '@mui/material';
 import React from 'react';
+import { Button, TablePagination } from '@mui/material';
 
 interface IProps {
     rowPerPageOptions: number[];

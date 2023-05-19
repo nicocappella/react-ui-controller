@@ -1,10 +1,17 @@
+import React from 'react';
 import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { Box } from '@mui/system';
 import { visuallyHidden } from '@mui/utils';
-import React from 'react';
-import { HeadCell } from './table';
 
 type Order = 'asc' | 'desc';
+
+interface HeadCell {
+    id: string;
+    align: 'inherit' | 'left' | 'center' | 'right' | 'justify' | undefined;
+    disablePadding: boolean;
+    label: string;
+    editable?: boolean;
+}
 
 interface IProps {
     editable?: boolean;

@@ -2,7 +2,7 @@ import { Box, BoxProps } from '@mui/material';
 
 interface IForm {
     direction: 'column' | 'row';
-    handleSubmit: (e: React.FormEvent) => void;
+    handleSubmit?: (e: React.FormEvent) => void;
     height?: string;
     width?: string;
     children: React.ReactNode;

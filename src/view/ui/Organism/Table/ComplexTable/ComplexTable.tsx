@@ -8,7 +8,7 @@ import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
 import Pagination from './Pagination';
-import { Cell, HeadCell, IEditableCellForm } from './table';
+import { Cell, IEditableCellForm, HeadCell } from './table';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
 import { convertCurrency, convertCurrencyToNumber } from '../../../../../utils/CurrencyFormat';
@@ -37,6 +37,7 @@ export interface IComplexTable {
     rows?: { [key: string]: string | number | boolean | undefined; id: string | number }[];
     rowsPerPage?: number;
     rowPerPageOptions?: number[];
+    uploadImages: (name: string, files: File[], id: string | number | undefined) => void;
     title: string;
     toolbar?: boolean;
 }
@@ -66,6 +67,7 @@ export const ComplexTable = ({
     rows = [],
     rowsPerPage = 50,
     rowPerPageOptions = [25, 50, 100],
+    uploadImages,
     title = 'Rows',
     toolbar,
 }: IComplexTable) => {
@@ -76,6 +78,7 @@ export const ComplexTable = ({
     >();
     const [editedKeys, setEditedKeys] = React.useState<string[]>([]);
     const [editableCell, setEditableCell] = React.useState<string | number>();
+    const [multipartForm, setMultiPartForm] = React.useState(false);
     const [order, setOrder] = React.useState<'asc' | 'desc'>(defaultOrder);
     const [orderBy, setOrderBy] = React.useState(defaultOrderBy);
     const [page, setPage] = React.useState(0);
@@ -100,7 +103,7 @@ export const ComplexTable = ({
             if (typeof cell === 'number') {
                 return convertCurrency(Number(cell));
             } else if (typeof cell === 'boolean') {
-                return <Switch checked={cell} />;
+                return <Switch checked={cell} handleChange={() => {}} />;
             } else if (Array.isArray(cell)) {
                 const images = cell.map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
                 return (
@@ -117,7 +120,7 @@ export const ComplexTable = ({
             if (headCell[cellName] === 'number' && typeof cell === 'number') {
                 return convertCurrency(Number(cell));
             } else if (headCell[cellName] === 'boolean' && typeof cell === 'boolean') {
-                return <Switch checked={cell} />;
+                return <Switch checked={cell} handleChange={() => {}} />;
             } else if (headCell[cellName] === 'images' && Array.isArray(cell)) {
                 const images = (cell as string[]).map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
                 return (
@@ -163,15 +166,15 @@ export const ComplexTable = ({
                         width={editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'}
                     />
                 );
-            } else if (cellForm.formInput === 'select') {
+            } else if (cellForm.formInput === 'select' && cellForm.options) {
                 return (
                     <Select
                         name={cellForm.head}
                         items={cellForm.options}
-                        value={editedRow && editedRow[cell] ? editedRow[cell]!.toString() : ''}
+                        value={editedRow[cell] as string}
                         size="small"
-                        handleChange={handleEditChange}
-                        handleObjectClick={handleEditSelectById}
+                        handleChange={typeof cellForm.options[0] === 'string' ? handleEditChange : undefined}
+                        handleObjectClick={typeof cellForm.options[0] === 'object' ? handleEditSelectById : undefined}
                         width="100%"
                     />
                 );
@@ -200,20 +203,29 @@ export const ComplexTable = ({
                     />
                 );
             } else if (cellForm.formInput === 'images') {
-                return <ImageSelect name={cellForm.head} imgs={editedRow && (editedRow[cell] as string[])} handleFiles={handleEditImagesSelect} />;
+                return (
+                    <ImageSelect
+                        name={cellForm.head}
+                        imgs={editedRow && (editedRow[cell] as string[])}
+                        handleFiles={handleEditImagesSelect}
+                        id={row.id}
+                        handleAddImages={(name, files, id) => uploadImages(name, files, id)}
+                    />
+                );
             } else {
                 return row[cell];
             }
         }
     };
-    console.log(editedRow);
     const handleEditChange = (name: string | undefined, value: string | number | boolean | undefined) => {
+        console.log(name, value);
         if (name) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
             setEditedKeys((prevState) => [...prevState, name]);
         }
     };
     const handleEditSelectById = (name: string, index: string | number) => {
+        console.log(name, index);
         if (index && name) {
             setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
             setEditedKeys((prevState) => [...prevState, name]);
@@ -237,7 +249,9 @@ export const ComplexTable = ({
         setEditableCell(id);
         setEditedRow(rows.find((d) => d.id === id));
     };
-    const handleConfirmEdit = (e: React.MouseEvent<HTMLElement>, id?: string | number) => {
+    const handleConfirmEdit = (e: React.FormEvent, id?: string | number) => {
+        e.preventDefault();
+        console.log(e.currentTarget);
         if (id) {
             const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
             let newEdited = Object.assign(editedRow!, editdedRowById);
@@ -363,7 +377,6 @@ export const ComplexTable = ({
                         title={title}
                     />
                 )}
-
                 <Table
                     sx={{ minWidth: 750, backgroundColor: '#fff', borderRadius: '4px' }}
                     aria-labelledby="tableTitle"
@@ -399,7 +412,6 @@ export const ComplexTable = ({
                                     tableRows.map((row, index) => {
                                         const isItemSelected = isSelected(row.id.toString());
                                         const labelId = `enhaced-table-checkbox-${index}`;
-
                                         return (
                                             <TableRow
                                                 hover
@@ -510,7 +522,11 @@ export const ComplexTable = ({
                                                                 display: 'table-cell',
                                                             }}
                                                         >
-                                                            <IconButton title="Aceptar" handleClick={(event) => handleConfirmEdit(event, row.id)}>
+                                                            <IconButton
+                                                                title="Aceptar"
+                                                                handleClick={(event) => handleConfirmEdit(event, row.id)}
+                                                                type="button"
+                                                            >
                                                                 <Check color="primary" />
                                                             </IconButton>
                                                             <IconButton title="Cancelar" handleClick={handleCancelEdit}>
