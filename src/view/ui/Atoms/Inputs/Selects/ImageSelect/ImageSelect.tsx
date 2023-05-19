@@ -50,6 +50,7 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
         </IconButton>
     );
     const handleAcceptAddImages = (e: FormEvent) => {
+        e.preventDefault();
         handleAddImages(name, imagesAdded, id);
         handleCloseModal();
     };
