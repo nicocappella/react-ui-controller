@@ -4,7 +4,7 @@ import { Form } from '../../Molecules/Forms/Forms';
 
 export interface IProps {
     direction: 'column' | 'row';
-    handleSubmit?: (e: React.FormEvent) => void;
+    handleSubmit: (e: React.FormEvent) => void;
     children: React.ReactNode;
     background?: string;
     height?: string;
@@ -23,7 +23,7 @@ const BasicForm = ({ direction, handleSubmit, children, background, height, widt
         <Form
             {...props}
             direction={direction}
-            handleSubmit={handleSubmitForm}
+            handleSubmit={(e) => handleSubmitForm(e)}
             background={background ? background : 'transparent'}
             width={width}
             height={height}

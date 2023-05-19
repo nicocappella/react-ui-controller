@@ -50,47 +50,44 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
         </IconButton>
     );
     const handleAcceptAddImages = (e: FormEvent) => {
-        e.preventDefault();
         handleAddImages(name, imagesAdded, id);
         handleCloseModal();
     };
     return (
         <>
             <Modal open={openModal} onClose={handleCloseModal}>
-                <BasicForm direction="row" encType="multipart/form-data">
-                    <Box bgcolor="white" p="20px" borderRadius="4px" display="flex" flexDirection="column" gap={2} alignItems="center">
-                        <Typography variant="h6">Eliminar Imágenes</Typography>
+                <Box bgcolor="white" p="20px" borderRadius="4px" display="flex" flexDirection="column" gap={2} alignItems="center">
+                    <Typography variant="h6">Eliminar Imágenes</Typography>
+                    <Box display="flex" flexDirection="row" gap="5px">
+                        {imagesState.map((d, i) => (
+                            <Box position="relative" p="2px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
+                                <RemoveIcon i={i} />
+                                <img src={d} alt={d} width="50px" height="50px" />
+                            </Box>
+                        ))}
+                    </Box>
+                    <Box display="flex" gap={2}>
+                        <Button text="Aceptar" variant="contained" handleClick={() => {}} type="button" />
+                        <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
+                    </Box>
+                    <Divider />
+                    <BasicForm direction="column" encType="multipart/form-data" handleSubmit={handleAcceptAddImages} alignItems="center">
+                        <Typography variant="h6">Agregar Imágenes</Typography>
                         <Box display="flex" flexDirection="row" gap="5px">
-                            {imagesState.map((d, i) => (
-                                <Box position="relative" p="2px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
-                                    <RemoveIcon i={i} />
-                                    <img src={d} alt={d} width="50px" height="50px" />
-                                </Box>
-                            ))}
+                            <UploadButton
+                                multiple
+                                name="addFiles"
+                                handleFiles={(name, value) => setImagesAdded(value as File[])}
+                                defaultImages={imagesAdded}
+                                title="Archivos nuevos"
+                            />
                         </Box>
                         <Box display="flex" gap={2}>
-                            <Button text="Aceptar" variant="contained" handleClick={() => {}} type="button" />
+                            <Button text="Aceptar" variant="contained" type="submit" />
                             <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
                         </Box>
-                        <Divider />
-                        <BasicForm direction="column" encType="multipart/form-data" handleSubmit={handleAcceptAddImages} alignItems="center">
-                            <Typography variant="h6">Agregar Imágenes</Typography>
-                            <Box display="flex" flexDirection="row" gap="5px">
-                                <UploadButton
-                                    multiple
-                                    name="addFiles"
-                                    handleFiles={(name, value) => setImagesAdded(value as File[])}
-                                    defaultImages={imagesAdded}
-                                    title="Archivos nuevos"
-                                />
-                            </Box>
-                            <Box display="flex" gap={2}>
-                                <Button text="Aceptar" variant="contained" type="submit" />
-                                <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
-                            </Box>
-                        </BasicForm>
-                    </Box>
-                </BasicForm>
+                    </BasicForm>
+                </Box>
             </Modal>
             <Stack direction="row" gap="4px">
                 {imagesState.slice(0, 5).map((d, i) => (
