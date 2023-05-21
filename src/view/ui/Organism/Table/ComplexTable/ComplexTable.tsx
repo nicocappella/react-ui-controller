@@ -13,7 +13,7 @@ import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
 import { convertCurrency, convertCurrencyToNumber } from '../../../../../utils/CurrencyFormat';
 
-export interface IComplexTable {
+export interface IComplexTable<T> {
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
     date?: Date | null;
     defaultOrder?: 'asc' | 'desc';
@@ -34,7 +34,7 @@ export interface IComplexTable {
     isLoading?: boolean;
     mainButton?: React.ReactNode[];
     pagination?: boolean;
-    rows?: { [key: string]: string | number | boolean | undefined; id: string | number }[];
+    rows?: T[];
     rowsPerPage?: number;
     rowPerPageOptions?: number[];
     uploadImages: (name: string, files: File[], id: string | number | undefined) => void;
@@ -42,7 +42,7 @@ export interface IComplexTable {
     toolbar?: boolean;
 }
 
-export const ComplexTable = ({
+export const ComplexTable = <T extends { [key: string]: string | number | boolean | undefined; id: string | number }>({
     confirmEdit,
     date,
     defaultOrder = 'asc',
@@ -70,7 +70,7 @@ export const ComplexTable = ({
     uploadImages,
     title = 'Rows',
     toolbar,
-}: IComplexTable) => {
+}: IComplexTable<T>) => {
     const tableFunctions = new TableClass();
     const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | number | undefined }>({});
     const [editedRow, setEditedRow] = React.useState<
