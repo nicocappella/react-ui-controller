@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { Box } from '@mui/system';
 import { visuallyHidden } from '@mui/utils';
+import { Cell } from './table';
 
 type Order = 'asc' | 'desc';
 
@@ -17,7 +18,7 @@ interface IProps {
     editable?: boolean;
     excludeId: boolean;
     headCells: HeadCell[];
-    headCellsLabelObejct?: { [key: string]: string };
+    headCellsLabelObejct?: { [key: string]: { label: string; type?: Cell } };
     numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -70,7 +71,7 @@ export const Head = ({
                                 direction={orderBy === headCell.id ? order : 'asc'}
                                 onClick={createSortHandler(headCell.id)}
                             >
-                                {headCellsLabelObejct ? headCellsLabelObejct[headCell.id] : headCell.label}
+                                {headCellsLabelObejct ? headCellsLabelObejct[headCell.id].label : headCell.label}
                                 {orderBy === headCell.id ? (
                                     <Box component="span" sx={visuallyHidden}>
                                         {order === 'desc' ? 'sorted descendinrightg' : 'sorted ascending'}

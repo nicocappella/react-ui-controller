@@ -1,6 +1,7 @@
 import { Delete } from '@mui/icons-material';
 import { Box, FormHelperText, IconButton, Stack, Typography } from '@mui/material';
 import React from 'react';
+import { Button } from '../Button';
 
 export interface IUploadButton {
     limit?: number;
@@ -130,14 +131,23 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
 
     return (
         <>
-            <Box sx={{ backgroundColor: '#fff', borderRadius: '2rem', padding: '1rem' }}>
+            <Box
+                sx={{ backgroundColor: '#fff', borderRadius: '2rem', padding: '1rem' }}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                gap={2}
+            >
                 <Box
                     display="flex"
                     justifyContent="center"
+                    flexDirection="column"
                     alignItems="center"
                     sx={{
                         position: 'relative',
+                        minWidth: '150px',
                         width: 'fit-content',
+                        minHeight: '150px',
                         height: '5rem',
                         border: '1px solid #c4c4c4',
                         borderRadius: '20px',
@@ -147,16 +157,29 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                     onDragLeave={onDragLeave}
                     onDrop={onDragLeave}
                 >
-                    <Stack justifyContent="center" sx={{ p: 1, textAlign: 'center' }}>
-                        <Typography sx={{ color: '#ccc' }}>{limit > 1 ? 'Explorar archivos para cargar' : 'Explorar archivo para cargar'}</Typography>
-                        <div>{/* <img src={uploadImg} alt="file upload" style={{ width: '5rem' }} /> */}</div>
-                        <Typography variant="body1" component="span">
-                            <strong>Archivos soportados</strong>
-                        </Typography>
-                        <Typography variant="body2" component="span">
-                            JPG, JPEG, PNG
-                        </Typography>
-                    </Stack>
+                    {singleFile ? (
+                        <img
+                            src={URL.createObjectURL(singleFile)}
+                            alt="Imagen única"
+                            width="150px"
+                            height="150px"
+                            style={{ objectFit: 'cover', borderRadius: '20px' }}
+                        />
+                    ) : (
+                        <Stack justifyContent="center" sx={{ p: 1, textAlign: 'center' }}>
+                            <Typography sx={{ color: '#ccc' }}>
+                                {limit > 1 ? 'Explorar archivos para cargar' : 'Explorar archivo para cargar'}
+                            </Typography>
+                            <div>{/* <img src={uploadImg} alt="file upload" style={{ width: '5rem' }} /> */}</div>
+                            <Typography variant="body1" component="span">
+                                <strong>Archivos soportados</strong>
+                            </Typography>
+                            <Typography variant="body2" component="span">
+                                JPG, JPEG, PNG
+                            </Typography>
+                        </Stack>
+                    )}
+
                     <input
                         type="file"
                         name={name}
@@ -176,6 +199,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                         }}
                     />
                 </Box>
+                {singleFile && <Button size="small" variant="contained" text="Quitar" handleClick={fileSingleRemove} color="error" />}
             </Box>
             <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={error.isError}>
                 {error.text}
@@ -190,7 +214,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                 )}
                 {fileList.length > 0 || singleFile ? (
                     <Stack spacing={2} sx={{ my: 2 }}>
-                        {multiple ? fileList.map((item, index) => fileCard(item, index)) : singleFile && fileCard(singleFile, 0)}
+                        {multiple && fileList.map((item, index) => fileCard(item, index))}
                     </Stack>
                 ) : null}
             </Box>

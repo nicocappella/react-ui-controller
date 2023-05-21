@@ -29,7 +29,7 @@ export interface IComplexTable {
     filterButtons?: React.ReactNode[];
     handleDateChange?: (value: Date | null) => void;
     headCells?: string[];
-    headCellsLabelObject?: { [key: string]: string };
+    headCellsLabelObject?: { [key: string]: { label: string; type?: Cell } };
     isError?: boolean;
     isLoading?: boolean;
     mainButton?: React.ReactNode[];

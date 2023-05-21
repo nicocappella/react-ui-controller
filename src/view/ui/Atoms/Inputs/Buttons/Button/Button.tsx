@@ -5,7 +5,7 @@ import { Check } from '@mui/icons-material';
 export interface IButton {
     text: string;
     variant: 'contained' | 'outlined' | 'text';
-    type: 'button' | 'reset' | 'submit';
+    type?: 'button' | 'reset' | 'submit';
     size?: 'small' | 'medium' | 'large';
     width?: string | number;
     startIcon?: React.ReactNode;
@@ -53,7 +53,6 @@ const Button = ({
             )}
             <label htmlFor={uploadButton ? uploadButton!.id : undefined}>
                 <MuiButton
-                    {...props}
                     variant={variant}
                     type={type}
                     size={size}
@@ -64,6 +63,7 @@ const Button = ({
                     color={color}
                     onClick={handleClick}
                     href={href && href}
+                    {...props}
                 >
                     {!loginButton ? (
                         text

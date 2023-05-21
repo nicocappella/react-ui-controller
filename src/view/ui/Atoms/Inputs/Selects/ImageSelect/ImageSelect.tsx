@@ -71,7 +71,7 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
                         <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
                     </Box>
                     <Divider />
-                    <BasicForm direction="column" encType="multipart/form-data" handleSubmit={handleAcceptAddImages} alignItems="center">
+                    {/* <BasicForm direction="column" encType="multipart/form-data" handleSubmit={handleAcceptAddImages} alignItems="center"> */}
                         <Typography variant="h6">Agregar Imágenes</Typography>
                         <Box display="flex" flexDirection="row" gap="5px">
                             <UploadButton
@@ -86,7 +86,7 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
                             <Button text="Aceptar" variant="contained" type="submit" />
                             <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
                         </Box>
-                    </BasicForm>
+                    {/* </BasicForm> */}
                 </Box>
             </Modal>
             <Stack direction="row" gap="4px">
