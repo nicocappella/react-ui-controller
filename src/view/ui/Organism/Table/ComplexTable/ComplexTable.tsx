@@ -42,7 +42,7 @@ export interface IComplexTable<T> {
     toolbar?: boolean;
 }
 
-export const ComplexTable = <T extends { [key: string]: string | number | boolean | undefined; id: string | number }>({
+export const ComplexTable = <T extends { [key: string]: string | string[] | number | boolean | undefined; id?: string | number }>({
     confirmEdit,
     date,
     defaultOrder = 'asc',
@@ -90,7 +90,7 @@ export const ComplexTable = <T extends { [key: string]: string | number | boolea
         rows &&
         rows.length > 0 &&
         tableFunctions
-            .stableSort<{ [key: string]: string | number | boolean | undefined; id: string | number }>(
+            .stableSort<{ [key: string]: string | string[] | number | boolean | undefined; id?: string | number }>(
                 rows,
                 tableFunctions.getComparator(order, orderBy),
             )
