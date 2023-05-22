@@ -45,11 +45,11 @@ TopAppBarWithTabs.args = {
     height: '64px',
     tabs: {
         color: 'primary',
-        value: '0',
+        value: '',
         components: [
             {
                 components: (
-                    <Box border="1px solid black" width="60vw" height="500px" margin="0 auto">
+                    <Box border="1px solid black" width="60vw" height="500px" margin="0 auto" bgcolor="white">
                         <Typography color="primary">One</Typography>
                     </Box>
                 ),
@@ -57,7 +57,7 @@ TopAppBarWithTabs.args = {
             },
             {
                 components: (
-                    <Box border="1px solid black" width="60vw" margin="0 auto">
+                    <Box border="1px solid black" width="60vw" margin="0 auto" bgcolor="white" display="flex" alignItems="center">
                         <Typography color="primary">Two</Typography>
                     </Box>
                 ),

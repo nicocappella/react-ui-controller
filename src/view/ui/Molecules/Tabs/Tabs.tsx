@@ -3,6 +3,7 @@ import { Tab, Tabs as MuiTabs, TabsProps } from '@mui/material';
 import { Box } from '@mui/system';
 
 export interface ITabs {
+    appBarHeight?: string | number;
     centered?: boolean;
     contentPosition?: 'relative' | 'absolute';
     indicatorColor?: 'primary' | 'secondary' | undefined | string;
@@ -10,13 +11,14 @@ export interface ITabs {
     panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
     orientation?: 'horizontal' | 'vertical';
     secondTabs?: { label: string; value: string }[];
-    tabsComponents?: React.ElementType | any;
+    tabsComponent?: React.ElementType | any;
     tabs: { label: string; value: string | number; href?: string; icon?: React.ReactElement }[];
     textColor?: 'primary' | 'secondary' | 'inherit' | undefined;
     value: any;
 }
 
 const Tabs = ({
+    appBarHeight,
     centered = false,
     contentPosition = 'relative',
     indicatorColor = 'primary',
@@ -25,7 +27,7 @@ const Tabs = ({
     orientation = 'horizontal',
     secondTabs = [],
     tabs,
-    tabsComponents,
+    tabsComponent,
     textColor = 'primary',
     value,
     ...props
@@ -37,6 +39,18 @@ const Tabs = ({
     const tabPanel = panel && panel.find((d) => d.value === tabValue);
     return (
         <Box zIndex={1000} display={orientation === 'vertical' ? 'flex' : 'block'}>
+            {tabValue !== '' && appBarHeight && (
+                <Box
+                    height={`calc(100vh - ${appBarHeight}`}
+                    width="100vw"
+                    position="absolute"
+                    bgcolor="rgba(0,0,0,.2)"
+                    top={appBarHeight}
+                    left={0}
+                    zIndex={1}
+                    onClick={() => setTabValue('')}
+                ></Box>
+            )}
             <MuiTabs
                 centered={centered}
                 indicatorColor={indicatorColor}
@@ -52,7 +66,7 @@ const Tabs = ({
                         label={d.label}
                         key={i}
                         value={d.value}
-                        LinkComponent={tabsComponents}
+                        LinkComponent={tabsComponent}
                         href={d.href ? d.href : ''}
                         icon={d.icon && d.icon}
                         iconPosition="top"
@@ -67,7 +81,7 @@ const Tabs = ({
                     ))}
                 </MuiTabs>
             )} */}
-            <Box zIndex={999} position={contentPosition} left={left} width="100vw">
+            <Box zIndex={999} position={contentPosition} left={left} right={appBarHeight ? 0 : undefined}>
                 {tabPanel?.components}
             </Box>
         </Box>

@@ -3,6 +3,7 @@ import { Toolbar, AppBar, AppBarProps } from '@mui/material';
 import { Box } from '@mui/system';
 import { IconButton } from '../../../Atoms';
 import { Tabs } from '../../../Molecules';
+import React from 'react';
 
 export interface ITopAppBar {
     alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
@@ -10,6 +11,7 @@ export interface ITopAppBar {
     boxShadow?: string;
     height?: string | number;
     logo?: { component: React.ReactNode };
+    linkComponent: React.ElementType<any>;
     horizontalPadding?: string | number;
     menuButton?: boolean;
     navButtons?: { component: React.ReactNode | string }[];
@@ -23,17 +25,18 @@ export interface ITopAppBar {
 }
 
 const TopAppBar = ({
-    logo,
     alignNavBar = 'space-between',
-    navButtons,
-    otherButtons,
-    menuButton,
-    tabs,
     background = 'transparent',
     boxShadow,
-    position = 'fixed',
-    horizontalPadding = '64px',
     height = '64px',
+    horizontalPadding = '64px',
+    menuButton,
+    linkComponent,
+    logo,
+    navButtons,
+    position = 'fixed',
+    otherButtons,
+    tabs,
     ...props
 }: ITopAppBar & AppBarProps) => {
     return (
@@ -45,6 +48,7 @@ const TopAppBar = ({
                 sx={{ height, background: background, boxShadow: boxShadow, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
                 alignItems="center"
                 position="relative"
+                zIndex={999}
             >
                 {logo && <Box component="div">{logo?.component}</Box>}
                 {menuButton && (
@@ -64,6 +68,8 @@ const TopAppBar = ({
                         indicatorColor={tabs.color}
                         panel={tabs.components}
                         contentPosition="absolute"
+                        appBarHeight={height}
+                        tabsComponent={linkComponent}
                     />
                 ) : (
                     navButtons &&
