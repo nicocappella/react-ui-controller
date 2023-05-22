@@ -209,7 +209,14 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
                         imgs={editedRow && (editedRow[cell] as string[])}
                         handleFiles={handleEditImagesSelect}
                         id={row.id}
-                        handleAddImages={uploadImages ? (name, files, id) => uploadImages(name, files, id) : () => {}}
+                        handleAddImages={
+                            uploadImages
+                                ? (name, files, id) => {
+                                      uploadImages(name, files, id);
+                                      handleCancelEdit();
+                                  }
+                                : () => {}
+                        }
                     />
                 );
             } else {
@@ -268,7 +275,7 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
             setEditableCell(undefined);
         }
     };
-    const handleCancelEdit = (e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
+    const handleCancelEdit = (e?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
         const { code } = e as React.KeyboardEvent<HTMLElement>;
         if (code && code !== 'Escape') return;
         e.stopPropagation();
