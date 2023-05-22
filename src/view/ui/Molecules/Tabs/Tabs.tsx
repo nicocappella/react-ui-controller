@@ -41,7 +41,7 @@ const Tabs = ({
         <Box zIndex={1000} display={orientation === 'vertical' ? 'flex' : 'block'}>
             {tabValue !== '' && appBarHeight && (
                 <Box
-                    height={`calc(100vh - ${appBarHeight}`}
+                    height={`calc(100vh - ${appBarHeight})`}
                     width="100vw"
                     position="absolute"
                     bgcolor="rgba(0,0,0,.2)"

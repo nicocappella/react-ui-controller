@@ -11,7 +11,6 @@ export interface ITopAppBar {
     boxShadow?: string;
     height?: string | number;
     logo?: { component: React.ReactNode };
-    linkComponent: React.ElementType<any>;
     horizontalPadding?: string | number;
     menuButton?: boolean;
     navButtons?: { component: React.ReactNode | string }[];
@@ -31,7 +30,6 @@ const TopAppBar = ({
     height = '64px',
     horizontalPadding = '64px',
     menuButton,
-    linkComponent,
     logo,
     navButtons,
     position = 'fixed',
@@ -69,7 +67,6 @@ const TopAppBar = ({
                         panel={tabs.components}
                         contentPosition="absolute"
                         appBarHeight={height}
-                        tabsComponent={linkComponent}
                     />
                 ) : (
                     navButtons &&
