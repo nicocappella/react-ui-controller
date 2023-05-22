@@ -276,9 +276,11 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
         }
     };
     const handleCancelEdit = (e?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
-        const { code } = e as React.KeyboardEvent<HTMLElement>;
-        if (code && code !== 'Escape') return;
-        e.stopPropagation();
+        if (e) {
+            const { code } = e as React.KeyboardEvent<HTMLElement>;
+            if (code && code !== 'Escape') return;
+            e.stopPropagation();
+        }
         setEditedRow(undefined);
         setEditableCell(undefined);
     };
