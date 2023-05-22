@@ -37,7 +37,7 @@ export interface IComplexTable<T> {
     rows?: T[];
     rowsPerPage?: number;
     rowPerPageOptions?: number[];
-    uploadImages: (name: string, files: File[], id: string | number | undefined) => void;
+    uploadImages?: (name: string, files: File[], id: string | number | undefined) => void;
     title: string;
     toolbar?: boolean;
 }
