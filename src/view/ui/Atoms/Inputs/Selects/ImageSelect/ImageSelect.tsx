@@ -49,7 +49,7 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
             <Remove color="error" fontSize="small" />
         </IconButton>
     );
-    const handleAcceptAddImages = (e: FormEvent) => {
+    const handleAcceptAddImages = () => {
         handleAddImages(name, imagesAdded, id);
         handleCloseModal();
     };
@@ -72,20 +72,20 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
                     </Box>
                     <Divider />
                     {/* <BasicForm direction="column" encType="multipart/form-data" handleSubmit={handleAcceptAddImages} alignItems="center"> */}
-                        <Typography variant="h6">Agregar Imágenes</Typography>
-                        <Box display="flex" flexDirection="row" gap="5px">
-                            <UploadButton
-                                multiple
-                                name="addFiles"
-                                handleFiles={(name, value) => setImagesAdded(value as File[])}
-                                defaultImages={imagesAdded}
-                                title="Archivos nuevos"
-                            />
-                        </Box>
-                        <Box display="flex" gap={2}>
-                            <Button text="Aceptar" variant="contained" type="submit" />
-                            <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
-                        </Box>
+                    <Typography variant="h6">Agregar Imágenes</Typography>
+                    <Box display="flex" flexDirection="row" gap="5px">
+                        <UploadButton
+                            multiple
+                            name="addFiles"
+                            handleFiles={(name, value) => setImagesAdded(value as File[])}
+                            defaultImages={imagesAdded}
+                            title="Archivos nuevos"
+                        />
+                    </Box>
+                    <Box display="flex" gap={2}>
+                        <Button text="Aceptar" variant="contained" type="button" handleClick={handleAcceptAddImages} />
+                        <Button text="Cancelar" type="button" variant="outlined" handleClick={handleCloseModal} color="error" />
+                    </Box>
                     {/* </BasicForm> */}
                 </Box>
             </Modal>

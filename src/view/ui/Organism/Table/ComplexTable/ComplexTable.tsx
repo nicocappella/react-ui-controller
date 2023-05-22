@@ -209,7 +209,7 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
                         imgs={editedRow && (editedRow[cell] as string[])}
                         handleFiles={handleEditImagesSelect}
                         id={row.id}
-                        handleAddImages={(name, files, id) => uploadImages(name, files, id)}
+                        handleAddImages={uploadImages ? (name, files, id) => uploadImages(name, files, id) : () => {}}
                     />
                 );
             } else {
