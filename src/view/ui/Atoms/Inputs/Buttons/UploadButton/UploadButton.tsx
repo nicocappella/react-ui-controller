@@ -9,11 +9,21 @@ export interface IUploadButton {
     name: string;
     handleFiles: (name: string | undefined, value: File[] | File | undefined) => void;
     clearAll?: boolean;
+    type?: string;
     defaultImages?: File[];
     title?: string;
 }
 
-export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAll, defaultImages = [], title }: IUploadButton) => {
+export const UploadButton = ({
+    limit = 100,
+    multiple,
+    name,
+    handleFiles,
+    clearAll,
+    defaultImages = [],
+    title,
+    type = 'image/jpg, image/png, image/jpeg',
+}: IUploadButton) => {
     const [singleFile, setSingleFile] = React.useState<File>();
     const [error, setError] = React.useState({ isError: false, text: '' });
     const [fileList, setFileList] = React.useState<File[]>(defaultImages);
@@ -187,7 +197,7 @@ export const UploadButton = ({ limit = 100, multiple, name, handleFiles, clearAl
                         ref={inputRef}
                         onChange={onFileDrop}
                         multiple={multiple}
-                        accept="image/jpg, image/png, image/jpeg"
+                        accept={type}
                         style={{
                             opacity: 0,
                             position: 'absolute',
