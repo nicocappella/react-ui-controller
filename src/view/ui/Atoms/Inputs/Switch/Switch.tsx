@@ -7,15 +7,16 @@ export interface ISwitch {
     name?: string;
     checked: boolean;
     handleChange: (name: string | undefined, value: boolean) => void;
+    width?: string | number;
 }
 
-export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'start', ...props }: ISwitch & FormControlLabelProps) => {
+export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'start', width }: ISwitch) => {
     return (
         <FormControlLabel
-            {...props}
             label={label}
             labelPlacement={labelPlacement}
             control={<MuiSwitch name={name} checked={checked} onChange={(e) => handleChange(name, e.target.checked)} />}
+            sx={{ width: width }}
         ></FormControlLabel>
     );
 };
