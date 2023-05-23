@@ -1,4 +1,4 @@
-import { Switch as MuiSwitch, FormControlLabel, SelectChangeEvent } from '@mui/material';
+import { Switch as MuiSwitch, FormControlLabel, SelectChangeEvent, FormControlLabelProps } from '@mui/material';
 import React from 'react';
 
 export interface ISwitch {
@@ -9,9 +9,10 @@ export interface ISwitch {
     handleChange: (name: string | undefined, value: boolean) => void;
 }
 
-export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'start' }: ISwitch) => {
+export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'start', ...props }: ISwitch & FormControlLabelProps) => {
     return (
         <FormControlLabel
+            {...props}
             label={label}
             labelPlacement={labelPlacement}
             control={<MuiSwitch name={name} checked={checked} onChange={(e) => handleChange(name, e.target.checked)} />}

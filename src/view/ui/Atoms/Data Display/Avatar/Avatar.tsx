@@ -28,12 +28,24 @@ const getInitialLetters = (name: string) => {
     return;
 };
 
-const Avatar = ({ img, name, size, button, handleClick, badge, profileName, supportingText, direction, ...props }: IAvatar & StackProps) => {
+const Avatar = ({ img, name, size, button = true, handleClick, badge, profileName, supportingText, direction, ...props }: IAvatar & StackProps) => {
     const sizeAvatar = size === 'small' ? 40 : size === 'medium' ? 48 : 56;
     const backgroundColor = name && !img ? 'red' : '';
     const imgAvatar = img ? img : undefined;
     const avatar = (
-        <MuiAvatar sx={{ width: sizeAvatar, height: sizeAvatar, backgroundColor }} src={imgAvatar}>
+        <MuiAvatar
+            sx={{
+                width: sizeAvatar,
+                height: sizeAvatar,
+                transition: 'outline ease-in-out 250ms',
+                backgroundColor,
+                [':hover']: {
+                    outline: 'solid 1px #ccc',
+                    outlineOffset: '2px',
+                },
+            }}
+            src={imgAvatar}
+        >
             {name && getInitialLetters(name)}
         </MuiAvatar>
     );
