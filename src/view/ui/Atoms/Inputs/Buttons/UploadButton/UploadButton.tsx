@@ -1,4 +1,4 @@
-import { Delete } from '@mui/icons-material';
+import { Autorenew, Delete, DeleteOutline } from '@mui/icons-material';
 import { Box, FormHelperText, IconButton, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { Button } from '../Button';
@@ -159,7 +159,7 @@ export const UploadButton = ({
                         width: 'fit-content',
                         minHeight: '150px',
                         height: '5rem',
-                        border: '1px solid #c4c4c4',
+                        border: singleFile ? 'none ' : '1px solid #c4c4c4',
                         borderRadius: '20px',
                     }}
                     ref={wrapperRef}
@@ -168,13 +168,26 @@ export const UploadButton = ({
                     onDrop={onDragLeave}
                 >
                     {singleFile ? (
-                        <img
-                            src={URL.createObjectURL(singleFile)}
-                            alt="Imagen única"
-                            width="150px"
-                            height="150px"
-                            style={{ objectFit: 'cover', borderRadius: '20px' }}
-                        />
+                        <Box position="relative">
+                            <img
+                                src={URL.createObjectURL(singleFile)}
+                                alt="Imagen única"
+                                width="150px"
+                                height="150px"
+                                style={{ objectFit: 'cover', borderRadius: '20px' }}
+                            />
+                            <Box sx={{ position: 'absolute', bottom: 0, left: '20px' }}>
+                                <Button
+                                    size="small"
+                                    variant="contained"
+                                    text="Cambiar"
+                                    handleClick={fileSingleRemove}
+                                    padding="16px"
+                                    color="info"
+                                    startIcon={<Autorenew color="white" />}
+                                />
+                            </Box>
+                        </Box>
                     ) : (
                         <Stack justifyContent="center" sx={{ p: 1, textAlign: 'center' }}>
                             <Typography sx={{ color: '#ccc' }}>
@@ -185,7 +198,7 @@ export const UploadButton = ({
                                 <strong>Archivos soportados</strong>
                             </Typography>
                             <Typography variant="body2" component="span">
-                                JPG, JPEG, PNG
+                                {type}
                             </Typography>
                         </Stack>
                     )}
@@ -209,7 +222,16 @@ export const UploadButton = ({
                         }}
                     />
                 </Box>
-                {singleFile && <Button size="small" variant="contained" text="Quitar" handleClick={fileSingleRemove} color="error" />}
+                {singleFile && (
+                    <Button
+                        size="small"
+                        variant="contained"
+                        text="Quitar"w
+                        handleClick={fileSingleRemove}
+                        color="error"
+                        startIcon={<DeleteOutline />}
+                    />
+                )}
             </Box>
             <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={error.isError}>
                 {error.text}

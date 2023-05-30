@@ -18,7 +18,7 @@ export interface ITabs {
 }
 
 const Tabs = ({
-    appBarHeight,
+    appBarHeight = '64px',
     centered = false,
     contentPosition = 'relative',
     indicatorColor = 'primary',
@@ -70,7 +70,7 @@ const Tabs = ({
                         href={d.href ? d.href : ''}
                         icon={d.icon && d.icon}
                         iconPosition="top"
-                        sx={{ height: '64px', textTransform: 'capitalize' }}
+                        sx={{ height: appBarHeight, textTransform: 'capitalize' }}
                     />
                 ))}
             </MuiTabs>
@@ -81,7 +81,7 @@ const Tabs = ({
                     ))}
                 </MuiTabs>
             )} */}
-            <Box zIndex={999} position={contentPosition} left={left} right={appBarHeight ? 0 : undefined}>
+            <Box zIndex={999} position={contentPosition} margin="0 auto" left={left} right={appBarHeight ? 0 : undefined} width="fit-content">
                 {tabPanel?.components}
             </Box>
         </Box>

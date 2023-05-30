@@ -68,7 +68,7 @@ const Button = ({
                     {!loginButton ? (
                         text
                     ) : loginButton.loading ? (
-                        <CircularProgress />
+                        <CircularProgress sx={{ color: 'white' }} />
                     ) : loginButton.success ? (
                         'Tick'
                     ) : loginButton.error ? (

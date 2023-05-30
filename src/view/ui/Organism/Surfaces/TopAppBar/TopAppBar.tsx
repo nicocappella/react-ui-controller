@@ -8,6 +8,7 @@ import React from 'react';
 export interface ITopAppBar {
     alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
     background?: string;
+    backgroundActiveTabs: string;
     boxShadow?: string;
     height?: string | number;
     logo?: { component: React.ReactNode };
@@ -26,6 +27,7 @@ export interface ITopAppBar {
 const TopAppBar = ({
     alignNavBar = 'space-between',
     background = 'transparent',
+    backgroundActiveTabs = 'white',
     boxShadow,
     height = '64px',
     horizontalPadding = '64px',
@@ -43,7 +45,7 @@ const TopAppBar = ({
                 component="nav"
                 display="flex"
                 justifyContent={alignNavBar}
-                sx={{ height, background: background, boxShadow: boxShadow, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
+                sx={{ height, background, boxShadow: boxShadow, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
                 alignItems="center"
                 position="relative"
                 zIndex={999}
