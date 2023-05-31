@@ -53,6 +53,7 @@ const Button = ({
             )}
             <label htmlFor={uploadButton ? uploadButton!.id : undefined}>
                 <MuiButton
+                    aria-label={text}
                     variant={variant}
                     type={type}
                     size={size}

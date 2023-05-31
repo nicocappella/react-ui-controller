@@ -16,13 +16,7 @@ export interface ICurrencyTextField {
     handleOnBlur?: (name: string | undefined, value: string | undefined) => void;
     handleChange: (name: string | undefined, value: string | undefined) => void;
     handleEndIconClick?: (e: React.MouseEvent) => void;
-    label:
-        | string
-        | (string & React.ReactElement<any, string | React.JSXElementConstructor<any>>)
-        | (string & React.ReactFragment)
-        | (string & React.ReactPortal)
-        | React.ReactElement<any, any>
-        | undefined;
+    label: string;
     minWidth?: string;
     multiline?: boolean;
     name: string;
@@ -84,6 +78,7 @@ export const TextField = ({
         <Box component="div" display="flex" flexDirection="column">
             <>
                 <MuiTextField
+                    aria-label={label}
                     autoComplete={autoComplete}
                     color={borderColor.focused}
                     fullWidth={fullWidth}

@@ -42,7 +42,9 @@ export interface IComplexTable<T> {
     toolbar?: boolean;
 }
 
-export const ComplexTable = <T extends { [key: string]: string | string[] | number | boolean | undefined; id?: string | number }>({
+export const ComplexTable = <
+    T extends { [key: string]: string | (string | { id: string; url: string })[] | number | boolean | undefined; id: string | number },
+>({
     confirmEdit,
     date,
     defaultOrder = 'asc',
@@ -74,7 +76,7 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
     const tableFunctions = new TableClass();
     const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | number | undefined }>({});
     const [editedRow, setEditedRow] = React.useState<
-        { [key: string]: string | number | boolean | Date | (string | File)[] | undefined } | undefined
+        { [key: string]: string | number | boolean | Date | (string | { id: string; url: string })[] | undefined } | undefined
     >();
     const [editedKeys, setEditedKeys] = React.useState<string[]>([]);
     const [editableCell, setEditableCell] = React.useState<string | number>();
@@ -86,11 +88,18 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
     const [selected, setSelected] = React.useState<string[]>([]);
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
+    let headCellTypes = {};
+    const obj =
+        headCellsLabelObject &&
+        Object.keys(headCellsLabelObject).map((d) => {
+            headCellTypes = { ...headCellTypes, [d]: headCellsLabelObject[d].type };
+            return '';
+        });
     const tableRows =
         rows &&
         rows.length > 0 &&
         tableFunctions
-            .stableSort<{ [key: string]: string | string[] | number | boolean | undefined; id?: string | number }>(
+            .stableSort<{ [key: string]: string | (string | { id: string; url: string })[] | number | boolean | undefined; id: string | number }>(
                 rows,
                 tableFunctions.getComparator(order, orderBy),
             )
@@ -98,14 +107,18 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
-    const handleTypeCell = (cell: string | number | boolean | string[] | undefined, headCell?: { [key: string]: Cell }, cellName?: string) => {
+    const handleTypeCell = (
+        cell: string | number | boolean | (string | { id: string; url: string })[] | undefined,
+        headCell?: { [key: string]: Cell },
+        cellName?: string,
+    ) => {
         if (!headCell) {
             if (typeof cell === 'number') {
                 return convertCurrency(Number(cell));
             } else if (typeof cell === 'boolean') {
                 return <Switch checked={cell} handleChange={() => {}} />;
             } else if (Array.isArray(cell)) {
-                const images = cell.map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
+                const images = (cell as string[]).map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
                 return (
                     <Box display="flex" gap="4px" alignItems="center">
                         {images}
@@ -122,7 +135,13 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
             } else if (headCell[cellName] === 'boolean' && typeof cell === 'boolean') {
                 return <Switch checked={cell} handleChange={() => {}} />;
             } else if (headCell[cellName] === 'images' && Array.isArray(cell)) {
-                const images = (cell as string[]).map((d, i) => <img src={d} width="40px" height="40px" key={`image-${i}`} />);
+                const images = (cell as { id: string; url: string }[]).map((d, i) => {
+                    if (typeof d === 'string') {
+                        return <img src={d} width="40px" height="40px" key={`image-${i}`} />;
+                    } else if (typeof d === 'object') {
+                        return <img src={d.url} width="40px" height="40px" key={`image-${d.id}`} />;
+                    }
+                });
                 return (
                     <Box display="flex" gap="4px" alignItems="center">
                         {images}
@@ -138,7 +157,7 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
     const handleEditCell = (
         cellForm: IEditableCellForm,
         cell: string,
-        row: { [key: string]: string | number | boolean | undefined; id: string | number },
+        row: { [key: string]: string | (string | { id: string; url: string })[] | number | boolean | undefined; id: string | number },
     ) => {
         if (editedRow && cellForm) {
             if (cellForm.formInput === 'textfield' && typeof row[cell] === 'string') {
@@ -244,7 +263,7 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
             setEditedKeys((prevState) => [...prevState, name]);
         }
     };
-    const handleEditImagesSelect = (name: string | undefined, value: (string | File)[]) => {
+    const handleEditImagesSelect = (name: string | undefined, value: (string | { id: string; url: string })[]) => {
         if (name) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
             setEditedKeys((prevState) => [...prevState, name]);
@@ -266,7 +285,7 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
                 if (!editedKeys.includes(d)) {
                     delete newEdited[d];
                 }
-                if (typeof newEdited[d] === 'string' && newEdited[d]!.includes(',') && /\d/.test(newEdited[d]!)) {
+                if (typeof newEdited[d] === 'string' && (newEdited[d] as string)!.includes(',') && /\d/.test(newEdited[d] as string)) {
                     newEdited[d] = convertCurrencyToNumber(newEdited[d]).toString();
                 }
             });
@@ -462,7 +481,7 @@ export const ComplexTable = <T extends { [key: string]: string | string[] | numb
                                                                 }
                                                                 sx={{ display: 'table-cell' }}
                                                             >
-                                                                {handleTypeCell(row[cell])}
+                                                                {handleTypeCell(row[cell], headCellTypes, cell)}
                                                             </TableCell>
                                                         );
                                                     } else if (editableCell === row['id']) {

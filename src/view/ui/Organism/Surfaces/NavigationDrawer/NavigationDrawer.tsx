@@ -39,7 +39,7 @@ export const NavigationDrawer = ({
     navButtons = [],
     size = 24,
     ...props
-}: INavigationDrawer & SwipeableDrawerProps) => {
+}: INavigationDrawer) => {
     const [open, setOpen] = React.useState(false);
     return (
         <>

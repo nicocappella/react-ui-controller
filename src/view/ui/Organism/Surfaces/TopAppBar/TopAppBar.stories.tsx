@@ -42,7 +42,7 @@ export const TopAppBarWithTabs = Template.bind({});
 TopAppBarWithTabs.args = {
     alignNavBar: 'center',
     background: 'red',
-    height: '64px',
+    height: '96px',
     tabs: {
         color: 'primary',
         value: '',
