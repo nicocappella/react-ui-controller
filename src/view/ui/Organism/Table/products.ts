@@ -11,11 +11,10 @@ export const products = [
         brand: 'Apple',
         thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
         images: [
-            'https://i.dummyjson.com/data/products/1/1.jpg',
-            'https://i.dummyjson.com/data/products/1/2.jpg',
-            'https://i.dummyjson.com/data/products/1/3.jpg',
-            'https://i.dummyjson.com/data/products/1/4.jpg',
-            'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
+            { id: '1', url: 'https://i.dummyjson.com/data/products/1/1.jpg' },
+            { id: '1', url: 'https://i.dummyjson.com/data/products/1/2.jpg' },
+            { id: '1', url: 'https://i.dummyjson.com/data/products/1/3.jpg' },
+            { id: '1', url: 'https://i.dummyjson.com/data/products/1/4.jpg' },
         ],
     },
     {

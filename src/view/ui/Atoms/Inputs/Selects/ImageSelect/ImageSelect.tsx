@@ -7,8 +7,8 @@ import { BasicForm } from '../../../../Organism';
 
 export interface IImageSelect {
     name: string;
-    imgs: string[];
-    handleFiles: (name: string, files: (string | File)[]) => void;
+    imgs: (string | { id: string; url: string })[];
+    handleFiles: (name: string, files: (string | { id: string; url: string })[]) => void;
     id: string | number;
     handleAddImages: (name: string, files: File[], id?: string | number) => void;
 }
@@ -27,8 +27,7 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
         const newImages = imagesState.filter((d, index) => index !== i);
         console.log(newImages.length);
         setImagesState(newImages);
-        const allFiles = [...imagesState, ...imagesAdded];
-        handleFiles(name, allFiles);
+        handleFiles(name, newImages);
     };
     const RemoveIcon = ({ i }: { i: number }) => (
         <IconButton
@@ -62,7 +61,11 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
                         {imagesState.map((d, i) => (
                             <Box position="relative" p="2px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
                                 <RemoveIcon i={i} />
-                                <img src={d} alt={d} width="50px" height="50px" />
+                                {typeof d === 'string' ? (
+                                    <img src={d} alt={d} key={i} width="50px" height="50px" />
+                                ) : (
+                                    <img src={d.url} alt="Edited image" key={d.id} width="50px" height="50px" />
+                                )}
                             </Box>
                         ))}
                     </Box>
@@ -93,7 +96,11 @@ export const ImageSelect = ({ name, imgs, handleFiles, id, handleAddImages }: II
                 {imagesState.slice(0, 5).map((d, i) => (
                     <Box position="relative" p="2px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
                         <RemoveIcon i={i} />
-                        <img src={d} alt={d} width="50px" height="50px" />
+                        {typeof d === 'string' ? (
+                            <img src={d} alt={d} key={i} width="50px" height="50px" />
+                        ) : (
+                            <img src={d.url} alt="Edited image" key={d.id} width="50px" height="50px" />
+                        )}
                     </Box>
                 ))}
                 {imagesState.length < 5 &&
