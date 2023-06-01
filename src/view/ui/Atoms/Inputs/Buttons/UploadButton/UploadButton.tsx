@@ -22,7 +22,7 @@ export const UploadButton = ({
     clearAll,
     defaultImages = [],
     title,
-    type = 'image/jpg, image/png, image/jpeg',
+    type = 'image/jpg, image/png, image/jpeg, image/webp',
 }: IUploadButton) => {
     const [singleFile, setSingleFile] = React.useState<File>();
     const [error, setError] = React.useState({ isError: false, text: '' });
@@ -174,7 +174,7 @@ export const UploadButton = ({
                                 alt="Imagen única"
                                 width="150px"
                                 height="150px"
-                                style={{ objectFit: 'cover', borderRadius: '20px' }}
+                                style={{ objectFit: 'contain', borderRadius: '20px' }}
                             />
                             <Box sx={{ position: 'absolute', bottom: 0, left: '20px' }}>
                                 <Button
@@ -226,7 +226,8 @@ export const UploadButton = ({
                     <Button
                         size="small"
                         variant="contained"
-                        text="Quitar"w
+                        text="Quitar"
+                        w
                         handleClick={fileSingleRemove}
                         color="error"
                         startIcon={<DeleteOutline />}

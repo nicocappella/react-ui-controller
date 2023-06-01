@@ -42,9 +42,12 @@ export interface IComplexTable<T> {
     toolbar?: boolean;
 }
 
-export const ComplexTable = <
-    T extends { [key: string]: string | (string | { id: string; url: string })[] | number | boolean | undefined; id: string | number },
->({
+type BasicCell = {
+    [key: string]: string | (string | { id: string; url: string })[] | { id: string; url: string } | number | boolean | undefined;
+    id: string | number;
+};
+
+export const ComplexTable = <T extends BasicCell>({
     confirmEdit,
     date,
     defaultOrder = 'asc',
@@ -99,16 +102,13 @@ export const ComplexTable = <
         rows &&
         rows.length > 0 &&
         tableFunctions
-            .stableSort<{ [key: string]: string | (string | { id: string; url: string })[] | number | boolean | undefined; id: string | number }>(
-                rows,
-                tableFunctions.getComparator(order, orderBy),
-            )
+            .stableSort<BasicCell>(rows, tableFunctions.getComparator(order, orderBy))
             .slice(page * rowsPerPageState, page * rowsPerPageState + rowsPerPageState);
 
     const isSelected = (id: string) => selected && selected.indexOf(id) !== -1;
 
     const handleTypeCell = (
-        cell: string | number | boolean | (string | { id: string; url: string })[] | undefined,
+        cell: string | number | boolean | (string | { id: string; url: string })[] | { id: string; url: string } | undefined,
         headCell?: { [key: string]: Cell },
         cellName?: string,
     ) => {
@@ -148,17 +148,17 @@ export const ComplexTable = <
                     </Box>
                 );
             } else if (headCell[cellName] === 'image' && typeof cell === 'string') {
-                return <img src={cell} width="60px" height="60px" />;
+                if (typeof cellName === 'string') {
+                    return <img src={cell} width="60px" height="60px" />;
+                } else {
+                    return <img src={cell.url as string} width="60px" height="60px" />;
+                }
             } else {
                 return cell;
             }
         }
     };
-    const handleEditCell = (
-        cellForm: IEditableCellForm,
-        cell: string,
-        row: { [key: string]: string | (string | { id: string; url: string })[] | number | boolean | undefined; id: string | number },
-    ) => {
+    const handleEditCell = (cellForm: IEditableCellForm, cell: string, row: BasicCell) => {
         if (editedRow && cellForm) {
             if (cellForm.formInput === 'textfield' && typeof row[cell] === 'string') {
                 return (
