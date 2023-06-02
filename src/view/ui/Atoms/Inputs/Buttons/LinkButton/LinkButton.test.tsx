@@ -1,9 +1,14 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { LinkButton } from './LinkButton';
 
 describe('LinkButton', () => {
-    test('renders the link button component', () => {
-        render(<LinkButton text="Hello World" color="primary" />);
+    let linkButton: HTMLAnchorElement;
+    beforeEach(() => {
+        render(<LinkButton />);
+        linkButton = screen.getByRole('link', { name: 'link', hidden: true });
+    });
+    test('renders the LinkButton component', () => {
+        expect(linkButton).toBeInTheDocument();
     });
 });

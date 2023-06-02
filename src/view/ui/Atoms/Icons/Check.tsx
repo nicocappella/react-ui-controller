@@ -9,7 +9,8 @@ export const Check = (props: SVGMotionProps<SVGSVGElement>) => {
         visible: {
             pathLength: 1,
             transition: {
-                duration: 2,
+                duration: 1,
+                delay: 0.5,
                 type: 'easeIn',
             },
         },

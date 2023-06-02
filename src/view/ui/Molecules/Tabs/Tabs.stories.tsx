@@ -12,8 +12,8 @@ export default {
 
 const Template: StoryFn<typeof Tabs> = (args) => <Tabs {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const VerticalTabs = Template.bind({});
+VerticalTabs.args = {
     value: 'one',
     tabs: [
         { label: 'One', value: 'one' },

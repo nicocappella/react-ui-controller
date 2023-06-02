@@ -10,22 +10,22 @@ export interface IMenuItem {
     handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-export const MenuItem = (props: IMenuItem) => {
+export const MenuItem = ({ startIcon, leadingText = 'Default', endIcon, link, handleClick }: IMenuItem) => {
     const menuItem = (
-        <MuiMenuItem onClick={props.handleClick}>
-            {props.startIcon && <ListItemIcon>{props.startIcon}</ListItemIcon>}
-            {props.leadingText && <ListItemText>{props.leadingText}</ListItemText>}
-            {props.endIcon && <ListItemIcon>{props.endIcon}</ListItemIcon>}
+        <MuiMenuItem onClick={handleClick}>
+            {startIcon && <ListItemIcon>{startIcon}</ListItemIcon>}
+            {leadingText && <ListItemText>{leadingText}</ListItemText>}
+            {endIcon && <ListItemIcon>{endIcon}</ListItemIcon>}
         </MuiMenuItem>
     );
     return (
         <>
-            {props.link && (
-                <Link href={props.link ? props.link : ''} passHref>
+            {link && (
+                <Link href={link ? link : ''} passHref>
                     {menuItem}
                 </Link>
             )}
-            {!props.link && menuItem}
+            {!link && menuItem}
         </>
     );
 };

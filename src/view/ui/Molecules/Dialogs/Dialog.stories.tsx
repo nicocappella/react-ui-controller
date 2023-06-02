@@ -1,10 +1,9 @@
-import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import { Dialog } from './index';
 import { Button } from '../../Atoms';
+import { Dialog } from './index';
 
 export default {
-    title: 'React-Ui-Controller/Molecules/Dialog',
+    title: 'React-Ui-Controller/Molecules/Dialogs/Dialog',
     component: Dialog,
 } as Meta<typeof Dialog>;
 

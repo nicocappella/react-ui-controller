@@ -1,6 +1,6 @@
 import { Box, BoxProps } from '@mui/system';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import { IMenuItem } from '../../../Atoms/MenuItem/MenuItem';
 import { Menu } from '../../../Molecules/Menu';
 

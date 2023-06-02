@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, BoxProps } from '@mui/material';
 import { FormEvent } from 'react';
 
@@ -11,7 +12,7 @@ interface IForm {
     autoComplete?: string;
 }
 
-const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm & BoxProps<'form'>) => {
+export const Form = ({ direction, handleSubmit, height, width, children, background, autoComplete, ...props }: IForm & BoxProps<'form'>) => {
     const handleSubmitForm = (e: FormEvent) => {
         e.preventDefault();
         handleSubmit(e);
@@ -20,6 +21,7 @@ const Form = ({ direction, handleSubmit, height, width, children, background, au
         <Box
             {...props}
             component="form"
+            role="form"
             autoComplete={autoComplete}
             onSubmit={handleSubmitForm}
             sx={{
@@ -37,5 +39,3 @@ const Form = ({ direction, handleSubmit, height, width, children, background, au
         </Box>
     );
 };
-
-export { Form };

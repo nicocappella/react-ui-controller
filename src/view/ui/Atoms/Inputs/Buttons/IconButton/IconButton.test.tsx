@@ -1,14 +1,19 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { IconButton } from './IconButton';
-import { Search } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 
 describe('IconButton', () => {
-    test('renders the icon button component', () => {
+    let iconButton: HTMLInputElement;
+    beforeEach(() => {
         render(
-            <IconButton color="primary">
-                <Search />
+            <IconButton size="small">
+                <Edit />
             </IconButton>,
         );
+        iconButton = screen.getByRole('button', { name: '' });
+    });
+    test('renders the IconButton component', () => {
+        expect(iconButton).toBeInTheDocument();
     });
 });

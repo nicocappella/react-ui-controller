@@ -15,8 +15,8 @@ export interface ISelect {
         | (string & React.ReactPortal)
         | React.ReactElement
         | undefined;
-    name: string;
-    value: string | undefined;
+    name?: string;
+    value?: string | undefined;
     size?: 'medium' | 'small';
     // Test with SelectChangeEvent<string> if it works in another projects
     handleObjectClick?: (name: string, index: string | number) => void;
@@ -27,15 +27,15 @@ export interface ISelect {
 const Select = ({
     borderColor,
     color,
+    handleChange,
+    handleObjectClick,
     itemWithIcon,
     items,
     itemsObject,
     label,
     name,
-    value,
     size,
-    handleObjectClick,
-    handleChange,
+    value = '',
     width = '200px',
     ...props
 }: ISelect & SelectProps) => {

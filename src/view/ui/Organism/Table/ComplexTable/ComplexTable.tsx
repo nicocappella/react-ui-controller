@@ -1,6 +1,7 @@
 import { Check, Close, Delete, Edit } from '@mui/icons-material';
-import { Box, Checkbox, CircularProgress, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { Box, Checkbox, CircularProgress, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import React from 'react';
+import { convertCurrency, convertCurrencyToNumber } from '../../../../../utils/CurrencyFormat';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
 import { Autocomplete, CurrencyTextField, DatePicker, ImageSelect, Select } from '../../../Atoms';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
@@ -8,10 +9,9 @@ import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
 import { Head } from './Head';
 import Pagination from './Pagination';
-import { Cell, IEditableCellForm, HeadCell } from './table';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
-import { convertCurrency, convertCurrencyToNumber } from '../../../../../utils/CurrencyFormat';
+import { Cell, HeadCell, IEditableCellForm } from './table';
 
 export interface IComplexTable<T> {
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
@@ -147,11 +147,11 @@ export const ComplexTable = <T extends BasicCell>({
                         {images}
                     </Box>
                 );
-            } else if (headCell[cellName] === 'image' && typeof cell === 'string') {
-                if (typeof cellName === 'string') {
-                    return <img src={cell} width="60px" height="60px" />;
-                } else {
-                    return <img src={cell.url as string} width="60px" height="60px" />;
+            } else if (headCell[cellName] === 'image') {
+                if (typeof cell === 'string') {
+                    return <img src={cell} width="60px" height="60px" style={{ objectFit: 'contain' }} />;
+                } else if (typeof cell === 'object' && !Array.isArray(cell)) {
+                    return <img src={cell && cell.url} width="60px" height="60px" style={{ objectFit: 'contain' }} />;
                 }
             } else {
                 return cell;

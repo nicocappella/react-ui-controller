@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card as MuiCard, CardActions, CardContent, CardHeader, CardProps } from '@mui/material';
 
 export interface ICard {
@@ -42,6 +43,8 @@ const Card = ({
     return (
         <MuiCard
             {...props}
+            role="figure"
+            title="card"
             sx={{
                 background,
                 display: 'flex',

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Breadcrumbs as MuiBreadcrumb, Typography } from '@mui/material';
-import { LinkButton } from '../../Atoms';
 import { Home, NavigateNext } from '@mui/icons-material';
+import { Breadcrumbs as MuiBreadcrumb, Typography } from '@mui/material';
+import React from 'react';
 import { capitalizeWord } from '../../../../utils/StringFormat';
+import { LinkButton } from '../../Atoms';
 
 export interface IBreadcrumb {
     links: string[];
@@ -10,7 +10,7 @@ export interface IBreadcrumb {
     component: React.ElementType<any> | undefined;
 }
 
-export const Breadcrumb = ({ links, active, component }: IBreadcrumb) => {
+export const Breadcrumb = ({ links = [], active, component }: IBreadcrumb) => {
     return (
         <MuiBreadcrumb separator={<NavigateNext fontSize="small" />}>
             <LinkButton href={'/'} text="Inicio" icon={<Home />} variant="body2" />

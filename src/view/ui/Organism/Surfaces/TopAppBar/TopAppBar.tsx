@@ -1,9 +1,9 @@
 import { Menu } from '@mui/icons-material';
-import { Toolbar, AppBar, AppBarProps } from '@mui/material';
+import { AppBar, AppBarProps, Toolbar } from '@mui/material';
 import { Box } from '@mui/system';
+import React from 'react';
 import { IconButton } from '../../../Atoms';
 import { Tabs } from '../../../Molecules';
-import React from 'react';
 
 export interface ITopAppBar {
     alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';

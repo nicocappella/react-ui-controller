@@ -52,6 +52,8 @@ const Avatar = ({ img, name, size, button = true, handleClick, badge, profileNam
     return (
         <Stack
             {...props}
+            component="figure"
+            title={name}
             direction={direction ? direction : 'row'}
             alignItems="center"
             spacing={1}

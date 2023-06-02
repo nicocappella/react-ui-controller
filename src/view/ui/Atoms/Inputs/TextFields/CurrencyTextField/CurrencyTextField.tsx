@@ -1,4 +1,4 @@
-import { Box, IconButton, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
+import { Box, InputAdornment, TextField as MuiTextField, TextFieldProps, Typography } from '@mui/material';
 import React from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import { convertCurrencyToNumber } from '../../../../../../utils/CurrencyFormat';

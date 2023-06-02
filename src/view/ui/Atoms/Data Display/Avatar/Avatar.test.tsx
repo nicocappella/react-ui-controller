@@ -1,9 +1,14 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Avatar } from './Avatar';
 
 describe('Avatar', () => {
+    let avatar: HTMLElement;
+    beforeEach(() => {
+        render(<Avatar name="Nicolas Cappella" />);
+        avatar = screen.getByRole('figure', { name: 'Nicolas Cappella' });
+    });
     test('renders the button component', () => {
-        render(<Avatar />);
+        expect(avatar).toBeInTheDocument();
     });
 });

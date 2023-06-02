@@ -1,9 +1,14 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Select } from './Select';
 
-describe('Button', () => {
-    test('renders the select component', () => {
-        render(<Select name="test" handleChange={() => {}} value="" />);
+describe('Select', () => {
+    let select: HTMLInputElement;
+    beforeEach(() => {
+        render(<Select name="Select" />);
+        select = screen.getByRole('button');
+    });
+    test('renders the Select component', () => {
+        expect(select).toBeInTheDocument();
     });
 });

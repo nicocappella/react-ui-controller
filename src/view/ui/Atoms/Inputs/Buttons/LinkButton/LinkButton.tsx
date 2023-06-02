@@ -50,6 +50,8 @@ const LinkButton = ({
             display="flex"
             alignItems="center"
             gap={1}
+            role="link"
+            title={text ? text : 'link'}
             sx={{ cursor: 'pointer', flexDirection: startIcon ? 'row' : 'row-reverse' }}
         >
             {icon && icon}

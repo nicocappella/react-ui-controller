@@ -1,6 +1,6 @@
 import { BoxProps } from '@mui/system';
 import React, { FormEvent } from 'react';
-import { Form } from '../../Molecules/Forms/Forms';
+import { Form } from '../../Molecules/Forms/Form';
 
 export interface IProps {
     direction: 'column' | 'row';

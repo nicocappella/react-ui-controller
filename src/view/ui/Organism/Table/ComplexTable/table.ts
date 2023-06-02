@@ -14,3 +14,21 @@ export interface IEditableCellForm {
 }
 
 export type Cell = 'string' | 'number' | 'boolean' | 'currency' | 'image' | 'images' | 'file';
+
+export const verifyCell = (cell: string) => {
+    if (typeof cell === 'string') {
+        if (cell.startsWith('http')) {
+            return 'image';
+        } else {
+            return 'string';
+        }
+    } else if (typeof cell === 'number') {
+        return 'number';
+    } else if (typeof cell === 'boolean') {
+        return 'boolean';
+    } else if (Array.isArray(cell)) {
+        return 'images';
+    } else if (typeof cell === 'object' && cell['id']) {
+        return 'images';
+    } else return 'string';
+};

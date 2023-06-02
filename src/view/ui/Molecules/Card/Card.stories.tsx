@@ -1,14 +1,13 @@
-import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
-import { Card } from './Card';
-import { Box } from '@mui/system';
-import { Typography } from '@mui/material';
-import { Button } from '../../Atoms';
 import { ArrowBack } from '@mui/icons-material';
+import { Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { Button } from '../../Atoms';
+import { Card } from './Card';
 
 export default {
-    title: 'React-Ui-Controller/Molecules/Card',
+    title: 'React-Ui-Controller/Molecules/Cards/Card',
     component: Card,
 } as Meta<typeof Card>;
 

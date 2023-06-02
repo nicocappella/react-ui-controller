@@ -1,9 +1,14 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { TextField } from './TextField';
 
 describe('TextField', () => {
-    test('renders the button component', () => {
-        render(<TextField label="TextField" name="textfield" value={''} type="text" handleChange={() => {}} />);
+    let currencyTextField: HTMLInputElement;
+    beforeEach(() => {
+        render(<TextField name="TextField" />);
+        currencyTextField = screen.getByRole('textbox');
+    });
+    test('renders the TextField component', () => {
+        expect(currencyTextField).toBeInTheDocument();
     });
 });

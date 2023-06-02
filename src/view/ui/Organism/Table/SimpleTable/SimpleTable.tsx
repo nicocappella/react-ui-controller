@@ -1,6 +1,6 @@
 import React from 'react';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Typography, CircularProgress } from '@mui/material';
-import { HeadCell } from '../ComplexTable/table';
+import { HeadCell, verifyCell } from '../ComplexTable/table';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
 import { Box } from '@mui/system';
 
@@ -26,6 +26,7 @@ export const SimpleTable = ({ rows, excludeId, headCellsLabelObject, isLoading, 
                     align,
                     disablePadding,
                     label: capitalizeWord(d),
+                    type: 'string',
                 };
             });
             setHeaderCells([...arrayOfHeads]);

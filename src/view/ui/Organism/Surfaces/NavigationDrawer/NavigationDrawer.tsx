@@ -1,5 +1,5 @@
 import { Close, Menu } from '@mui/icons-material';
-import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, SwipeableDrawerProps } from '@mui/material';
+import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { IconButton, LinkButton } from '../../../Atoms';

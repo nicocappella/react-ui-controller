@@ -1,7 +1,6 @@
-import React from 'react';
 import { Menu as MuiMenu } from '@mui/material';
+import React from 'react';
 import { IMenuItem, MenuItem } from '../../Atoms/MenuItem/MenuItem';
-
 
 export interface IMenu {
     items: IMenuItem[];
@@ -14,10 +13,10 @@ export interface IMenu {
     };
 }
 
-const Menu = (props: IMenu) => {
+const Menu = ({ items = [], open, handleClose, anchorEl = null, anchorOrigin }: IMenu) => {
     return (
-        <MuiMenu open={props.open} onClose={props.handleClose} anchorEl={props.anchorEl} anchorOrigin={props.anchorOrigin}>
-            {props.items.map((d, i) => (
+        <MuiMenu open={open} onClose={handleClose} anchorEl={anchorEl} anchorOrigin={anchorOrigin}>
+            {items.map((d, i) => (
                 <MenuItem
                     key={`${i}-menu-item`}
                     startIcon={d.startIcon}

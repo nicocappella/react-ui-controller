@@ -1,3 +1,4 @@
+import React from 'react';
 import { Autocomplete as MuiAutocomplete, TextField } from '@mui/material';
 import { SyntheticEvent } from 'react';
 
@@ -13,7 +14,7 @@ export interface IAutocomplete {
     required?: boolean;
 }
 
-const Autocomplete = ({ options, label, width, name, defaultValue, value, handleChange, freeSolo, required, ...props }: IAutocomplete) => {
+const Autocomplete = ({ options = [], label, width, name, defaultValue, value, handleChange, freeSolo, required, ...props }: IAutocomplete) => {
     const handleAutoCompleteChange = (e: React.ChangeEvent<HTMLInputElement> | SyntheticEvent<Element, Event>, newValue?: string | null) => {
         if (newValue && handleChange) {
             return handleChange(name, newValue);

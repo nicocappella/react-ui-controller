@@ -1,8 +1,7 @@
-import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
+import { Button } from '../../../Atoms';
 import { products } from '../products';
 import { ComplexTable } from './ComplexTable';
-import { Button } from '../../../Atoms';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

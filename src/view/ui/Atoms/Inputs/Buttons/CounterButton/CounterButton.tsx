@@ -7,11 +7,11 @@ import { TextField } from '../../TextFields';
 export interface ICounterButton {
     name: string;
     width?: string;
-    handleValue: (name: string | undefined, value: number) => void;
-    size: 'small' | 'medium' | 'large';
+    handleValue?: (name: string | undefined, value: number) => void;
+    size?: 'small' | 'medium';
 }
 
-export const CounterButton = ({ name, width = '120px', handleValue }: ICounterButton) => {
+export const CounterButton = ({ name, width = '120px', handleValue = () => {}, size = 'small' }: ICounterButton) => {
     const [value, setValue] = React.useState(0);
     const incrementValue = (e: React.MouseEvent<HTMLElement>, name: string) => {
         setValue(value + 1);
@@ -48,7 +48,7 @@ export const CounterButton = ({ name, width = '120px', handleValue }: ICounterBu
                 width={value.toString().length > 3 ? `${value.toString().length * 1.6}ch` : '6ch'}
                 borderRadius="100px"
                 name={name}
-                size="small"
+                size={size}
                 handleChange={handleChange}
             />
             <IconButton handleClick={(e) => incrementValue(e, name)}>

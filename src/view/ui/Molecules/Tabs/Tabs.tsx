@@ -18,7 +18,7 @@ export interface ITabs {
 }
 
 const Tabs = ({
-    appBarHeight = '64px',
+    appBarHeight,
     centered = false,
     contentPosition = 'relative',
     indicatorColor = 'primary',
@@ -26,7 +26,7 @@ const Tabs = ({
     panel,
     orientation = 'horizontal',
     secondTabs = [],
-    tabs,
+    tabs = [],
     tabsComponent,
     textColor = 'primary',
     value,

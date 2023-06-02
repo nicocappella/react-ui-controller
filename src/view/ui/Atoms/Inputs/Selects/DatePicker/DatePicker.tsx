@@ -5,12 +5,12 @@ import { TextField } from '@mui/material';
 import esLocale from 'date-fns/locale/es';
 
 export interface IDatePicker {
-    value: Date | null;
+    value?: Date | null;
     name?: string;
-    handleChange: (name: string | undefined, value: Date | null) => void;
+    handleChange?: (name: string | undefined, value: Date | null) => void;
 }
 
-const DatePicker = ({ value, handleChange, name, ...props }: IDatePicker & DatePickerProps<Date>) => {
+const DatePicker = ({ value = new Date(), handleChange = () => {}, name, ...props }: IDatePicker & DatePickerProps<Date>) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale}>
             <MuiDatePicker

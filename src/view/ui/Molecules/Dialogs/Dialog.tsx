@@ -1,6 +1,6 @@
+import React from 'react';
 import { Slide, Dialog as MuiDialog, DialogTitle, DialogContent, DialogActions, DialogProps } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import React from 'react';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -20,9 +20,17 @@ export interface IDialog {
     actions: React.ReactNode[];
 }
 
-const Dialog = ({ open, handleClose, ariaDescription, title, content, actions, ...props }: IDialog & DialogProps) => {
+const Dialog = ({ open, handleClose, ariaDescription = 'Dialog', title = '', content, actions, ...props }: IDialog & DialogProps) => {
     return (
-        <MuiDialog {...props} open={open} keepMounted TransitionComponent={Transition} onClose={handleClose} aria-describedby={ariaDescription}>
+        <MuiDialog
+            {...props}
+            open={open}
+            keepMounted
+            TransitionComponent={Transition}
+            onClose={handleClose}
+            aria-describedby={ariaDescription}
+            role="dialog"
+        >
             <DialogTitle>{title}</DialogTitle>
             {content && <DialogContent>{content}</DialogContent>}
             <DialogActions sx={{ justifyContent: 'end' }}>{actions}</DialogActions>

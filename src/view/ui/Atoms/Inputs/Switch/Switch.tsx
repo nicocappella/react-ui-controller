@@ -15,7 +15,7 @@ export const Switch = ({ label, name, checked, handleChange, labelPlacement = 's
         <FormControlLabel
             label={label}
             labelPlacement={labelPlacement}
-            control={<MuiSwitch name={name} checked={checked} onChange={(e) => handleChange(name, e.target.checked)} />}
+            control={<MuiSwitch name={name} checked={checked} onChange={(e) => handleChange(name, e.target.checked)} title={name ? name : ''} />}
             sx={{ width: width }}
         ></FormControlLabel>
     );

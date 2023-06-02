@@ -1,10 +1,8 @@
-import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import { Breadcrumb } from './Breadcrumb';
-import { Button } from '../../Atoms';
 
 export default {
-    title: 'React-Ui-Controller/Molecules/Breadcrumb',
+    title: 'React-Ui-Controller/Molecules/Breadcrumb/Breadcrumb',
     component: Breadcrumb,
 } as Meta<typeof Breadcrumb>;
 
