@@ -227,30 +227,33 @@ export const UploadButton = ({
                         size="small"
                         variant="contained"
                         text="Quitar"
-                        w
                         handleClick={fileSingleRemove}
                         color="error"
                         startIcon={<DeleteOutline />}
                     />
                 )}
             </Box>
-            <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={error.isError}>
-                {error.text}
-            </FormHelperText>
+            {error.isError && (
+                <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={error.isError}>
+                    {error.text}
+                </FormHelperText>
+            )}
 
             {/* ?Image Preview ? */}
-            <Box>
-                {fileList.length > 0 && title && (
-                    <Typography variant="body1" align="center" fontWeight="bold">
-                        {title}
-                    </Typography>
-                )}
-                {fileList.length > 0 || singleFile ? (
-                    <Stack spacing={2} sx={{ my: 2 }}>
-                        {multiple && fileList.map((item, index) => fileCard(item, index))}
-                    </Stack>
-                ) : null}
-            </Box>
+            {fileList.length > 0 && (
+                <Box>
+                    {fileList.length > 0 && title && (
+                        <Typography variant="body1" align="center" fontWeight="bold">
+                            {title}
+                        </Typography>
+                    )}
+                    {fileList.length > 0 || singleFile ? (
+                        <Stack spacing={2} sx={{ my: 2 }}>
+                            {multiple && fileList.map((item, index) => fileCard(item, index))}
+                        </Stack>
+                    ) : null}
+                </Box>
+            )}
         </>
     );
 };

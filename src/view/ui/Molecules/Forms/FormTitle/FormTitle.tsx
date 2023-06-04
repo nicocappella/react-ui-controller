@@ -23,7 +23,7 @@ export const FormTitle = ({
             <Box bgcolor={icon.background} padding="8px" display="flex" borderRadius="100px">
                 {icon.icon}
             </Box>
-            <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
+            <Box display="flex" justifyContent="center" flexDirection="column" alignItems={direction === 'column' ? 'center' : 'start'}>
                 <Typography variant="h6">{title}</Typography>
                 {subtitle && (
                     <Typography variant="body2" color="GrayText">
