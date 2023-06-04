@@ -17,7 +17,7 @@ export interface IButton {
     padding?: string;
     borderRadius?: string;
     uploadButton?: { multiple: boolean; type: string; id: string };
-    loginButton?: { loading: boolean; success: boolean; error?: boolean };
+    buttonState?: { loading: boolean; success: boolean; error?: boolean };
 }
 
 const Button = ({
@@ -35,7 +35,7 @@ const Button = ({
     padding = '24px',
     borderRadius = '100px',
     uploadButton,
-    loginButton,
+    buttonState,
     ...props
 }: IButton & ButtonProps) => {
     return (
@@ -66,13 +66,13 @@ const Button = ({
                     href={href && href}
                     {...props}
                 >
-                    {!loginButton ? (
+                    {!buttonState ? (
                         text
-                    ) : loginButton.loading ? (
+                    ) : buttonState.loading ? (
                         <CircularProgress sx={{ color: 'white' }} />
-                    ) : loginButton.success ? (
+                    ) : buttonState.success ? (
                         'Tick'
-                    ) : loginButton.error ? (
+                    ) : buttonState.error ? (
                         'error'
                     ) : (
                         text

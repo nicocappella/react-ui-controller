@@ -74,13 +74,13 @@ const Tabs = ({
                     />
                 ))}
             </MuiTabs>
-            {/* {secondTabs && (
-                <MuiTabs>
+            {secondTabs && (
+                <MuiTabs centered={centered} indicatorColor={indicatorColor} orientation={orientation}>
                     {secondTabs.map((d, i) => (
                         <Tab key={i} label={d.label} value={d.value} />
                     ))}
                 </MuiTabs>
-            )} */}
+            )}
             <Box zIndex={999} position={contentPosition} margin="0 auto" left={left} right={appBarHeight ? 0 : undefined} width="fit-content">
                 {tabPanel?.components}
             </Box>
