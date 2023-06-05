@@ -86,9 +86,11 @@ const Tabs = ({
                     ))}
                 </MuiTabs>
             )}
-            <Box zIndex={999} position={contentPosition} margin="0 auto" left={left} right={appBarHeight ? 0 : undefined} width="fit-content">
-                {tabPanel?.components}
-            </Box>
+            {tabPanel && (
+                <Box zIndex={999} position={contentPosition} margin="0 auto" left={left} right={appBarHeight ? 0 : undefined} width="fit-content">
+                    {tabPanel?.components}
+                </Box>
+            )}
         </Box>
     );
 };
