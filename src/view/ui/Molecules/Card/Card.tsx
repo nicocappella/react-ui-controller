@@ -20,7 +20,7 @@ export interface ICard {
     };
     height?: string;
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-evenly';
-    LinkComponent: React.ElementType<any> | undefined;
+    LinkComponent: { component: React.ElementType<any> | undefined; href: string };
     padding?: string;
     width?: string;
 }
@@ -83,7 +83,11 @@ const Card = ({
             }}
         >
             {LinkComponent && (
-                <CardActionArea LinkComponent={LinkComponent}>
+                <CardActionArea
+                    LinkComponent={LinkComponent.component}
+                    href={LinkComponent.href}
+                    sx={{ display: 'flex', height: '100%', flexDirection: direction, justifyContent, alignItems: alignment }}
+                >
                     <StandardCard />
                 </CardActionArea>
             )}
