@@ -8,15 +8,15 @@ export interface IDatePicker {
     value?: Date | null;
     name?: string;
     handleChange?: (name: string | undefined, value: Date | null) => void;
-    views: Array<'day' | 'month' | 'year'>;
-    maxDate: Date;
+    views?: Array<'day' | 'month' | 'year'>;
+    maxDate?: Date;
 }
 
 const DatePicker = ({
     value = new Date(),
     handleChange = () => {},
     name,
-    views,
+    views = ['day', 'month', 'year'],
     maxDate = new Date(),
     ...props
 }: IDatePicker & DatePickerProps<Date>) => {

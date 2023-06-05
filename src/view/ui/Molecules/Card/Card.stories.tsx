@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, RemoveRedEye } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Button } from '../../Atoms';
@@ -58,4 +58,31 @@ CareerCard.args = {
     direction: 'row',
     boxShadow: '0px 2px 11px 0px #00000040;',
     justifyContent: 'space-between',
+};
+
+export const HorizontalCard = Template.bind({});
+
+HorizontalCard.args = {
+    direction: 'row',
+    header: {
+        title: <Box width="150px" height="150px" bgcolor="grey"></Box>,
+        padding: '0px',
+    },
+    description: {
+        components: (
+            <Box>
+                <Typography variant="h6">Tarjeta Horizontal</Typography>
+                <Typography variant="body1">Descripción</Typography>
+            </Box>
+        ),
+        padding: '0px',
+    },
+    actions: (
+        <Box>
+            <RemoveRedEye />
+        </Box>
+    ),
+    justifyContent: 'space-between',
+    background: 'red',
+    padding: '0px',
 };

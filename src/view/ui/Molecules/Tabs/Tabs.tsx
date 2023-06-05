@@ -6,6 +6,7 @@ export interface ITabs {
     appBarHeight?: string | number;
     centered?: boolean;
     contentPosition?: 'relative' | 'absolute';
+    handleValue?: (value: string) => void;
     indicatorColor?: 'primary' | 'secondary' | undefined | string;
     left?: string | number;
     panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
@@ -21,6 +22,7 @@ const Tabs = ({
     appBarHeight,
     centered = false,
     contentPosition = 'relative',
+    handleValue,
     indicatorColor = 'primary',
     left = '0',
     panel,
@@ -35,6 +37,9 @@ const Tabs = ({
     const [tabValue, setTabValue] = React.useState(value);
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
+        if (handleValue) {
+            handleValue(newValue);
+        }
     };
     const tabPanel = panel && panel.find((d) => d.value === tabValue);
     return (
