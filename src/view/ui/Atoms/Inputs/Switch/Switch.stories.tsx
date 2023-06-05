@@ -13,8 +13,10 @@ export const NormalSwitch = Template.bind({});
 
 NormalSwitch.args = {};
 
-export const SmallSwitch = Template.bind({});
-SmallSwitch.args = {};
+export const LabelSwitch = Template.bind({});
+LabelSwitch.args = {
+    label: 'Label',
+};
 
 export const LargeSwitch = Template.bind({});
 LargeSwitch.args = {};
