@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button as MuiButton, ButtonProps, CircularProgress } from '@mui/material';
-import { Check } from '@mui/icons-material';
+import { Check } from '../../../Icons';
 
 export interface IButton {
     text: string;
@@ -71,7 +71,7 @@ const Button = ({
                     ) : buttonState.loading ? (
                         <CircularProgress sx={{ color: 'white' }} />
                     ) : buttonState.success ? (
-                        'Tick'
+                        <Check color="white" />
                     ) : buttonState.error ? (
                         'error'
                     ) : (

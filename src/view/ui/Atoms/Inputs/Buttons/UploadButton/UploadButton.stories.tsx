@@ -24,5 +24,5 @@ MultipleFiles.args = {
 export const SingleFile = Template.bind({});
 SingleFile.args = { name: 'test', multiple: false, handleFiles: (files) => console.log(files) };
 
-export const Small = Template.bind({});
-Small.args = {};
+export const NotImageFile = Template.bind({});
+NotImageFile.args = {};

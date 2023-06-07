@@ -1,7 +1,11 @@
 import React, { SVGProps } from 'react';
 import { motion, SVGMotionProps } from 'framer-motion';
 
-export const Check = (props: SVGMotionProps<SVGSVGElement>) => {
+interface CheckProps {
+    color: string;
+}
+
+export const Check = ({ color = '#000', ...props }: SVGMotionProps<SVGSVGElement> & CheckProps) => {
     const draw = {
         initial: {
             pathLength: 0,
@@ -27,7 +31,7 @@ export const Check = (props: SVGMotionProps<SVGSVGElement>) => {
             whileInView="visible"
             viewport={{ once: true }}
         >
-            <motion.path d="m176.14 517.61 202.52 202.64 405.1-406.28" fill="none" stroke="#000" strokeWidth={60} variants={draw} />
+            <motion.path d="m176.14 517.61 202.52 202.64 405.1-406.28" fill="none" stroke={color} strokeWidth={60} variants={draw} />
         </motion.svg>
     );
 };

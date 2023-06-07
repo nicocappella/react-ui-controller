@@ -4,26 +4,26 @@ import React from 'react';
 import { Button } from '../Button';
 
 export interface IUploadButton {
-    limit?: number;
-    multiple?: boolean;
     name: string;
-    handleFiles: (name: string | undefined, value: File[] | File | undefined) => void;
     clearAll?: boolean;
     type?: string;
     defaultImages?: File[];
     title?: string;
 }
+type FileProps =
+    | { handleChange: (name: string | undefined, value: File | undefined) => void; multiple?: false; limit: never }
+    | { handleChange: (name: string | undefined, value: File[] | undefined) => void; multiple: true; limit?: number };
 
 export const UploadButton = ({
-    limit = 100,
     multiple,
+    limit,
     name,
-    handleFiles,
+    handleChange,
     clearAll,
     defaultImages = [],
     title,
     type = 'image/jpg, image/png, image/jpeg, image/webp',
-}: IUploadButton) => {
+}: IUploadButton & FileProps) => {
     const [singleFile, setSingleFile] = React.useState<File>();
     const [error, setError] = React.useState({ isError: false, text: '' });
     const [fileList, setFileList] = React.useState<File[]>(defaultImages);
@@ -43,14 +43,14 @@ export const UploadButton = ({
             // const ref = inputRef.current as HTMLInputElement;
             if (!target.files) return;
 
-            if (limit === 1 || !multiple) {
+            if (!multiple) {
                 const newFile = Object.values(target.files).map((file: File) => file)[0];
                 setSingleFile(newFile);
-                handleFiles(name, newFile);
+                handleChange(name, newFile);
                 // ref.onchange!(newFile[0]);
             }
 
-            if (multiple) {
+            if (multiple && limit) {
                 const newFiles = Object.values(target.files).map((file: File) => file);
                 if (newFiles) {
                     const updatedList = [...fileList, ...newFiles];
@@ -58,7 +58,7 @@ export const UploadButton = ({
                         return setError({ isError: true, text: `No puede haber más de ${limit} archivos.` });
                     }
                     setFileList(updatedList);
-                    handleFiles(name, updatedList);
+                    handleChange(name, updatedList);
                     // ref.onchange!(updatedList);
                 }
             }
@@ -73,7 +73,7 @@ export const UploadButton = ({
         const updatedList = [...fileList];
         updatedList.splice(fileList.indexOf(file), 1);
         setFileList(updatedList);
-        handleFiles(name, updatedList);
+        handleChange(name, updatedList);
     };
 
     // remove single image
@@ -82,11 +82,8 @@ export const UploadButton = ({
             setError({ isError: false, text: '' });
         }
         setSingleFile(undefined);
-        handleFiles(name, []);
+        handleChange(name, undefined);
     };
-
-    // TypeScript Type
-    type CustomType = 'jpg' | 'png' | 'svg';
 
     // Calculate Size in KiloByte and MegaByte
     const calcSize = (size: number) => {
@@ -167,7 +164,7 @@ export const UploadButton = ({
                     onDragLeave={onDragLeave}
                     onDrop={onDragLeave}
                 >
-                    {singleFile ? (
+                    {singleFile && type.includes('image') ? (
                         <Box position="relative">
                             <img
                                 src={URL.createObjectURL(singleFile)}
@@ -188,10 +185,12 @@ export const UploadButton = ({
                                 />
                             </Box>
                         </Box>
+                    ) : singleFile && !type.includes('image') ? (
+                        <Box></Box>
                     ) : (
                         <Stack justifyContent="center" sx={{ p: 1, textAlign: 'center' }}>
                             <Typography sx={{ color: '#ccc' }}>
-                                {limit > 1 ? 'Explorar archivos para cargar' : 'Explorar archivo para cargar'}
+                                {limit && limit > 1 ? 'Explorar archivos para cargar' : 'Explorar archivo para cargar'}
                             </Typography>
                             <div>{/* <img src={uploadImg} alt="file upload" style={{ width: '5rem' }} /> */}</div>
                             <Typography variant="body1" component="span">

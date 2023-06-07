@@ -5,7 +5,7 @@ export interface ICard {
     actions?: React.ReactNode | React.ReactNode[];
     alignment?: 'left' | 'center' | 'right';
     background?: string;
-    description?: { components: React.ReactNode | React.ReactNode[]; padding: string };
+    description?: { components: React.ReactNode | React.ReactNode[]; padding?: string };
     borderRadius?: string;
     boxShadow?: string;
     direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
@@ -20,7 +20,7 @@ export interface ICard {
     };
     height?: string;
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-evenly';
-    LinkComponent: { component: React.ElementType<any> | undefined; href: string };
+    LinkComponent?: { component: React.ElementType<any> | undefined; href: string };
     padding?: string;
     width?: string;
 }

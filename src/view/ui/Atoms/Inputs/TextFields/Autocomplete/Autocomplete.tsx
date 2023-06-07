@@ -1,17 +1,17 @@
 import React from 'react';
-import { Autocomplete as MuiAutocomplete, TextField } from '@mui/material';
+import { Box, Autocomplete as MuiAutocomplete, TextField, Typography } from '@mui/material';
 import { SyntheticEvent } from 'react';
 
 export interface IAutocomplete {
-    options: string[];
-    label?: string;
-    width?: number;
-    name: string;
     defaultValue?: string | undefined;
-    value: string | undefined;
-    handleChange?: (name: string, value: string) => void;
     freeSolo?: boolean;
+    handleChange?: (name: string, value: string) => void;
+    label?: string;
+    name: string;
+    options: string[];
     required?: boolean;
+    value: string | undefined;
+    width?: number;
 }
 
 const Autocomplete = ({ options = [], label, width, name, defaultValue, value, handleChange, freeSolo, required, ...props }: IAutocomplete) => {
@@ -43,8 +43,16 @@ const Autocomplete = ({ options = [], label, width, name, defaultValue, value, h
                 placeholder={name}
                 // defaultValue={defaultValue}
                 onChange={(e, value) => handleAutoCompleteChange(e, value)}
-                value={value}
                 renderInput={(params) => <TextField {...params} required={required} label={label} name={name} onChange={handleAutoCompleteChange} />}
+                // renderOption={(props, option) => (
+                //     <Box display="flex" gap={2}>
+                //         <Box>
+                //             <Typography variant="body1"></Typography>
+                //             <Typography variant="body2"></Typography>
+                //         </Box>
+                //     </Box>
+                // )}
+                value={value}
             />
         </>
     );
