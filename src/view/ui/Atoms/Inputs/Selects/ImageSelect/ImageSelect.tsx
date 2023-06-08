@@ -93,7 +93,7 @@ export const ImageSelect = ({
                         <UploadButton
                             multiple
                             name="addFiles"
-                            handleFiles={(name, value) => setImagesAdded(value as File[])}
+                            handleChange={(name, value) => setImagesAdded(value)}
                             defaultImages={imagesAdded}
                             title="Archivos nuevos"
                         />

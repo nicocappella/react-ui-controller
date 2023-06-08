@@ -1,18 +1,18 @@
 import React from 'react';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Typography, CircularProgress } from '@mui/material';
-import { HeadCell, verifyCell } from '../ComplexTable/table';
+import { BasicCell, HeadCell, verifyCell } from '../ComplexTable/table';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
 import { Box } from '@mui/system';
 
-export interface IProps {
-    rows: { [key: string]: string | number | undefined; id: string | number }[];
+export interface ISimpleTable<T> {
     excludeId?: boolean;
     headCellsLabelObject?: { [key: string]: string };
-    isLoading?: boolean;
     isError?: boolean;
+    isLoading?: boolean;
+    rows: T[];
 }
 
-export const SimpleTable = ({ rows, excludeId, headCellsLabelObject, isLoading, isError }: IProps) => {
+export const SimpleTable = <T extends BasicCell>({ rows, excludeId, headCellsLabelObject, isLoading, isError }: ISimpleTable<T>) => {
     const [headerCells, setHeaderCells] = React.useState<HeadCell[]>([]);
     const [headerKeys, setHeaderKeys] = React.useState<string[]>([]);
     React.useLayoutEffect(() => {

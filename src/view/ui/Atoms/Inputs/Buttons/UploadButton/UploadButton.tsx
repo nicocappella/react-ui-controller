@@ -7,12 +7,23 @@ export interface IUploadButton {
     name: string;
     clearAll?: boolean;
     type?: string;
-    defaultImages?: File[];
     title?: string;
 }
 type FileProps =
-    | { handleChange: (name: string | undefined, value: File | undefined) => void; multiple?: false; limit: never }
-    | { handleChange: (name: string | undefined, value: File[] | undefined) => void; multiple: true; limit?: number };
+    | {
+          handleChange: (name: string | undefined, value: File | undefined) => void;
+          multiple?: never;
+          limit?: never;
+          defaultImages?: never;
+          defaultImage?: File | string;
+      }
+    | {
+          handleChange: (name: string | undefined, value: File[]) => void;
+          multiple: true;
+          limit?: number;
+          defaultImages?: File[];
+          defaultImage?: never;
+      };
 
 export const UploadButton = ({
     multiple,
@@ -21,10 +32,11 @@ export const UploadButton = ({
     handleChange,
     clearAll,
     defaultImages = [],
+    defaultImage,
     title,
     type = 'image/jpg, image/png, image/jpeg, image/webp',
 }: IUploadButton & FileProps) => {
-    const [singleFile, setSingleFile] = React.useState<File>();
+    const [singleFile, setSingleFile] = React.useState<File | string | undefined>(defaultImage);
     const [error, setError] = React.useState({ isError: false, text: '' });
     const [fileList, setFileList] = React.useState<File[]>(defaultImages);
     const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -154,8 +166,8 @@ export const UploadButton = ({
                         position: 'relative',
                         minWidth: '150px',
                         width: 'fit-content',
-                        minHeight: '150px',
-                        height: '5rem',
+                        minHeight: '100px',
+                        height: 'fit-content',
                         border: singleFile ? 'none ' : '1px solid #c4c4c4',
                         borderRadius: '20px',
                     }}
@@ -167,10 +179,10 @@ export const UploadButton = ({
                     {singleFile && type.includes('image') ? (
                         <Box position="relative">
                             <img
-                                src={URL.createObjectURL(singleFile)}
+                                src={typeof singleFile === 'string' ? singleFile : URL.createObjectURL(singleFile)}
                                 alt="Imagen única"
-                                width="150px"
-                                height="150px"
+                                width="100px"
+                                height="100px"
                                 style={{ objectFit: 'contain', borderRadius: '20px' }}
                             />
                             <Box sx={{ position: 'absolute', bottom: 0, left: '20px' }}>
@@ -179,7 +191,7 @@ export const UploadButton = ({
                                     variant="contained"
                                     text="Cambiar"
                                     handleClick={fileSingleRemove}
-                                    padding="16px"
+                                    padding="8px"
                                     color="info"
                                     startIcon={<Autorenew color="white" />}
                                 />
@@ -226,6 +238,7 @@ export const UploadButton = ({
                         size="small"
                         variant="contained"
                         text="Quitar"
+                        padding="8px"
                         handleClick={fileSingleRemove}
                         color="error"
                         startIcon={<DeleteOutline />}

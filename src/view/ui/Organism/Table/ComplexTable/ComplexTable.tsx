@@ -3,7 +3,7 @@ import { Box, Checkbox, CircularProgress, Table, TableBody, TableCell, TableCont
 import React from 'react';
 import { convertCurrency, convertCurrencyToNumber } from '../../../../../utils/CurrencyFormat';
 import { capitalizeWord } from '../../../../../utils/StringFormat';
-import { Autocomplete, CurrencyTextField, DatePicker, ImageSelect, Select } from '../../../Atoms';
+import { Autocomplete, CurrencyTextField, DatePicker, ImageSelect, Select, UploadButton } from '../../../Atoms';
 import { IconButton } from '../../../Atoms/Inputs/Buttons/IconButton/IconButton';
 import { Switch } from '../../../Atoms/Inputs/Switch/Switch';
 import { TextField } from '../../../Atoms/Inputs/TextFields/TextField/TextField';
@@ -11,7 +11,7 @@ import { Head } from './Head';
 import Pagination from './Pagination';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
-import { Cell, HeadCell, IEditableCellForm } from './table';
+import { BasicCell, Cell, HeadCell, IEditableCellForm } from './table';
 
 export interface IComplexTable<T> {
     confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
@@ -41,11 +41,6 @@ export interface IComplexTable<T> {
     title: string;
     toolbar?: boolean;
 }
-
-type BasicCell = {
-    [key: string]: string | (string | { id: string; url: string })[] | { id: string; url: string } | number | boolean | undefined;
-    id: string | number;
-};
 
 export const ComplexTable = <T extends BasicCell>({
     confirmEdit,
@@ -237,6 +232,10 @@ export const ComplexTable = <T extends BasicCell>({
                                 : () => {}
                         }
                     />
+                );
+            } else if (cellForm.formInput === 'image') {
+                return (
+                    <UploadButton name={cellForm.head} handleChange={(name, value) => {}} defaultImage={editedRow && (editedRow[cell] as string)} />
                 );
             } else {
                 return row[cell];

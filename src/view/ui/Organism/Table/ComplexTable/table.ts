@@ -32,3 +32,7 @@ export const verifyCell = (cell: string) => {
         return 'images';
     } else return 'string';
 };
+export type BasicCell = {
+    [key: string]: string | (string | { id: string; url: string })[] | { id: string; url: string } | number | boolean | undefined;
+    id: string | number;
+};

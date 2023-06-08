@@ -50,7 +50,7 @@ Primary.args = {
                 { id: '2', text: '30' },
             ],
         },
-        { formInput: 'none', head: 'thumbnail' },
+        { formInput: 'image', head: 'thumbnail' },
         { formInput: 'datepicker', head: 'date' },
         { formInput: 'images', head: 'images' },
     ],
