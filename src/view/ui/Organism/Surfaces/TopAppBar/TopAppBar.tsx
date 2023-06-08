@@ -39,6 +39,7 @@ const TopAppBar = ({
     tabs,
     ...props
 }: ITopAppBar & AppBarProps) => {
+    const [activeTabs, setActiveTabs] = React.useState(false);
     return (
         <AppBar {...props} position={position} sx={{ background: 'transparent', boxShadow: 'none', zIndex: 1000 }}>
             <Box

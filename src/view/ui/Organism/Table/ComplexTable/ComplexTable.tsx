@@ -235,7 +235,11 @@ export const ComplexTable = <T extends BasicCell>({
                 );
             } else if (cellForm.formInput === 'image') {
                 return (
-                    <UploadButton name={cellForm.head} handleChange={(name, value) => {}} defaultImage={editedRow && (editedRow[cell] as string)} />
+                    <UploadButton
+                        name={cellForm.head}
+                        handleChange={(name, value) => {}}
+                        defaultImage={typeof editedRow[cell] === 'string' ? (editedRow[cell] as string) : editedRow[cell].url}
+                    />
                 );
             } else {
                 return row[cell];
