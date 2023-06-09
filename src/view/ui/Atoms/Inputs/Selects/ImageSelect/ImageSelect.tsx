@@ -34,6 +34,7 @@ export const ImageSelect = ({
         setImagesState(newImages);
         handleFiles(name, newImages);
     };
+    console.log(imagesAdded);
     const RemoveIcon = ({ i }: { i: number }) => (
         <IconButton
             sx={{
@@ -92,8 +93,12 @@ export const ImageSelect = ({
                     <Box display="flex" flexDirection="row" gap="5px">
                         <UploadButton
                             multiple
+                            limit={10}
                             name="addFiles"
-                            handleChange={(name, value) => setImagesAdded(value)}
+                            handleChange={(name, value) => {
+                                console.log(value, 'entre');
+                                setImagesAdded(value);
+                            }}
                             defaultImages={imagesAdded}
                             title="Archivos nuevos"
                         />

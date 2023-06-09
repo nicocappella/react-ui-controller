@@ -27,7 +27,7 @@ type FileProps =
 
 export const UploadButton = ({
     multiple,
-    limit,
+    limit = 1,
     name,
     handleChange,
     clearAll,
@@ -62,7 +62,7 @@ export const UploadButton = ({
                 // ref.onchange!(newFile[0]);
             }
 
-            if (multiple && limit) {
+            if (multiple) {
                 const newFiles = Object.values(target.files).map((file: File) => file);
                 if (newFiles) {
                     const updatedList = [...fileList, ...newFiles];
@@ -112,19 +112,23 @@ export const UploadButton = ({
                     p: 0.5,
                 }}
             >
-                <Box display="flex">
-                    <img
-                        src={URL.createObjectURL(item)}
-                        alt={`upload-${index}`}
-                        style={{
-                            height: '35px',
-                            width: '35px',
-                            objectFit: 'cover',
-                        }}
-                    />
-                    <Box sx={{ ml: 1 }}>
-                        <Typography variant="body2">{item.name}</Typography>
-                        <Typography variant="caption">{calcSize(item.size)}</Typography>
+                <Box display="flex" justifyContent="space-between">
+                    <Box display="flex">
+                        <img
+                            src={URL.createObjectURL(item)}
+                            alt={`upload-${index}`}
+                            style={{
+                                height: '35px',
+                                width: '35px',
+                                objectFit: 'cover',
+                            }}
+                        />
+                        <Box sx={{ ml: 1 }}>
+                            <Typography variant="body2">{item.name}</Typography>
+                            <Typography variant="caption" color="GrayText">
+                                {calcSize(item.size)}
+                            </Typography>
+                        </Box>
                     </Box>
                     <IconButton
                         onClick={() => {
