@@ -248,14 +248,12 @@ export const ComplexTable = <T extends BasicCell>({
         }
     };
     const handleEditChange = (name: string | undefined, value: string | number | File | boolean | undefined) => {
-        console.log(value instanceof File);
         if (name) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
             setEditedKeys((prevState) => [...prevState, name]);
         }
     };
     const handleEditSelectById = (name: string, index: string | number) => {
-        console.log(name, index);
         if (index && name) {
             setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
             setEditedKeys((prevState) => [...prevState, name]);
@@ -281,7 +279,6 @@ export const ComplexTable = <T extends BasicCell>({
     };
     const handleConfirmEdit = (e: React.FormEvent, id?: string | number) => {
         e.preventDefault();
-        console.log(e.currentTarget);
         if (id && editedRow) {
             const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
             let newEdited = Object.assign(editedRow, editdedRowById);

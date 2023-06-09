@@ -30,11 +30,9 @@ export const ImageSelect = ({
     };
     const removeImage = (e: React.MouseEvent<HTMLElement, MouseEvent>, i: number) => {
         const newImages = imagesState.filter((d, index) => index !== i);
-        console.log(newImages.length);
         setImagesState(newImages);
         handleFiles(name, newImages);
     };
-    console.log(imagesAdded);
     const RemoveIcon = ({ i }: { i: number }) => (
         <IconButton
             sx={{
@@ -95,10 +93,7 @@ export const ImageSelect = ({
                             multiple
                             limit={10}
                             name="addFiles"
-                            handleChange={(name, value) => {
-                                console.log(value, 'entre');
-                                setImagesAdded(value);
-                            }}
+                            handleChange={(name, value) => setImagesAdded(value)}
                             defaultImages={imagesAdded}
                             title="Archivos nuevos"
                         />

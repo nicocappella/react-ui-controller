@@ -78,7 +78,7 @@ export const UploadButton = ({
         [fileList, limit, multiple, singleFile, inputRef],
     );
     // remove multiple images
-    const fileRemove = (file: File) => {
+    conspt fileRemove = (file: File) => {
         if (error.isError) {
             setError({ isError: false, text: '' });
         }
