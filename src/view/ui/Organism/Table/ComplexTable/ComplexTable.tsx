@@ -12,9 +12,10 @@ import Pagination from './Pagination';
 import { TableClass } from './TableMethods';
 import Toolbar from './Toolbar';
 import { BasicCell, Cell, HeadCell, IEditableCellForm } from './table';
+import { objectIncludesType } from '../../../../../utils/ObjectFunctions';
 
 export interface IComplexTable<T> {
-    confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined }) => void;
+    confirmEdit: (id: string, value: { [key: string]: string | number | boolean | undefined } | FormData) => void;
     date?: Date | null;
     defaultOrder?: 'asc' | 'desc';
     defaultOrderBy?: string;
@@ -74,7 +75,7 @@ export const ComplexTable = <T extends BasicCell>({
     const tableFunctions = new TableClass();
     const [editdedRowById, setEditedRowById] = React.useState<{ [key: string]: string | number | undefined }>({});
     const [editedRow, setEditedRow] = React.useState<
-        { [key: string]: string | number | boolean | Date | (string | { id: string; url: string })[] | undefined } | undefined
+        { [key: string]: string | number | boolean | Date | (string | { id: string; url: string })[] | File | undefined } | undefined
     >();
     const [editedKeys, setEditedKeys] = React.useState<string[]>([]);
     const [editableCell, setEditableCell] = React.useState<string | number>();
@@ -237,7 +238,7 @@ export const ComplexTable = <T extends BasicCell>({
                 return (
                     <UploadButton
                         name={cellForm.head}
-                        handleChange={(name, value) => {}}
+                        handleChange={handleEditChange}
                         defaultImage={typeof editedRow[cell] === 'string' ? (editedRow[cell] as string) : editedRow[cell].url}
                     />
                 );
@@ -246,8 +247,8 @@ export const ComplexTable = <T extends BasicCell>({
             }
         }
     };
-    const handleEditChange = (name: string | undefined, value: string | number | boolean | undefined) => {
-        console.log(name, value);
+    const handleEditChange = (name: string | undefined, value: string | number | File | boolean | undefined) => {
+        console.log(value instanceof File);
         if (name) {
             setEditedRow((prevState) => ({ ...prevState, [name]: value }));
             setEditedKeys((prevState) => [...prevState, name]);
@@ -281,9 +282,9 @@ export const ComplexTable = <T extends BasicCell>({
     const handleConfirmEdit = (e: React.FormEvent, id?: string | number) => {
         e.preventDefault();
         console.log(e.currentTarget);
-        if (id) {
+        if (id && editedRow) {
             const editableCellsByObject = editableCellForms.filter((d) => d.options && typeof d.options[0] === 'object').map((d) => d.head);
-            let newEdited = Object.assign(editedRow!, editdedRowById);
+            let newEdited = Object.assign(editedRow, editdedRowById);
             Object.keys(newEdited).forEach((d) => {
                 if (!editedKeys.includes(d)) {
                     delete newEdited[d];
@@ -292,11 +293,20 @@ export const ComplexTable = <T extends BasicCell>({
                     newEdited[d] = convertCurrencyToNumber(newEdited[d]).toString();
                 }
             });
-            confirmEdit(id.toString(), newEdited);
+            if (objectIncludesType(newEdited, File)) {
+                const formData = new FormData();
+                Object.keys(newEdited).map((d) => {
+                    formData.append(d, newEdited[d] as string);
+                });
+                confirmEdit(id.toString(), formData);
+            } else {
+                confirmEdit(id.toString(), newEdited);
+            }
             setEditedRow(undefined);
             setEditableCell(undefined);
         }
     };
+
     const handleCancelEdit = (e?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
         if (e) {
             const { code } = e as React.KeyboardEvent<HTMLElement>;

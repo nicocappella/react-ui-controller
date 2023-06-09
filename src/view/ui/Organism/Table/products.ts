@@ -9,7 +9,7 @@ export const products = [
         stock: 94,
         date: '01/10/2023',
         brand: 'Apple',
-        thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
+        thumbnail: { url: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', id: 'string' },
         images: [
             { id: '1', url: 'https://i.dummyjson.com/data/products/1/1.jpg' },
             { id: '1', url: 'https://i.dummyjson.com/data/products/1/2.jpg' },
