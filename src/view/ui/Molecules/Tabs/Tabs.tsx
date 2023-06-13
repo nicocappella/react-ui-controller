@@ -7,14 +7,14 @@ export interface ITabs {
     centered?: boolean;
     contentPosition?: 'relative' | 'absolute';
     handleValue?: (value: string) => void;
-    indicatorColor?: 'primary' | 'secondary' | undefined | string;
+    indicatorColor?: string;
     left?: string | number;
     panel?: { components: React.ReactNode | React.ReactNode[]; value: string }[];
     orientation?: 'horizontal' | 'vertical';
     secondTabs?: { label: string; value: string }[];
     tabsComponent?: React.ElementType | any;
     tabs: { label: string; value: string | number; href?: string; icon?: React.ReactElement }[];
-    textColor?: 'primary' | 'secondary' | 'inherit' | undefined;
+    textColor?: string;
     value: any;
 }
 
@@ -53,7 +53,7 @@ const Tabs = ({
                     top={appBarHeight}
                     left={0}
                     zIndex={1}
-                    onClick={() => setTabValue('')}
+                    onClick={(e) => handleChange(e, '')}
                 ></Box>
             )}
             <MuiTabs
@@ -79,13 +79,13 @@ const Tabs = ({
                     />
                 ))}
             </MuiTabs>
-            {secondTabs && (
+            {/* {secondTabs && (
                 <MuiTabs centered={centered} indicatorColor={indicatorColor} orientation={orientation}>
                     {secondTabs.map((d, i) => (
                         <Tab key={i} label={d.label} value={d.value} />
                     ))}
                 </MuiTabs>
-            )}
+            )} */}
             {tabPanel && (
                 <Box zIndex={999} position={contentPosition} margin="0 auto" left={left} right={appBarHeight ? 0 : undefined} width="fit-content">
                     {tabPanel?.components}

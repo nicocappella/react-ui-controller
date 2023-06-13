@@ -7,11 +7,11 @@ import { Tabs } from '../../../Molecules';
 
 export interface ITopAppBar {
     alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
-    background?: string;
-    backgroundActiveTabs: string;
+    background?: string | { default: string; active: string };
     boxShadow?: string;
     height?: string | number;
     logo?: { component: React.ReactNode };
+    handleActiveAppBar?: (value: boolean) => void;
     horizontalPadding?: string | number;
     menuButton?: boolean;
     navButtons?: { component: React.ReactNode | string }[];
@@ -19,7 +19,7 @@ export interface ITopAppBar {
     otherButtons?: { component: React.ReactNode | string }[];
     tabs?: {
         value: string | number;
-        color: 'primary' | 'secondary' | undefined;
+        color: string | { default: string; active: string };
         components: { components: React.ReactNode | React.ReactNode[]; value: string }[];
     };
 }
@@ -27,8 +27,8 @@ export interface ITopAppBar {
 const TopAppBar = ({
     alignNavBar = 'space-between',
     background = 'transparent',
-    backgroundActiveTabs = 'white',
     boxShadow,
+    handleActiveAppBar,
     height = '64px',
     horizontalPadding = '64px',
     menuButton,
@@ -40,13 +40,21 @@ const TopAppBar = ({
     ...props
 }: ITopAppBar & AppBarProps) => {
     const [activeTabs, setActiveTabs] = React.useState(false);
+    const activeBg = activeTabs ? 'active' : 'default';
     return (
         <AppBar {...props} position={position} sx={{ background: 'transparent', boxShadow: 'none', zIndex: 1000 }}>
             <Box
                 component="nav"
                 display="flex"
                 justifyContent={alignNavBar}
-                sx={{ height, background, boxShadow: boxShadow, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
+                sx={{
+                    height,
+                    background: typeof background === 'string' ? background : background[activeBg],
+                    boxShadow: boxShadow,
+                    paddingLeft: horizontalPadding,
+                    paddingRight: horizontalPadding,
+                    transition: 'background ease 1s',
+                }}
                 alignItems="center"
                 position="relative"
                 zIndex={999}
@@ -65,11 +73,17 @@ const TopAppBar = ({
                             value: i.toString(),
                         }))}
                         value={tabs.value}
-                        textColor={tabs.color}
-                        indicatorColor={tabs.color}
+                        textColor={typeof tabs.color === 'string' ? tabs.color : tabs.color[activeBg]}
+                        indicatorColor={typeof tabs.color === 'string' ? tabs.color : tabs.color[activeBg]}
                         panel={tabs.components}
                         contentPosition="absolute"
                         appBarHeight={height}
+                        handleValue={(value) => {
+                            setActiveTabs(Boolean(value));
+                            if (handleActiveAppBar) {
+                                handleActiveAppBar(Boolean(value));
+                            }
+                        }}
                     />
                 ) : (
                     navButtons &&

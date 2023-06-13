@@ -1,7 +1,9 @@
 import { Autorenew, Delete, DeleteOutline } from '@mui/icons-material';
-import { Box, FormHelperText, IconButton, Stack, Typography } from '@mui/material';
+import { Box, FormHelperText, Stack, Typography } from '@mui/material';
 import React from 'react';
-import { Button } from '../Button';
+import { IconButton } from '../IconButton';
+import { compressAsync } from '../../../../../../utils/Compressor';
+import { motion } from 'framer-motion';
 
 export interface IUploadButton {
     name: string;
@@ -9,16 +11,16 @@ export interface IUploadButton {
     type?: string;
     title?: string;
 }
-type FileProps =
+export type FileProps =
     | {
-          handleChange: (name: string | undefined, value: File | undefined) => void;
+          handleChange: (name: string | undefined, value: File | Blob | undefined) => void;
           multiple?: never;
           limit?: never;
           defaultImages?: never;
           defaultImage?: File | string;
       }
     | {
-          handleChange: (name: string | undefined, value: File[]) => void;
+          handleChange: (name: string | undefined, value: File[] | Blob[] | undefined) => void;
           multiple: true;
           limit?: number;
           defaultImages?: File[];
@@ -36,9 +38,9 @@ export const UploadButton = ({
     title,
     type = 'image/jpg, image/png, image/jpeg, image/webp',
 }: IUploadButton & FileProps) => {
-    const [singleFile, setSingleFile] = React.useState<File | string | undefined>(defaultImage);
+    const [singleFile, setSingleFile] = React.useState<File | Blob | string | undefined>(defaultImage);
     const [error, setError] = React.useState({ isError: false, text: '' });
-    const [fileList, setFileList] = React.useState<File[]>(defaultImages);
+    const [fileList, setFileList] = React.useState<Array<Blob | File>>(defaultImages);
     const wrapperRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -47,7 +49,7 @@ export const UploadButton = ({
     const onDragLeave = () => wrapperRef.current?.classList.remove('dragover');
 
     const onFileDrop = React.useCallback(
-        (e: React.SyntheticEvent<EventTarget>) => {
+        async (e: React.SyntheticEvent<EventTarget>) => {
             if (error.isError) {
                 setError({ isError: false, text: '' });
             }
@@ -57,28 +59,45 @@ export const UploadButton = ({
 
             if (!multiple) {
                 const newFile = Object.values(target.files).map((file: File) => file)[0];
-                setSingleFile(newFile);
-                handleChange(name, newFile);
-                // ref.onchange!(newFile[0]);
+                if (type.includes('image')) {
+                    const compressedFile = await compressAsync(newFile, { quality: 0.8, maxHeight: 1000, maxWidth: 1000 });
+                    setSingleFile(compressedFile);
+                    handleChange(name, compressedFile);
+                } else {
+                    setSingleFile(newFile);
+                    handleChange(name, newFile);
+                }
             }
 
             if (multiple) {
-                const newFiles = Object.values(target.files).map((file: File) => file);
+                const newFiles = Object.values(target.files);
                 if (newFiles) {
-                    const updatedList = [...fileList, ...newFiles];
-                    if (updatedList.length > limit) {
+                    if (fileList.length + Object.values(target.files).length > limit) {
                         return setError({ isError: true, text: `No puede haber más de ${limit} archivos.` });
                     }
-                    setFileList(updatedList);
-                    handleChange(name, updatedList);
-                    // ref.onchange!(updatedList);
+                    if (type.includes('image')) {
+                        const files = await Promise.all(
+                            newFiles.map(async (file: File, i) => {
+                                const compressedFile = await compressAsync(file, { quality: 0.8, maxHeight: 1000, maxWidth: 1000 });
+                                return compressedFile;
+                            }),
+                        );
+                        setFileList((prevState) => [...prevState, ...files]);
+                        handleChange(name, [...fileList, ...files]);
+                    } else {
+                        const updatedList = [...fileList, ...newFiles];
+                        setFileList(updatedList);
+                        handleChange(name, updatedList);
+                    }
                 }
             }
         },
+
         [fileList, limit, multiple, singleFile, inputRef],
     );
     // remove multiple images
-    const fileRemove = (file: File) => {
+    const fileRemove = (file: File | Blob) => {
+        console.log(file);
         if (error.isError) {
             setError({ isError: false, text: '' });
         }
@@ -101,10 +120,14 @@ export const UploadButton = ({
     const calcSize = (size: number) => {
         return size < 1000000 ? `${Math.floor(size / 1000)} KB` : `${Math.floor(size / 1000000)} MB`;
     };
-    const fileCard = (item: File, index?: number) => {
+    const fileCard = (item: File | Blob, index?: number) => {
         return (
             <Box
                 key={`image-${index}`}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index ? index / 2 : 0.2 }}
                 sx={{
                     position: 'relative',
                     backgroundColor: '#f5f8ff',
@@ -131,12 +154,8 @@ export const UploadButton = ({
                         </Box>
                     </Box>
                     <IconButton
-                        onClick={() => {
-                            if (multiple) {
-                                fileRemove(item);
-                            } else {
-                                fileSingleRemove();
-                            }
+                        handleClick={() => {
+                            fileRemove(item);
                         }}
                     >
                         <Delete />
@@ -150,8 +169,7 @@ export const UploadButton = ({
             setFileList([]);
             setSingleFile(undefined);
         }
-    }, [clearAll]);
-
+    }, [clearAll, fileList]);
     return (
         <>
             <Box
@@ -181,26 +199,21 @@ export const UploadButton = ({
                     onDrop={onDragLeave}
                 >
                     {singleFile && type.includes('image') ? (
-                        <Box position="relative">
-                            <img
-                                src={typeof singleFile === 'string' ? singleFile : URL.createObjectURL(singleFile)}
-                                alt="Imagen única"
-                                width="100px"
-                                height="100px"
-                                style={{ objectFit: 'contain', borderRadius: '20px' }}
-                            />
-                            <Box sx={{ position: 'absolute', bottom: 0, left: '20px' }}>
-                                <Button
-                                    size="small"
-                                    variant="contained"
-                                    text="Cambiar"
-                                    handleClick={fileSingleRemove}
-                                    padding="8px"
-                                    color="info"
-                                    startIcon={<Autorenew color="white" />}
+                        <>
+                            <Box position="relative">
+                                <img
+                                    src={typeof singleFile === 'string' ? singleFile : URL.createObjectURL(singleFile)}
+                                    alt="Imagen única"
+                                    width="100px"
+                                    height="100px"
+                                    style={{ objectFit: 'contain', borderRadius: '20px' }}
                                 />
+                                <Typography variant="body2">{singleFile instanceof Blob && singleFile.name}</Typography>
+                                <Typography variant="body2" color="GrayText">
+                                    {singleFile instanceof Blob && calcSize(singleFile.size)}
+                                </Typography>
                             </Box>
-                        </Box>
+                        </>
                     ) : singleFile && !type.includes('image') ? (
                         <Box></Box>
                     ) : (
@@ -237,17 +250,14 @@ export const UploadButton = ({
                         }}
                     />
                 </Box>
-                {singleFile && (
-                    <Button
-                        size="small"
-                        variant="contained"
-                        text="Quitar"
-                        padding="8px"
-                        handleClick={fileSingleRemove}
-                        color="error"
-                        startIcon={<DeleteOutline />}
-                    />
-                )}
+                <Box display="flex" gap={4}>
+                    <IconButton size="small" handleClick={fileSingleRemove} color="info">
+                        <Autorenew color="white" />
+                    </IconButton>
+                    <IconButton size="small" handleClick={fileSingleRemove} color="info">
+                        <DeleteOutline />
+                    </IconButton>
+                </Box>
             </Box>
             {error.isError && (
                 <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={error.isError}>
@@ -263,7 +273,7 @@ export const UploadButton = ({
                             {title}
                         </Typography>
                     )}
-                    {fileList.length > 0 || singleFile ? (
+                    {fileList.length > 0 ? (
                         <Stack spacing={2} sx={{ my: 2 }}>
                             {multiple && fileList.map((item, index) => fileCard(item, index))}
                         </Stack>

@@ -1,14 +1,14 @@
 import { Box, Typography } from '@mui/material';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, Story } from '@storybook/react';
 import { Button, LinkButton } from '../../../Atoms';
 import { TopAppBar } from './TopAppBar';
 
 export default {
     title: 'React-Ui-Controller/Organism/Surfaces/Top App Bar',
     component: TopAppBar,
-} as ComponentMeta<typeof TopAppBar>;
+} as Meta<typeof TopAppBar>;
 
-const Template: ComponentStory<typeof TopAppBar> = (args) => <TopAppBar {...args} />;
+const Template: Story<typeof TopAppBar> = (args) => <TopAppBar {...args} />;
 
 export const NormalTopAppBar = Template.bind({});
 NormalTopAppBar.args = {
@@ -40,7 +40,7 @@ export const TopAppBarWithTabs = Template.bind({});
 
 TopAppBarWithTabs.args = {
     alignNavBar: 'center',
-    background: 'red',
+    background: { active: 'blue', default: 'red' },
     height: '96px',
     tabs: {
         color: 'primary',
