@@ -4,6 +4,7 @@ import React from 'react';
 import { IconButton } from '../IconButton';
 import { compressAsync } from '../../../../../../utils/Compressor';
 import { motion } from 'framer-motion';
+import { extensionIcons } from '../../../Icons/FileIcons/extensionIcons';
 
 export interface IUploadButton {
     name: string;
@@ -172,13 +173,7 @@ export const UploadButton = ({
     }, [clearAll, fileList]);
     return (
         <>
-            <Box
-                sx={{ backgroundColor: '#fff', borderRadius: '2rem', padding: '1rem' }}
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                gap={2}
-            >
+            <Box sx={{ backgroundColor: '#fff', borderRadius: '2rem', padding: '1rem' }} display="flex" flexDirection="column" alignItems="center">
                 <Box
                     display="flex"
                     justifyContent="center"
@@ -198,24 +193,34 @@ export const UploadButton = ({
                     onDragLeave={onDragLeave}
                     onDrop={onDragLeave}
                 >
-                    {singleFile && type.includes('image') ? (
+                    {singleFile ? (
                         <>
-                            <Box position="relative">
-                                <img
-                                    src={typeof singleFile === 'string' ? singleFile : URL.createObjectURL(singleFile)}
-                                    alt="Imagen única"
-                                    width="100px"
-                                    height="100px"
-                                    style={{ objectFit: 'contain', borderRadius: '20px' }}
-                                />
-                                <Typography variant="body2">{singleFile instanceof Blob && singleFile.name}</Typography>
-                                <Typography variant="body2" color="GrayText">
-                                    {singleFile instanceof Blob && calcSize(singleFile.size)}
-                                </Typography>
+                            <Box
+                                position="relative"
+                                display="flex"
+                                flexDirection={type.includes('image') ? 'column' : 'row'}
+                                gap={2}
+                                alignItems="center"
+                            >
+                                {type.includes('image') ? (
+                                    <img
+                                        src={typeof singleFile === 'string' ? singleFile : URL.createObjectURL(singleFile)}
+                                        alt="Imagen única"
+                                        width="100px"
+                                        height="100px"
+                                        style={{ objectFit: 'contain', borderRadius: '20px' }}
+                                    />
+                                ) : (
+                                    <Box>{extensionIcons[singleFile instanceof File ? singleFile.name.split('.')[1] : '']}</Box>
+                                )}
+                                <Box>
+                                    <Typography variant="body2">{singleFile instanceof File && singleFile.name}</Typography>
+                                    <Typography variant="body2" color="GrayText">
+                                        {singleFile instanceof Blob && calcSize(singleFile.size)}
+                                    </Typography>
+                                </Box>
                             </Box>
                         </>
-                    ) : singleFile && !type.includes('image') ? (
-                        <Box></Box>
                     ) : (
                         <Stack justifyContent="center" sx={{ p: 1, textAlign: 'center' }}>
                             <Typography sx={{ color: '#ccc' }}>
@@ -250,14 +255,16 @@ export const UploadButton = ({
                         }}
                     />
                 </Box>
-                <Box display="flex" gap={4}>
-                    <IconButton size="small" handleClick={fileSingleRemove} color="info">
-                        <Autorenew color="white" />
-                    </IconButton>
-                    <IconButton size="small" handleClick={fileSingleRemove} color="info">
-                        <DeleteOutline />
-                    </IconButton>
-                </Box>
+                {singleFile && (
+                    <Box display="flex" gap={4}>
+                        <IconButton size="small" handleClick={() => inputRef.current?.click()} color="info" background="lighten">
+                            <Autorenew color="primary" />
+                        </IconButton>
+                        <IconButton size="small" handleClick={fileSingleRemove} background="lighten">
+                            <DeleteOutline color="error" />
+                        </IconButton>
+                    </Box>
+                )}
             </Box>
             {error.isError && (
                 <FormHelperText sx={{ textAlign: 'center', my: 1 }} error={error.isError}>

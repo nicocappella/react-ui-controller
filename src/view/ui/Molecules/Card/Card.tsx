@@ -11,12 +11,12 @@ export interface ICard {
     direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
     elevated?: boolean;
     header?: {
-        avatar?: React.ReactNode;
         action?: React.ReactNode;
-        title?: React.ReactNode | string;
-        subheader?: React.ReactNode | string;
-        padding?: string;
+        avatar?: React.ReactNode;
         background?: string;
+        padding?: string;
+        subheader?: React.ReactNode | string;
+        title?: React.ReactNode | string;
     };
     height?: string;
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-evenly';

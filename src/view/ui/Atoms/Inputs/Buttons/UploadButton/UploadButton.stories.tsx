@@ -25,4 +25,6 @@ export const SingleFile = Template.bind({});
 SingleFile.args = { name: 'test', handleChange: (name, value) => {} };
 
 export const NotImageFile = Template.bind({});
-NotImageFile.args = {};
+NotImageFile.args = {
+    type: '.xlsx',
+};
