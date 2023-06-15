@@ -3,7 +3,7 @@ import { Box, FormHelperText, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { IconButton } from '../IconButton';
 import { compressAsync } from '../../../../../../utils/Compressor';
-import { motion } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { extensionIcons } from '../../../Icons/FileIcons/extensionIcons';
 
 export interface IUploadButton {
@@ -14,14 +14,14 @@ export interface IUploadButton {
 }
 export type FileProps =
     | {
-          handleChange: (name: string | undefined, value: File | Blob | undefined) => void;
+          handleChange: (name: string | undefined, value: File | undefined) => void;
           multiple?: never;
           limit?: never;
           defaultImages?: never;
-          defaultImage?: File | string;
+          defaultImage?: File;
       }
     | {
-          handleChange: (name: string | undefined, value: File[] | Blob[] | undefined) => void;
+          handleChange: (name: string | undefined, value: File[] | undefined) => void;
           multiple: true;
           limit?: number;
           defaultImages?: File[];
@@ -39,16 +39,16 @@ export const UploadButton = ({
     title,
     type = 'image/jpg, image/png, image/jpeg, image/webp',
 }: IUploadButton & FileProps) => {
-    const [singleFile, setSingleFile] = React.useState<File | Blob | string | undefined>(defaultImage);
+    const [singleFile, setSingleFile] = React.useState<File | undefined>(defaultImage);
     const [error, setError] = React.useState({ isError: false, text: '' });
-    const [fileList, setFileList] = React.useState<Array<Blob | File>>(defaultImages);
+    const [fileList, setFileList] = React.useState<Array<File>>(defaultImages);
     const wrapperRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     // Toggle the dragover class
     const onDragEnter = () => wrapperRef.current?.classList.add('dragover');
     const onDragLeave = () => wrapperRef.current?.classList.remove('dragover');
-
+    console.log(singleFile instanceof File);
     const onFileDrop = React.useCallback(
         async (e: React.SyntheticEvent<EventTarget>) => {
             if (error.isError) {
@@ -97,15 +97,16 @@ export const UploadButton = ({
         [fileList, limit, multiple, singleFile, inputRef],
     );
     // remove multiple images
-    const fileRemove = (file: File | Blob) => {
-        console.log(file);
-        if (error.isError) {
-            setError({ isError: false, text: '' });
+    const fileRemove = (file: File) => {
+        if (multiple) {
+            if (error.isError) {
+                setError({ isError: false, text: '' });
+            }
+            const updatedList = [...fileList];
+            updatedList.splice(fileList.indexOf(file), 1);
+            setFileList(updatedList);
+            handleChange(name, updatedList);
         }
-        const updatedList = [...fileList];
-        updatedList.splice(fileList.indexOf(file), 1);
-        setFileList(updatedList);
-        handleChange(name, updatedList);
     };
 
     // remove single image
@@ -121,14 +122,15 @@ export const UploadButton = ({
     const calcSize = (size: number) => {
         return size < 1000000 ? `${Math.floor(size / 1000)} KB` : `${Math.floor(size / 1000000)} MB`;
     };
-    const fileCard = (item: File | Blob, index?: number) => {
+    const fileCard = (item: File, index?: number) => {
         return (
             <Box
-                key={`image-${index}`}
                 component={motion.div}
+                key={`image-${index}`}
+                layout="position"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: index ? index / 2 : 0.2 }}
+                animate={{ opacity: 1, transition: { opacity: { delay: index ? index / 2 : 0.4, duration: 0.2 } } }}
+                exit={{ opacity: 0, transition: { opacity: { delay: 0, duration: 0.4 } } }}
                 sx={{
                     position: 'relative',
                     backgroundColor: '#f5f8ff',
@@ -211,12 +213,12 @@ export const UploadButton = ({
                                         style={{ objectFit: 'contain', borderRadius: '20px' }}
                                     />
                                 ) : (
-                                    <Box>{extensionIcons[singleFile instanceof File ? singleFile.name.split('.')[1] : '']}</Box>
+                                    <Box>{extensionIcons[singleFile.name.split('.')[1].toLowerCase()]}</Box>
                                 )}
                                 <Box>
-                                    <Typography variant="body2">{singleFile instanceof File && singleFile.name}</Typography>
+                                    <Typography variant="body2">{singleFile.name}</Typography>
                                     <Typography variant="body2" color="GrayText">
-                                        {singleFile instanceof Blob && calcSize(singleFile.size)}
+                                        {calcSize(singleFile.size)}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -281,9 +283,9 @@ export const UploadButton = ({
                         </Typography>
                     )}
                     {fileList.length > 0 ? (
-                        <Stack spacing={2} sx={{ my: 2 }}>
-                            {multiple && fileList.map((item, index) => fileCard(item, index))}
-                        </Stack>
+                        <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap={2}>
+                            {multiple && <AnimatePresence>{fileList.map((item, index) => fileCard(item, index))}</AnimatePresence>}
+                        </Box>
                     ) : null}
                 </Box>
             )}

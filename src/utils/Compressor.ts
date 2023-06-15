@@ -1,6 +1,6 @@
 import Compressor from 'compressorjs';
 
-export const compressAsync = async (file: File | Blob, options: Compressor.Options) => {
+export const compressAsync = async (file: File, options: Compressor.Options) => {
     const result = await new Promise<Blob>((resolve, reject) => {
         new Compressor(file, {
             ...options,
@@ -8,5 +8,6 @@ export const compressAsync = async (file: File | Blob, options: Compressor.Optio
             error: reject,
         });
     });
-    return result;
+    const newFileCompressed = new File([result], file.name);
+    return newFileCompressed;
 };

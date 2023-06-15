@@ -18,11 +18,11 @@ MultipleFiles.args = {
     name: 'test',
     multiple: true,
     handleChange: (files) => console.log(files),
-    limit: 3,
+    limit: 8,
 };
 
 export const SingleFile = Template.bind({});
-SingleFile.args = { name: 'test', handleChange: (name, value) => {} };
+SingleFile.args = { name: 'test' };
 
 export const NotImageFile = Template.bind({});
 NotImageFile.args = {
