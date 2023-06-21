@@ -8,7 +8,7 @@ export interface HeadCell {
 }
 export interface IEditableCellForm {
     formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch' | 'images' | 'image' | 'file' | 'none';
-    options?: string[] | { id: string | number; text: string }[];
+    options?: string[] | Array<{ id: string | number; text: string }>;
     others?: 'currency';
     head: string;
 }

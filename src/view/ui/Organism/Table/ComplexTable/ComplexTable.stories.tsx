@@ -40,14 +40,14 @@ Primary.args = {
         { formInput: 'textfield', head: 'description' },
         { formInput: 'textfield', head: 'price' },
         { formInput: 'textfield', head: 'discountPercentage' },
-        { formInput: 'textfield', head: 'rating' },
+        { formInput: 'select', head: 'rating', options: ['1', '2', '3', '4', '5'] },
         { formInput: 'textfield', head: 'stock' },
         {
             formInput: 'select',
             head: 'brand',
             options: [
-                { id: '1', text: '20' },
-                { id: '2', text: '30' },
+                { id: '1', text: 'Apple' },
+                { id: '2', text: 'Microsoft' },
             ],
         },
         { formInput: 'image', head: 'thumbnail' },

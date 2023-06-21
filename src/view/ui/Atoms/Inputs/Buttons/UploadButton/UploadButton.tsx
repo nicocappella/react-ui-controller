@@ -48,7 +48,6 @@ export const UploadButton = ({
     // Toggle the dragover class
     const onDragEnter = () => wrapperRef.current?.classList.add('dragover');
     const onDragLeave = () => wrapperRef.current?.classList.remove('dragover');
-    console.log(singleFile instanceof File);
     const onFileDrop = React.useCallback(
         async (e: React.SyntheticEvent<EventTarget>) => {
             if (error.isError) {

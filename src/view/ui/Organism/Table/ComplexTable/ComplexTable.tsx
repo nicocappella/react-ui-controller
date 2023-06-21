@@ -186,7 +186,13 @@ export const ComplexTable = <T extends BasicCell>({
                     <Select
                         name={cellForm.head}
                         items={cellForm.options}
-                        value={editedRow[cell] as string}
+                        value={
+                            typeof cellForm.options[0] === 'string'
+                                ? (editedRow[cell] as string)
+                                : cellForm.options?.find((d) => d.id === editedRow[cell])
+                                ? cellForm.options?.find((d) => d.id === editedRow[cell]).text
+                                : (editedRow[cell] as string)
+                        }
                         size="small"
                         handleChange={typeof cellForm.options[0] === 'string' ? handleEditChange : undefined}
                         handleObjectClick={typeof cellForm.options[0] === 'object' ? handleEditSelectById : undefined}
@@ -255,7 +261,7 @@ export const ComplexTable = <T extends BasicCell>({
     };
     const handleEditSelectById = (name: string, index: string | number) => {
         if (index && name) {
-            setEditedRowById((prevState) => ({ ...prevState, [name]: index }));
+            setEditedRow((prevState) => ({ ...prevState, [name]: index }));
             setEditedKeys((prevState) => [...prevState, name]);
         }
     };
