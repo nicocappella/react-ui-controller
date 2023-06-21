@@ -61,7 +61,6 @@ const Select = ({
                 onChange={(e) => handleSelectChange(e.target.name, e.target.value as string)}
                 name={name}
                 size={size}
-                required
                 label={label}
                 renderValue={(value: any) => <Typography color={color}>{value}</Typography>}
                 sx={{
