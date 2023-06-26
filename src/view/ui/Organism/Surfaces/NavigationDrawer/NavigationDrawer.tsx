@@ -27,7 +27,7 @@ export interface INavigationDrawer {
         divider?: boolean;
     }[];
     size?: number;
-    transitionDuration: { appear: number; enter: number; exit: number };
+    transitionDuration?: { appear: number; enter: number; exit: number };
 }
 
 export const NavigationDrawer = ({
