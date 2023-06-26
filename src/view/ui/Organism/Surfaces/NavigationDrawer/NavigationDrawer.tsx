@@ -27,6 +27,7 @@ export interface INavigationDrawer {
         divider?: boolean;
     }[];
     size?: number;
+    transitionDuration: { appear: number; enter: number; exit: number };
 }
 
 export const NavigationDrawer = ({
@@ -38,6 +39,7 @@ export const NavigationDrawer = ({
     menu = <Menu />,
     navButtons = [],
     size = 24,
+    transitionDuration = { appear: 1500, enter: 750, exit: 1000 },
     ...props
 }: INavigationDrawer) => {
     const [open, setOpen] = React.useState(false);
@@ -55,6 +57,7 @@ export const NavigationDrawer = ({
                 PaperProps={{
                     sx: { borderRadius: `0px ${borderRadius}px ${borderRadius}px 0px`, padding: '24px 12px', backgroundColor: background },
                 }}
+                transitionDuration={transitionDuration}
             >
                 <Box width={360}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingLeft: '8px' }}>
@@ -65,7 +68,7 @@ export const NavigationDrawer = ({
                 <List>
                     {navButtons.map(({ text, icon, route, divider }, i) =>
                         route ? (
-                            <Box key={i}>
+                            <Box key={i} onClick={() => setOpen(false)}>
                                 <LinkButton component={route.wrapper} href={route.href}>
                                     <ListItem disablePadding>
                                         <ListItemButton>
@@ -77,7 +80,7 @@ export const NavigationDrawer = ({
                                 {divider && <Divider />}
                             </Box>
                         ) : (
-                            <Box key={i}>
+                            <Box key={i}  onClick={() => setOpen(false)}>
                                 <ListItem disablePadding>
                                     <ListItemButton>
                                         {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
