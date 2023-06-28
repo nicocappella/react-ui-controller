@@ -23,19 +23,18 @@ export const IconButton = ({
     ...props
 }: IIconButton & IconButtonProps) => {
     const ref = React.useRef<HTMLButtonElement>(null);
-    const [brightenColor, setBrightenColor] = React.useState('transparent');
+    const [backgroundColor, setBackgroundColor] = React.useState('transparent');
     React.useEffect(() => {
         if (ref.current) {
             if (background) {
                 const color = window.getComputedStyle(ref.current.children[0]).getPropertyValue('color');
-                const brigthenBacgkround = new TinyColor(color)[background](40).toString();
-                console.log('background', brigthenBacgkround);
-                setBrightenColor(brigthenBacgkround);
+                const bgcolor = new TinyColor(color)[background](40).toString();
+                setBackgroundColor(bgcolor);
             }
         }
     }, [ref]);
     const iconButton = (
-        <MuiIconButton {...props} ref={ref} onClick={handleClick} size={size} edge={edge} sx={{ backgroundColor: brightenColor }}>
+        <MuiIconButton {...props} ref={ref} onClick={handleClick} size={size} edge={edge} sx={{ backgroundColor }}>
             {children}
         </MuiIconButton>
     );

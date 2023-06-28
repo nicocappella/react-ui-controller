@@ -36,17 +36,18 @@ export const NavigationDrawer = ({
     color = '#000',
     close = <Close sx={{ color: color }} />,
     logo,
-    menu = <Menu />,
+    menu,
     navButtons = [],
     size = 24,
     transitionDuration = { appear: 1500, enter: 750, exit: 1000 },
     ...props
 }: INavigationDrawer) => {
     const [open, setOpen] = React.useState(false);
+    const menuIcon = menu ? menu : <Menu style={{ color }} />;
     return (
         <>
             <Box p="24px 12px" position="absolute" zIndex={100}>
-                <IconButton handleClick={() => setOpen(true)}>{menu}</IconButton>
+                <IconButton handleClick={() => setOpen(true)}>{menuIcon}</IconButton>
             </Box>
             <SwipeableDrawer
                 {...props}
@@ -80,7 +81,7 @@ export const NavigationDrawer = ({
                                 {divider && <Divider />}
                             </Box>
                         ) : (
-                            <Box key={i}  onClick={() => setOpen(false)}>
+                            <Box key={i} onClick={() => setOpen(false)}>
                                 <ListItem disablePadding>
                                     <ListItemButton>
                                         {icon && <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>}
