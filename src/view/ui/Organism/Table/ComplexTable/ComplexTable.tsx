@@ -133,7 +133,7 @@ export const ComplexTable = <T extends BasicCell>({
             } else if (headCell[cellName] === 'images' && Array.isArray(cell)) {
                 const images = (cell as { id: string; url: string }[]).map((d, i) => {
                     if (typeof d === 'string') {
-                        return <img src={d} width="40px" height="40px" key={`image-${i}`} />;
+                        return <img src={d} width="40px" height="40px" key={`image-${d}-${i}`} />;
                     } else if (typeof d === 'object') {
                         return <img src={d.url} width="40px" height="40px" key={`image-${d.id}`} />;
                     }
@@ -245,7 +245,9 @@ export const ComplexTable = <T extends BasicCell>({
                     <UploadButton
                         name={cellForm.head}
                         handleChange={handleEditChange}
-                        defaultImage={typeof editedRow[cell] === 'string' ? (editedRow[cell] as string) : editedRow[cell].url}
+                        defaultImage={
+                            !editedRow[cell] ? undefined : typeof editedRow[cell] === 'string' ? (editedRow[cell] as string) : editedRow[cell]!.url
+                        }
                     />
                 );
             } else {
@@ -277,8 +279,10 @@ export const ComplexTable = <T extends BasicCell>({
             setEditedKeys((prevState) => [...prevState, name]);
         }
     };
+
     const editRow = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string | number) => {
         e.stopPropagation();
+        const defaultObject = Object.fromEntries(headerKeys.map((d) => [d, undefined]));
         setSelected([]);
         setEditableCell(id);
         setEditedRow(rows.find((d) => d.id === id));

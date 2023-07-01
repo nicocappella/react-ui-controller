@@ -18,7 +18,7 @@ export type FileProps =
           multiple?: never;
           limit?: never;
           defaultImages?: never;
-          defaultImage?: File;
+          defaultImage?: File | string;
       }
     | {
           handleChange: (name: string | undefined, value: File[] | undefined) => void;
@@ -39,7 +39,7 @@ export const UploadButton = ({
     title,
     type = 'image/jpg, image/png, image/jpeg, image/webp',
 }: IUploadButton & FileProps) => {
-    const [singleFile, setSingleFile] = React.useState<File | undefined>(defaultImage);
+    const [singleFile, setSingleFile] = React.useState<File | string | undefined>(defaultImage);
     const [error, setError] = React.useState({ isError: false, text: '' });
     const [fileList, setFileList] = React.useState<Array<File>>(defaultImages);
     const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -204,20 +204,24 @@ export const UploadButton = ({
                                 alignItems="center"
                             >
                                 {type.includes('image') ? (
-                                    <img
-                                        src={typeof singleFile === 'string' ? singleFile : URL.createObjectURL(singleFile)}
-                                        alt="Imagen única"
-                                        width="100px"
-                                        height="100px"
-                                        style={{ objectFit: 'contain', borderRadius: '20px' }}
-                                    />
+                                    singleFile ? (
+                                        <img
+                                            src={typeof singleFile === 'string' ? singleFile : URL.createObjectURL(singleFile)}
+                                            alt="Imagen única"
+                                            width="100px"
+                                            height="100px"
+                                            style={{ objectFit: 'contain', borderRadius: '20px' }}
+                                        />
+                                    ) : (
+                                        <Typography variant="body2">Introduzca una imagen</Typography>
+                                    )
                                 ) : (
-                                    <Box>{extensionIcons[singleFile.name.split('.')[1].toLowerCase()]}</Box>
+                                    <Box>{singleFile instanceof File && extensionIcons[singleFile.name.split('.')[1].toLowerCase()]}</Box>
                                 )}
                                 <Box>
-                                    <Typography variant="body2">{singleFile.name}</Typography>
+                                    <Typography variant="body2">{singleFile instanceof File ? singleFile.name : ''}</Typography>
                                     <Typography variant="body2" color="GrayText">
-                                        {calcSize(singleFile.size)}
+                                        {singleFile instanceof File && calcSize(singleFile.size)}
                                     </Typography>
                                 </Box>
                             </Box>

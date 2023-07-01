@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
+import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import { visuallyHidden } from '@mui/utils';
 import { Cell } from './table';
@@ -42,17 +42,23 @@ export const Head = ({
     const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
+    const { palette } = useTheme();
+
     return (
         <TableHead>
-            <TableRow>
+            <TableRow sx={{ backgroundColor: palette.primary.main }}>
                 {editable && (
                     <TableCell padding="checkbox">
                         <Checkbox
-                            color="primary"
                             indeterminate={numSelected > 0 && numSelected < rowCount}
                             checked={rowCount > 0 && numSelected === rowCount}
                             onChange={onSelectAllClick}
                             inputProps={{ 'aria-label': 'select all operations' }}
+                            sx={{
+                                color: palette.primary.contrastText,
+                                '&.MuiCheckbox-indeterminate': { color: palette.primary.contrastText },
+                                '&.Mui-checked': { color: palette.primary.contrastText },
+                            }}
                         />
                     </TableCell>
                 )}
@@ -65,11 +71,19 @@ export const Head = ({
                             align={headCell.align}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
+                            sx={{ color: palette.primary.contrastText }}
                         >
                             <TableSortLabel
                                 active={orderBy === headCell.id}
                                 direction={orderBy === headCell.id ? order : 'asc'}
                                 onClick={createSortHandler(headCell.id)}
+                                sx={{
+                                    color: palette.primary.contrastText,
+                                    fontWeight: 700,
+                                    '&.Mui-active': {
+                                        color: palette.primary.contrastText,
+                                    },
+                                }}
                             >
                                 {headCellsLabelObejct ? headCellsLabelObejct[headCell.id].label : headCell.label}
                                 {orderBy === headCell.id ? (
@@ -82,7 +96,7 @@ export const Head = ({
                     );
                 })}
                 {editable && (
-                    <TableCell key="actions" align="center" padding="normal">
+                    <TableCell key="actions" align="center" padding="normal" sx={{ color: palette.primary.contrastText, fontWeight: 700 }}>
                         Acciones
                     </TableCell>
                 )}
