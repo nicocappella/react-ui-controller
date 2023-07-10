@@ -17,6 +17,7 @@ export interface INavigationDrawer {
      *  Insert a React node of an icon
      * */
     menu?: React.ReactNode;
+    menuFixed?: boolean;
     navButtons?: {
         text: string;
         icon?: React.ReactNode;
@@ -37,6 +38,7 @@ export const NavigationDrawer = ({
     close = <Close sx={{ color: color }} />,
     logo,
     menu,
+    menuFixed = true,
     navButtons = [],
     size = 24,
     transitionDuration = { appear: 1500, enter: 750, exit: 1000 },
@@ -46,7 +48,7 @@ export const NavigationDrawer = ({
     const menuIcon = menu ? menu : <Menu style={{ color }} />;
     return (
         <>
-            <Box p="24px 12px" position="absolute" zIndex={100}>
+            <Box p="24px 12px" position={menuFixed ? 'fixed' : 'absolute'} zIndex={100}>
                 <IconButton handleClick={() => setOpen(true)}>{menuIcon}</IconButton>
             </Box>
             <SwipeableDrawer

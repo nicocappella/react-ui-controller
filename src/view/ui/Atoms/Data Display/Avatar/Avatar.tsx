@@ -3,20 +3,21 @@ import { Avatar as MuiAvatar, Badge, BadgeProps, Stack, StackProps, Typography }
 import { Box } from '@mui/system';
 
 export interface IAvatar {
+    bgColor?: string;
+    badge?: boolean;
+    button?: boolean;
+    direction?: 'row' | 'column';
+    handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
     img?: string;
     name?: string;
+    profileName?: string;
     /**
      * Small for App bars, Headers, etc.
      * Medium for Avatars used in lists, or content blocks.
      * Large When used in templates: Profile, Settings, etc.
      */
     size?: 'small' | 'medium' | 'large';
-    button?: boolean;
-    handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
-    badge?: boolean;
-    profileName?: string;
     supportingText?: string;
-    direction?: 'row' | 'column';
 }
 
 const getInitialLetters = (name: string) => {
@@ -28,9 +29,21 @@ const getInitialLetters = (name: string) => {
     return;
 };
 
-const Avatar = ({ img, name, size, button = true, handleClick, badge, profileName, supportingText, direction, ...props }: IAvatar & StackProps) => {
+const Avatar = ({
+    badge,
+    bgColor = 'red',
+    button = true,
+    direction,
+    handleClick,
+    img,
+    name,
+    profileName,
+    size,
+    supportingText,
+    ...props
+}: IAvatar & StackProps) => {
     const sizeAvatar = size === 'small' ? 40 : size === 'medium' ? 48 : 56;
-    const backgroundColor = name && !img ? 'red' : '';
+    const backgroundColor = name && !img ? bgColor : '';
     const imgAvatar = img ? img : undefined;
     const avatar = (
         <MuiAvatar

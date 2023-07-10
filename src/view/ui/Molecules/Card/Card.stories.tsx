@@ -86,3 +86,9 @@ HorizontalCard.args = {
     background: 'red',
     padding: '0px',
 };
+
+export const CardMedia = Template.bind({});
+
+CardMedia.args = {
+    media: { height: '100px', src: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', title: 'Card media title' },
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card as MuiCard, CardActions, CardContent, CardHeader, CardProps, CardActionArea } from '@mui/material';
+import { Card as MuiCard, CardActions, CardContent, CardHeader, CardProps, CardActionArea, CardMedia } from '@mui/material';
 
 export interface ICard {
     actions?: React.ReactNode | React.ReactNode[];
@@ -21,6 +21,7 @@ export interface ICard {
     height?: string;
     justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-evenly';
     LinkComponent?: { component: React.ElementType<any> | undefined; href: string };
+    media?: { height: number | string; src: string; title: string };
     padding?: string;
     width?: string;
 }
@@ -32,19 +33,21 @@ const Card = ({
     boxShadow = '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     borderRadius = '20px',
     description,
-    direction = 'row',
+    direction = 'column',
     elevated = false,
     header,
     height,
     justifyContent = 'flex-start',
     LinkComponent,
-    padding = '16px',
-    width,
+    media,
+    padding = '0px',
+    width = '300px',
     ...props
 }: ICard & CardProps) => {
     const StandardCard = () => {
         return (
             <>
+                {media && <CardMedia sx={{ height: media.height, width: '100%' }} image={media.src} title={media.title} />}
                 {header && (
                     <CardHeader
                         action={header.action}

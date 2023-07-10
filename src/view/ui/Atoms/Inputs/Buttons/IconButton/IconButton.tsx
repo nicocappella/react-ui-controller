@@ -34,7 +34,7 @@ export const IconButton = ({
         }
     }, [ref]);
     const iconButton = (
-        <MuiIconButton {...props} ref={ref} onClick={handleClick} size={size} edge={edge} sx={{ backgroundColor }}>
+        <MuiIconButton {...props} ref={ref} onClick={handleClick} size={size} edge={edge} sx={{ ...props.sx, backgroundColor }}>
             {children}
         </MuiIconButton>
     );
