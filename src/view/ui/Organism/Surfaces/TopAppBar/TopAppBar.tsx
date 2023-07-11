@@ -22,6 +22,7 @@ export interface ITopAppBar {
         color: string | { default: string; active: string };
         components: { components: React.ReactNode | React.ReactNode[]; value: string }[];
     };
+    toolbar?: boolean;
 }
 
 const TopAppBar = ({
@@ -37,6 +38,7 @@ const TopAppBar = ({
     position = 'fixed',
     otherButtons,
     tabs,
+    toolbar = true,
     ...props
 }: ITopAppBar & AppBarProps) => {
     const [activeTabs, setActiveTabs] = React.useState(false);
@@ -99,7 +101,7 @@ const TopAppBar = ({
                     </Box>
                 )}
             </Box>
-            <Toolbar></Toolbar>
+            {toolbar && <Toolbar></Toolbar>}
         </AppBar>
     );
 };
