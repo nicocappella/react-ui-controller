@@ -143,6 +143,7 @@ export const TextField = ({
                                 )
                             ),
                     }}
+                    inputProps={{ style: { color: borderColor.focused } }}
                     value={value}
                     {...props}
                 />
