@@ -477,7 +477,7 @@ export const ComplexTable = <T extends BasicCell>({
                                                 }}
                                             >
                                                 {editable && (
-                                                    <TableCell padding="checkbox">
+                                                    <TableCell padding="checkbox" size="small">
                                                         <Checkbox
                                                             color="primary"
                                                             checked={isItemSelected}
@@ -499,7 +499,9 @@ export const ComplexTable = <T extends BasicCell>({
                                                                         ? 'right'
                                                                         : 'center'
                                                                 }
-                                                                sx={{ display: 'table-cell' }}
+                                                                sx={{ display: 'table-cell', fontSize: '14px', lineHeight: '20px' }}
+                                                                variant="body"
+                                                                size="small"
                                                             >
                                                                 {handleTypeCell(row[cell], headCellTypes, cell)}
                                                             </TableCell>
@@ -521,6 +523,8 @@ export const ComplexTable = <T extends BasicCell>({
                                                                     width: cellForm?.formInput === 'datepicker' ? '160px' : 'auto',
                                                                     display: 'table-cell',
                                                                 }}
+                                                                variant="body"
+                                                                size="small"
                                                             >
                                                                 {cellForm && handleEditCell(cellForm, cell, row)}
                                                             </TableCell>
@@ -575,7 +579,7 @@ export const ComplexTable = <T extends BasicCell>({
                                                                 handleClick={(event) => handleConfirmEdit(event, row.id)}
                                                                 type="button"
                                                             >
-                                                                <Check color="primary" />
+                                                                <Check color="success" />
                                                             </IconButton>
                                                             <IconButton title="Cancelar" handleClick={handleCancelEdit}>
                                                                 <Close color="error" />

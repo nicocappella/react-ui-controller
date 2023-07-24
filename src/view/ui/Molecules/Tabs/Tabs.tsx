@@ -64,6 +64,7 @@ const Tabs = ({
                 TabIndicatorProps={{ sx: { left: orientation === 'vertical' ? '0' : undefined, width: '4px' } }}
                 textColor={textColor}
                 value={tabValue}
+                variant="fullWidth"
                 {...props}
             >
                 {tabs.map((d, i) => (

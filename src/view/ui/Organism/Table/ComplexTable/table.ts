@@ -13,7 +13,7 @@ export interface IEditableCellForm {
     head: string;
 }
 
-export type Cell = 'string' | 'number' | 'boolean' | 'currency' | 'image' | 'images' | 'file';
+export type Cell = 'string' | 'number' | 'currency' | 'boolean' | 'currency' | 'image' | 'images' | 'file';
 
 export const verifyCell = (cell: string) => {
     if (typeof cell === 'string') {

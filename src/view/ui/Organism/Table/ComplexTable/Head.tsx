@@ -72,6 +72,8 @@ export const Head = ({
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                             sx={{ color: palette.primary.contrastText }}
+                            variant="head"
+                            size="small"
                         >
                             <TableSortLabel
                                 active={orderBy === headCell.id}
@@ -80,6 +82,8 @@ export const Head = ({
                                 sx={{
                                     color: palette.primary.contrastText,
                                     fontWeight: 700,
+                                    fontSize: '14px',
+                                    lineHeight: '20px',
                                     '&.Mui-active': {
                                         color: palette.primary.contrastText,
                                     },
@@ -96,7 +100,13 @@ export const Head = ({
                     );
                 })}
                 {editable && (
-                    <TableCell key="actions" align="center" padding="normal" sx={{ color: palette.primary.contrastText, fontWeight: 700 }}>
+                    <TableCell
+                        key="actions"
+                        align="center"
+                        padding="normal"
+                        sx={{ color: palette.primary.contrastText, fontWeight: 700, fontSize: '14px', lineHeight: '20px' }}
+                        variant="head"
+                    >
                         Acciones
                     </TableCell>
                 )}

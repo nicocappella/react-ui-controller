@@ -4,7 +4,7 @@ import { Check } from '../../../Icons';
 
 export interface IButton {
     text: string;
-    variant: 'contained' | 'outlined' | 'text';
+    variant?: 'contained' | 'outlined' | 'text';
     type?: 'button' | 'reset' | 'submit';
     size?: 'small' | 'medium' | 'large';
     width?: string | number;
