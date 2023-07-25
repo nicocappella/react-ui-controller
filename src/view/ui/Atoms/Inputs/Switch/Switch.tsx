@@ -5,12 +5,12 @@ export interface ISwitch {
     label?: string;
     labelPlacement?: 'top' | 'start' | 'end' | 'bottom';
     name?: string;
-    checked: boolean;
+    checked?: boolean;
     handleChange: (name: string | undefined, value: boolean) => void;
     width?: string | number;
 }
 
-export const Switch = ({ label, name, checked, handleChange, labelPlacement = 'start', width }: ISwitch) => {
+export const Switch = ({ label, name, checked = false, handleChange, labelPlacement = 'start', width }: ISwitch) => {
     return (
         <FormControlLabel
             label={label}

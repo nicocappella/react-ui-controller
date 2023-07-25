@@ -4,6 +4,8 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { IconButton } from '../../../Atoms';
 import { Tabs } from '../../../Molecules';
+import { RemoveFields } from '../../../../../utils/types/generic';
+
 
 export interface ITopAppBar {
     alignNavBar?: 'center' | 'flex-start' | 'flex-end' | 'space-around' | 'space-between' | 'space-evenly';
