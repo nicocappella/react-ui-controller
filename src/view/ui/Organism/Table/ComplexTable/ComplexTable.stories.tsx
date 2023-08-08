@@ -32,14 +32,15 @@ Primary.args = {
         thumbnail: { label: 'Miniatura', type: 'image' },
         date: { label: 'Día', type: 'string' },
         images: { label: 'Imágenes', type: 'images' },
+        styles: { label: 'Estilos', type: 'images' },
     },
     mainButton: [<Button text="Agregar fila" variant="contained" type="button" key="main" />],
     rowsPerPage: 5,
     editableCellForms: [
         { formInput: 'switch', head: 'title' },
         { formInput: 'textfield', head: 'description' },
-        { formInput: 'textfield', head: 'price' },
-        { formInput: 'textfield', head: 'discountPercentage' },
+        { formInput: 'currency', head: 'price' },
+        { formInput: 'currency', head: 'discountPercentage' },
         { formInput: 'select', head: 'rating', options: ['1', '2', '3', '4', '5'] },
         { formInput: 'textfield', head: 'stock' },
         {
@@ -53,6 +54,7 @@ Primary.args = {
         { formInput: 'image', head: 'thumbnail' },
         { formInput: 'datepicker', head: 'date' },
         { formInput: 'images', head: 'images' },
+        { formInput: 'textfield', head: 'styles' },
     ],
     confirmEdit: (id, edited) => console.log(id, edited),
 };

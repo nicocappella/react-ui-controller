@@ -156,11 +156,11 @@ export const ComplexTable = <T extends BasicCell>({
     };
     const handleEditCell = (cellForm: IEditableCellForm, cell: string, row: BasicCell) => {
         if (editedRow && cellForm) {
-            if (cellForm.formInput === 'textfield' && typeof row[cell] === 'string') {
+            if (cellForm.formInput === 'textfield') {
                 return (
                     <TextField
                         name={cellForm.head}
-                        value={editedRow[cell] as string}
+                        value={typeof editedRow[cell] === 'string' ? (editedRow[cell] as string) : undefined}
                         handleChange={handleEditChange}
                         label=""
                         type="text"
@@ -169,7 +169,7 @@ export const ComplexTable = <T extends BasicCell>({
                         width={editedRow && typeof editedRow[cell] === 'string' ? '100%' : '100px'}
                     />
                 );
-            } else if (cellForm.formInput === 'textfield' && typeof row[cell] === 'number') {
+            } else if (cellForm.formInput === 'currency') {
                 return (
                     <CurrencyTextField
                         name={cellForm.head}
@@ -303,7 +303,7 @@ export const ComplexTable = <T extends BasicCell>({
             if (objectIncludesType(newEdited, File)) {
                 const formData = new FormData();
                 Object.keys(newEdited).map((d) => {
-                    formData.append(d, newEdited[d] as string);
+                    formData.append(d, JSON.stringify(newEdited[d]));
                 });
                 confirmEdit(id.toString(), formData);
             } else {
@@ -377,7 +377,7 @@ export const ComplexTable = <T extends BasicCell>({
     React.useLayoutEffect(() => {
         if (rows && rows.length > 0) {
             const highestKeys = rows.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0];
-            if (!headCells) {
+            if (!headCellsLabelObject) {
                 const arrayOfHeads = Object.keys(highestKeys).map<HeadCell>((d) => {
                     const align = typeof highestKeys[d] === 'string' ? 'left' : typeof highestKeys[d] === 'number' ? 'right' : 'center';
                     const disablePadding = d === 'id' ? true : false;
@@ -392,7 +392,7 @@ export const ComplexTable = <T extends BasicCell>({
                 setHeaderCells([...arrayOfHeads]);
                 setHeaderKeys([...Object.keys(highestKeys)]);
             } else {
-                const arrayOfHeads = headCells.map<HeadCell>((d) => {
+                const arrayOfHeads = Object.keys(headCellsLabelObject).map<HeadCell>((d) => {
                     const align = typeof highestKeys[d] === 'string' ? 'left' : 'right';
                     const disablePadding = d === 'id' ? true : false;
                     return {
@@ -404,7 +404,7 @@ export const ComplexTable = <T extends BasicCell>({
                     };
                 });
                 setHeaderCells([...arrayOfHeads]);
-                setHeaderKeys([...headCells]);
+                setHeaderKeys(Object.keys(headCellsLabelObject));
             }
         }
     }, [rows]);

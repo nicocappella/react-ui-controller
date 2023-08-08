@@ -7,13 +7,12 @@ export interface HeadCell {
     editable?: boolean;
 }
 export interface IEditableCellForm {
-    formInput: 'textfield' | 'select' | 'datepicker' | 'autocomplete' | 'switch' | 'images' | 'image' | 'file' | 'none';
+    formInput: 'textfield' | 'currency' | 'select' | 'datepicker' | 'autocomplete' | 'switch' | 'images' | 'image' | 'file' | 'none';
     options?: string[] | Array<{ id: string | number; text: string }>;
-    others?: 'currency';
     head: string;
 }
 
-export type Cell = 'string' | 'number' | 'currency' | 'boolean' | 'currency' | 'image' | 'images' | 'file';
+export type Cell = 'string' | 'number' | 'currency' | 'boolean' | 'image' | 'images' | 'file';
 
 export const verifyCell = (cell: string) => {
     if (typeof cell === 'string') {
