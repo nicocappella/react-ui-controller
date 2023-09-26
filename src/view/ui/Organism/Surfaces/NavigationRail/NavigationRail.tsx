@@ -5,7 +5,7 @@ import { IMenuItem } from '../../../Atoms/MenuItem/MenuItem';
 import { Menu } from '../../../Molecules/Menu';
 
 export interface IProps {
-    navButtons: { component: React.ReactNode; layer?: { components?: React.ReactNode[] } }[];
+    navButtons: { component: React.ReactNode; layer?: { components?: { icon: React.ReactNode; label: string } } }[];
     actions?: React.ReactNode[];
     menuItems?: IMenuItem[];
     background?: string;
@@ -46,7 +46,7 @@ export const NavigationRail = ({ navButtons, actions, menuItems, background = 'w
                 display="flex"
                 flexDirection="column"
                 position="fixed"
-                width="100px"
+                width="260px"
                 justifyContent="space-between"
                 bgcolor={background}
                 gap="2%"
@@ -61,6 +61,8 @@ export const NavigationRail = ({ navButtons, actions, menuItems, background = 'w
                             key={i}
                             onMouseEnter={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => handleMouseEnter(event, i)}
                             component="div"
+                            display="flex"
+                            alignItems="center"
                         >
                             {d.component}
                         </Box>
